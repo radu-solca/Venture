@@ -1,3 +1,1 @@
-# IdeaRepo
-
-TODO: Find a better name.
+# Venture
