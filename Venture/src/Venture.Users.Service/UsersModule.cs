@@ -7,6 +7,10 @@ namespace Venture.Users.Service
         public UsersModule()
         {
             Get("/", _ => "Hello World");
+            Get("/{userId:int}", parameters =>
+            {
+                return "Hello World!";
+            });
         }
     }
 }
