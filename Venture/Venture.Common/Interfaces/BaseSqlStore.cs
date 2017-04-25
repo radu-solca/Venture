@@ -9,7 +9,7 @@ namespace Venture.Users.Data
 {
     public class BaseSqlStore<TEntity> : IStore<TEntity> where TEntity : class, IEntity, new()
     {
-        private readonly SqlConnection _connection;
+        private SqlConnection _connection;
 
         private readonly string getByIdSql;
         private readonly string getAllSql;
@@ -42,6 +42,11 @@ namespace Venture.Users.Data
         public async Task<TEntity> GetById(Guid id)
         {
             var results = (await _connection.QueryAsync<TEntity>(getAllSql, new { id })).ToList();
+
+            if (!results.Any())
+            {
+                return null;
+            }
 
             return results.FirstOrDefault();
         }

@@ -14,6 +14,10 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Venture.Users.Service", "sr
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Venture.Users.Data", "Venture.Users.Data\Venture.Users.Data.xproj", "{F0728182-CAC6-4A3C-8A26-633285AA3D0A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Crosscutting Concerns", "Crosscutting Concerns", "{19EFB59A-33CA-470C-91EF-37AAE57E6C06}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Venture.Common", "Venture.Common\Venture.Common.xproj", "{2E4D2AD5-2DBD-40A5-81E8-F2D89D0A8995}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +32,10 @@ Global
 		{F0728182-CAC6-4A3C-8A26-633285AA3D0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0728182-CAC6-4A3C-8A26-633285AA3D0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0728182-CAC6-4A3C-8A26-633285AA3D0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E4D2AD5-2DBD-40A5-81E8-F2D89D0A8995}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E4D2AD5-2DBD-40A5-81E8-F2D89D0A8995}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E4D2AD5-2DBD-40A5-81E8-F2D89D0A8995}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E4D2AD5-2DBD-40A5-81E8-F2D89D0A8995}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -35,5 +43,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{23EF5ECF-D2D6-4676-9B2D-1A5F246BE529} = {C30EF0D0-D6A3-418E-8A9D-2EEB4CC634CA}
 		{F0728182-CAC6-4A3C-8A26-633285AA3D0A} = {C30EF0D0-D6A3-418E-8A9D-2EEB4CC634CA}
+		{2E4D2AD5-2DBD-40A5-81E8-F2D89D0A8995} = {19EFB59A-33CA-470C-91EF-37AAE57E6C06}
 	EndGlobalSection
 EndGlobal
