@@ -23,7 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Venture.ProfileWrite.Business\Venture.ProfileWrite.Business.csproj" />
-    <ProjectReference Include="..\Venture.ProfileWrite.Data\Venture.ProfileWrite.Data.csproj" />
   </ItemGroup>
 
 </Project>

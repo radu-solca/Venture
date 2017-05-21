@@ -4,11 +4,11 @@ namespace Venture.ProfileWrite.Business.Commands
 {
     public class CreateProfileCommand : ICommand
     {
-        public ProfileCreateModel Profile { get; }
+        public UserProfileCreateModel UserProfile { get; }
 
-        public CreateProfileCommand(ProfileCreateModel profile)
+        public CreateProfileCommand(UserProfileCreateModel userProfile)
         {
-            Profile = profile;
+            UserProfile = userProfile;
         }
     }
 }

@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using AutoMapper;
-using Venture.ProfileWrite.Data.Events;
 
 namespace Venture.ProfileWrite.Service
 {
@@ -25,14 +24,9 @@ namespace Venture.ProfileWrite.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Depenency injection
-            services.AddTransient<IEventStore, EventStore>();
-
             // Add framework services.
-            services
-                .AddMvc()
-                .AddAutoMapper(typeof(Startup));
-            // TODO: fluent validation??
+            services.AddMvc();
+            //services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

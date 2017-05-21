@@ -5,6 +5,6 @@ namespace Venture.ProfileWrite.Data.Context
 {
     public class ProfileWriteContext : DbContext
     {
-        private DbSet<Profile> Profiles { get; set; }
+        private DbSet<UserProfile> Profiles { get; set; }
     }
 }
