@@ -1,6 +1,4 @@
-﻿//using Venture.ProfileWrite.Business.Models;
-
-using Venture.ProfileWrite.Business.Models;
+﻿using Venture.ProfileWrite.Business.Models;
 
 namespace Venture.ProfileWrite.Business.Commands
 {

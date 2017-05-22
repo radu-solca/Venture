@@ -7,13 +7,13 @@ namespace Venture.ProfileWrite.Business.CommandDispatcher
 {
     public class CommandDispatcher : ICommandDispatcher
     {
-        private readonly IServiceProvider _serviceProvider;
+        //private readonly IServiceProvider _serviceProvider;
 
-        public CommandDispatcher(IServiceProvider serviceProvider)
-        {
-            Guard.AgainstNullArgument(nameof(serviceProvider), serviceProvider);
-            _serviceProvider = serviceProvider;
-        }
+        //public CommandDispatcher(IServiceProvider serviceProvider)
+        //{
+        //    Guard.AgainstNullArgument(nameof(serviceProvider), serviceProvider);
+        //    _serviceProvider = serviceProvider;
+        //}
 
         public void Handle<TCommand>(TCommand command) where TCommand : class, ICommand
         {
@@ -21,8 +21,8 @@ namespace Venture.ProfileWrite.Business.CommandDispatcher
 
             Console.WriteLine("Create command executed");
 
-            ICommandHandler<TCommand> handler = (ICommandHandler<TCommand>)_serviceProvider.GetService(typeof(ICommandHandler<TCommand>));
-            handler.ExecuteAsync(command);
+            //ICommandHandler<TCommand> handler = (ICommandHandler<TCommand>)_serviceProvider.GetService(typeof(ICommandHandler<TCommand>));
+            //handler.ExecuteAsync(command);
         }
     }
 }

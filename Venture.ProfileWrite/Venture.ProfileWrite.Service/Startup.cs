@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Venture.ProfileWrite.Business.CommandDispatcher;
+using Venture.ProfileWrite.Business.CommandHandlers;
+using Venture.ProfileWrite.Business.Commands;
 
 namespace Venture.ProfileWrite.Service
 {
@@ -24,9 +27,13 @@ namespace Venture.ProfileWrite.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //DI
+            services.AddTransient<ICommandHandler<CreateProfileCommand>, CreateProfileComandHandler>();
+            services.AddTransient<ICommandDispatcher, CommandDispatcher>();
+
             // Add framework services.
             services.AddMvc();
-            //services.AddAutoMapper();
+            services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
