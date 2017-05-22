@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,6 +20,9 @@ namespace Venture.ProfileWrite.Service
 {
     public class Startup
     {
+        public IConfigurationRoot Configuration { get; }
+        public IContainer ApplicationContainer { get; private set; }
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -27,23 +33,39 @@ namespace Venture.ProfileWrite.Service
             Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             //DI
-            services.AddTransient<ICommandHandler<CreateProfileCommand>, CreateProfileComandHandler>();
-            services.AddTransient<ICommandDispatcher, CommandDispatcher>();
+            //services.AddTransient<ICommandHandler<CreateProfileCommand>, CreateProfileComandHandler>();
+            //services.AddTransient<ICommandDispatcher, CommandDispatcher>();
 
-            services.AddTransient<IQueryHandler<GetEventsQuery, IEnumerable<Event>>, GetEventsQueryHandler>();
-            services.AddTransient<IQueryDispatcher, QueryDispatcher>();
+            //services.AddTransient<IQueryHandler<GetEventsQuery, IEnumerable<Event>>, GetEventsQueryHandler>();
+            //services.AddTransient<IQueryDispatcher, QueryDispatcher>();
 
-            services.AddTransient<IEventStore, EventStore>();
+            //services.AddTransient<IEventStore, EventStore>();
 
             // Add framework services.
             services.AddMvc();
             services.AddAutoMapper();
+
+            // Create the container builder.
+            var builder = new ContainerBuilder();
+
+            // Register dependencies, populate the services from
+            // the collection, and build the container. If you want
+            // to dispose of the container at the end of the app,
+            // be sure to keep a reference to it as a property or field.
+            builder.RegisterType<CreateProfileComandHandler>().AsImplementedInterfaces();
+            builder.RegisterType<CommandDispatcher>().AsImplementedInterfaces();
+            builder.RegisterType<GetEventsQueryHandler>().AsImplementedInterfaces();
+            builder.RegisterType<QueryDispatcher>().AsImplementedInterfaces();
+            builder.RegisterType<EventStore>().AsImplementedInterfaces();
+            builder.Populate(services);
+            ApplicationContainer = builder.Build();
+
+            // Create the IServiceProvider based on the container.
+            return new AutofacServiceProvider(ApplicationContainer);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
