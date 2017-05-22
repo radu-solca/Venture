@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +8,10 @@ using Microsoft.Extensions.Logging;
 using Venture.ProfileWrite.Business.CommandDispatcher;
 using Venture.ProfileWrite.Business.CommandHandlers;
 using Venture.ProfileWrite.Business.Commands;
+using Venture.ProfileWrite.Business.Queries;
+using Venture.ProfileWrite.Business.QueryDispatcher;
+using Venture.ProfileWrite.Business.QueryHandlers;
+using Venture.ProfileWrite.Data.Events;
 
 namespace Venture.ProfileWrite.Service
 {
@@ -30,6 +35,11 @@ namespace Venture.ProfileWrite.Service
             //DI
             services.AddTransient<ICommandHandler<CreateProfileCommand>, CreateProfileComandHandler>();
             services.AddTransient<ICommandDispatcher, CommandDispatcher>();
+
+            services.AddTransient<IQueryHandler<GetEventsQuery, IEnumerable<Event>>, GetEventsQueryHandler>();
+            services.AddTransient<IQueryDispatcher, QueryDispatcher>();
+
+            services.AddTransient<IEventStore, EventStore>();
 
             // Add framework services.
             services.AddMvc();

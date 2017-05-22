@@ -19,9 +19,13 @@ namespace Venture.ProfileWrite.Business.CommandDispatcher
         {
             Guard.AgainstNullArgument(nameof(command), command);
 
-            Console.WriteLine("Create command executed");
-
             ICommandHandler<TCommand> handler = (ICommandHandler<TCommand>)_serviceProvider.GetService(typeof(ICommandHandler<TCommand>));
+
+            if (handler == null)
+            {
+                throw new Exception("Query handler not found for type " + typeof(ICommandHandler<TCommand>));
+            }
+
             handler.ExecuteAsync(command);
         }
     }

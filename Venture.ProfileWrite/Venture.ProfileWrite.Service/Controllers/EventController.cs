@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Venture.ProfileWrite.Business.Queries;
+using Venture.ProfileWrite.Business.QueryDispatcher;
+
 //using Venture.ProfileWrite.Data.Events;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -8,19 +12,20 @@ namespace Venture.ProfileWrite.Service.Controllers
     [Route("api/events")]
     public class EventController : Controller
     {
-        //private readonly IEventStore _eventStore;
+        private readonly IQueryDispatcher _queryDispatcher;
 
-        //public EventController(IEventStore eventStore)
-        //{
-        //    _eventStore = eventStore;
-        //}
+        public EventController(IQueryDispatcher queryDispatcher)
+        {
+            _queryDispatcher = queryDispatcher;
+        }
 
-        //// GET: api/values
-        //[HttpGet]
-        //public IActionResult Get()
-        //{
-        //    var events = _eventStore.GetEvents();
-        //    return Ok(events);
-        //}
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var query = new GetEventsQuery();
+
+            var result = await _queryDispatcher.Handle(query);
+            return Ok(result);
+        }
     }
 }

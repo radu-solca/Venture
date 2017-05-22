@@ -8,4 +8,8 @@
     <PackageReference Include="LiteGuard" Version="1.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Venture.ProfileWrite.Data\Venture.ProfileWrite.Data.csproj" />
+  </ItemGroup>
+
 </Project>

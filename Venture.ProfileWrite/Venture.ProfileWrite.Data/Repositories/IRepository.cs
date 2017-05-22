@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Venture.ProfileWrite.Data.Entities;
 
 namespace Venture.ProfileWrite.Data.Repositories
