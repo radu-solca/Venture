@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Venture.ProfileWrite.Business.Queries;
 using Venture.ProfileWrite.Business.QueryDispatcher;
 
@@ -20,11 +19,12 @@ namespace Venture.ProfileWrite.Service.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             var query = new GetEventsQuery();
 
-            var result = await _queryDispatcher.Handle(query);
+            var result = _queryDispatcher.Handle(query);
+
             return Ok(result);
         }
     }

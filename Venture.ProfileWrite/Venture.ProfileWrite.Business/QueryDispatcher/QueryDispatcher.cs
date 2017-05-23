@@ -16,7 +16,7 @@ namespace Venture.ProfileWrite.Business.QueryDispatcher
             _serviceProvider = serviceProvider;
         }
 
-        public Task<TResult> Handle<TQuery, TResult>(TQuery query) where TQuery : class, IQuery<TResult>
+        public TResult Handle<TQuery, TResult>(TQuery query) where TQuery : class, IQuery<TResult>
         {
             Guard.AgainstNullArgument(nameof(query), query);
 
@@ -30,7 +30,7 @@ namespace Venture.ProfileWrite.Business.QueryDispatcher
             return handler.Retrieve(query);
         }
 
-        public Task<TResult> Handle<TResult>(IQuery<TResult> query)
+        public TResult Handle<TResult>(IQuery<TResult> query)
         {
             return Handle<IQuery<TResult>, TResult>(query);
         }

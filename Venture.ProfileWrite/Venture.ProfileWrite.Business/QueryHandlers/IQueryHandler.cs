@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Venture.ProfileWrite.Business.Queries;
-using Venture.ProfileWrite.Data.Events;
+﻿using Venture.ProfileWrite.Business.Queries;
 
 namespace Venture.ProfileWrite.Business.QueryHandlers
 {
-    public interface IQueryHandler<in TQuery, TResult> where TQuery : IQuery<TResult>
+    public interface IQueryHandler<in TQuery, out TResult> where TQuery : IQuery<TResult>
     {
-        Task<TResult> Retrieve(TQuery query);
+        TResult Retrieve(TQuery query);
     }
 }
