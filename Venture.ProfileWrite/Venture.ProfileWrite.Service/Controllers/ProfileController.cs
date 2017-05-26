@@ -23,18 +23,5 @@ namespace Venture.ProfileWrite.Service.Controllers
 
             return Ok();
         }
-
-        //[HttpPatch("{id}")]
-        //public IActionResult Patch(Guid id, [FromBody] UserProfileUpdateModel userProfile)
-        //{
-        //    return Ok();
-        //}
-
-        //// DELETE api/values/5
-        //[HttpDelete("{id}")]
-        //public IActionResult Delete(Guid id)
-        //{
-        //    return Ok();
-        //}
     }
 }

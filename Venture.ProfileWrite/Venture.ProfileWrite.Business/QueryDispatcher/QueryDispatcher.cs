@@ -27,8 +27,6 @@ namespace Venture.ProfileWrite.Business.QueryDispatcher
             Type listType = typeof(IQueryHandler<,>);
             Type queryType = listType.MakeGenericType(types);
 
-            //object queryHandler = scope.Resolve(queryType);
-
             object queryHandler = _serviceProvider.GetService(queryType);
 
             if (queryHandler == null)
