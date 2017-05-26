@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Reflection;
 using LiteGuard;
 using Venture.ProfileWrite.Business.Queries;
 using Venture.ProfileWrite.Business.QueryHandlers;
@@ -16,23 +16,30 @@ namespace Venture.ProfileWrite.Business.QueryDispatcher
             _serviceProvider = serviceProvider;
         }
 
-        public TResult Handle<TQuery, TResult>(TQuery query) where TQuery : class, IQuery<TResult>
+        public TResult Handle<TResult>(IQuery<TResult> query)
         {
             Guard.AgainstNullArgument(nameof(query), query);
 
-            IQueryHandler<TQuery, TResult> handler = (IQueryHandler<TQuery, TResult>)_serviceProvider.GetService(typeof(IQueryHandler<TQuery, TResult>));
+            Type parameterType = query.GetType();
+            Type resultType = typeof(TResult);
+            Type[] types = { parameterType, resultType };
 
-            if (handler == null)
+            Type listType = typeof(IQueryHandler<,>);
+            Type queryType = listType.MakeGenericType(types);
+
+            //object queryHandler = scope.Resolve(queryType);
+
+            object queryHandler = _serviceProvider.GetService(queryType);
+
+            if (queryHandler == null)
             {
-                throw new Exception("Query handler not found for type " + typeof(IQueryHandler<TQuery, TResult>));
+                throw new Exception("Query handler not found for type " + queryType);
             }
 
-            return handler.Retrieve(query);
-        }
+            MethodInfo methodInfo = queryType.GetMethod("Retrieve", new[] { parameterType });
+            TResult result = (TResult)methodInfo.Invoke(queryHandler, new object[] { query });
 
-        public TResult Handle<TResult>(IQuery<TResult> query)
-        {
-            return Handle<IQuery<TResult>, TResult>(query);
+            return result;
         }
     }
 }

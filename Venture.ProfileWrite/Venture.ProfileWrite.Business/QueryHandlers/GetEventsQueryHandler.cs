@@ -8,7 +8,7 @@ namespace Venture.ProfileWrite.Business.QueryHandlers
     {
         public IEnumerable<Event> Retrieve(GetEventsQuery query)
         {
-            throw new System.NotImplementedException();
+            return new List<Event>();
         }
     }
 }

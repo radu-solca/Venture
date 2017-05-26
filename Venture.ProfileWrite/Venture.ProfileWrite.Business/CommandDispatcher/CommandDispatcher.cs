@@ -23,7 +23,7 @@ namespace Venture.ProfileWrite.Business.CommandDispatcher
 
             if (handler == null)
             {
-                throw new Exception("Query handler not found for type " + typeof(ICommandHandler<TCommand>));
+                throw new Exception("Command handler not found for type " + typeof(ICommandHandler<TCommand>));
             }
 
             handler.ExecuteAsync(command);
