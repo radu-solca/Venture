@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using LiteGuard;
 using Venture.Gateway.Business.EventHandlers;
 using Venture.Gateway.Business.Events;
@@ -15,7 +16,7 @@ namespace Venture.Gateway.Business.EventDispatcher
             _serviceProvider = serviceProvider;
         }
 
-        public void Dispatch<TEvent>(TEvent command) where TEvent : class, IDomainEvent
+        public async Task DispatchAsync<TEvent>(TEvent command) where TEvent : class, IDomainEvent
         {
             Guard.AgainstNullArgument(nameof(command), command);
 
@@ -26,7 +27,7 @@ namespace Venture.Gateway.Business.EventDispatcher
                 throw new Exception("Event handler not found for type " + typeof(IEventHandler<TEvent>));
             }
 
-            handler.Execute(command);
+            await handler.ExecuteAsync(command);
         }
     }
 }

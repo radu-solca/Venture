@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Business Layer", "02 -
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Venture.Gateway.Business", "Venture.Gateway.Business\Venture.Gateway.Business.csproj", "{7EBFC0A3-4589-46CB-B16B-53861A511634}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Venture.ProfileWrite.MOCK", "Venture.ProfileWrite.MOCK\Venture.ProfileWrite.MOCK.csproj", "{9F9FD15A-0FE6-4FE9-B10C-8CF265FEE96B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Venture.ProfileRead.MOCK", "Venture.ProfileRead.MOCK\Venture.ProfileRead.MOCK.csproj", "{19D12F5B-4D57-432D-B7D0-9E4C306F83AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +29,14 @@ Global
 		{7EBFC0A3-4589-46CB-B16B-53861A511634}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EBFC0A3-4589-46CB-B16B-53861A511634}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EBFC0A3-4589-46CB-B16B-53861A511634}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F9FD15A-0FE6-4FE9-B10C-8CF265FEE96B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F9FD15A-0FE6-4FE9-B10C-8CF265FEE96B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F9FD15A-0FE6-4FE9-B10C-8CF265FEE96B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F9FD15A-0FE6-4FE9-B10C-8CF265FEE96B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19D12F5B-4D57-432D-B7D0-9E4C306F83AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19D12F5B-4D57-432D-B7D0-9E4C306F83AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19D12F5B-4D57-432D-B7D0-9E4C306F83AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19D12F5B-4D57-432D-B7D0-9E4C306F83AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,5 +44,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F33E56F8-4D89-4471-AF76-18C8CA0AB9F9} = {DBAD4948-31B9-4260-BE38-983DD1F051A2}
 		{7EBFC0A3-4589-46CB-B16B-53861A511634} = {CB56B925-DCF9-4D63-A2F9-D2F52243CA4C}
+		{9F9FD15A-0FE6-4FE9-B10C-8CF265FEE96B} = {DBAD4948-31B9-4260-BE38-983DD1F051A2}
+		{19D12F5B-4D57-432D-B7D0-9E4C306F83AE} = {DBAD4948-31B9-4260-BE38-983DD1F051A2}
 	EndGlobalSection
 EndGlobal
