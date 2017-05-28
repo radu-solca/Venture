@@ -5,6 +5,8 @@ using Venture.Gateway.Business.CommandHandlers;
 using Venture.Gateway.Business.Commands;
 using Venture.Gateway.Business.EventHandlers;
 using Venture.Gateway.Business.Events;
+using Venture.Gateway.Business.Queries;
+using Venture.Gateway.Business.QueryHandlers;
 
 namespace Venture.Gateway.Business.Extensions
 {
@@ -33,6 +35,19 @@ namespace Venture.Gateway.Business.Extensions
                 bus.SubscribeAsync<TDomainEvent>(
                     async (msg, context) => await handler.ExecuteAsync(msg),
                     cfg => cfg.WithQueue(q => q.WithName(GetExchangeName<TDomainEvent>(name)))
+                );
+        }
+
+        public static ISubscription SubscribeToQuery<TQuery, TResult>(
+            this IBusClient bus,
+            IQueryHandler<TQuery, TResult> handler,
+            string name = null
+        ) where TQuery : IQuery<TResult>
+        {
+            return
+                bus.RespondAsync<TQuery, TResult>(
+                    async (msg, context) => await handler.RetrieveAsync(msg),
+                    cfg => cfg.WithQueue(q => q.WithName(GetExchangeName<TQuery>(name)))
                 );
         }
 

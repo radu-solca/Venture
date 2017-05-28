@@ -1,9 +1,10 @@
-﻿using Venture.Gateway.Business.Queries;
+﻿using System.Threading.Tasks;
+using Venture.Gateway.Business.Queries;
 
 namespace Venture.Gateway.Business.QueryHandlers
 {
-    public interface IQueryHandler<in TQuery, out TResult> where TQuery : IQuery<TResult>
+    public interface IQueryHandler<in TQuery, TResult> where TQuery : IQuery<TResult>
     {
-        TResult Retrieve(TQuery query);
+        Task<TResult> RetrieveAsync(TQuery query);
     }
 }

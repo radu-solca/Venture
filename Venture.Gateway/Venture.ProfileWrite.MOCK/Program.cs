@@ -6,6 +6,7 @@ using Venture.Gateway.Business.CommandHandlers;
 using Venture.Gateway.Business.Commands;
 using Venture.Gateway.Business.Events;
 using Venture.Gateway.Business.Extensions;
+
 // ReSharper disable InconsistentNaming
 
 namespace Venture.ProfileWrite.MOCK

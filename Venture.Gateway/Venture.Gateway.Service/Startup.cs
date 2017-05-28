@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using RawRabbit;
 using RawRabbit.vNext;
 using Venture.Gateway.Business.CommandDispatcher;
+using Venture.Gateway.Business.QueryDispatcher;
 
 namespace Venture.Gateway.Service
 {
@@ -33,6 +34,8 @@ namespace Venture.Gateway.Service
 
             // DI
             services.AddTransient<ICommandDispatcher, CommandDispatcher>();
+            services.AddTransient<IQueryDispatcher, QueryDispatcher>();
+
             services.AddSingleton(busClientSupplier);
 
             // Add framework services.

@@ -5,6 +5,9 @@ using RawRabbit.vNext;
 using Venture.Gateway.Business.EventHandlers;
 using Venture.Gateway.Business.Events;
 using Venture.Gateway.Business.Extensions;
+using Venture.Gateway.Business.Queries;
+using Venture.Gateway.Business.QueryHandlers;
+
 // ReSharper disable InconsistentNaming
 
 namespace Venture.ProfileRead.MOCK
@@ -14,11 +17,14 @@ namespace Venture.ProfileRead.MOCK
         private static readonly IBusClient _bus = BusClientFactory.CreateDefault();
         private static readonly ProfileCreatedEventHandler _handler = new ProfileCreatedEventHandler();
 
+
         static void Main(string[] args)
         {
-            Console.WriteLine("PROFILE READ SERVICE MOCK");
+            Console.WriteLine("!!! PROFILE READ SERVICE MOCK !!!");
 
             _bus.SubscribeToEvent(_handler);
+
+            
 
             Console.Read();
         }
@@ -28,7 +34,16 @@ namespace Venture.ProfileRead.MOCK
     {
         public async Task ExecuteAsync(ProfileCreatedEvent domainEvent)
         {
-            Console.WriteLine("Updated view model for new profile with email " + domainEvent.Email);
+            Console.WriteLine(" !!! Updated view model for new profile with email !!! " + domainEvent.Email);
+        }
+    }
+
+    class GetProfileQueryHandler : IQueryHandler<GetProfileQuery, string>
+    {
+        public async Task<string> RetrieveAsync(GetProfileQuery query)
+        {
+            Console.WriteLine(" !!! Got request for profiles. !!! ");
+            return "THis is a profile";
         }
     }
 }
