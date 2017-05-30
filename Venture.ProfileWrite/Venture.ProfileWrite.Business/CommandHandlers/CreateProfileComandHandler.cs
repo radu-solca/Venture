@@ -1,4 +1,5 @@
-﻿using Venture.ProfileWrite.Business.Commands;
+﻿using Venture.Common.Cqrs.Commands;
+using Venture.ProfileWrite.Business.Commands;
 using Venture.ProfileWrite.Data.Events;
 
 namespace Venture.ProfileWrite.Business.CommandHandlers

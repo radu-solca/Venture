@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Venture.Common.Cqrs.Commands;
+using Venture.ProfileWrite.Business.CommandDispatcher;
 using Venture.ProfileWrite.Business.Commands;
 using Venture.ProfileWrite.Business.Models;
 

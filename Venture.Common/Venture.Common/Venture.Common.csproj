@@ -6,11 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="LiteGuard" Version="1.1.0" />
-    <PackageReference Include="Venture.Common" Version="1.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Venture.ProfileWrite.Data\Venture.ProfileWrite.Data.csproj" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="1.1.1" />
   </ItemGroup>
 
 </Project>

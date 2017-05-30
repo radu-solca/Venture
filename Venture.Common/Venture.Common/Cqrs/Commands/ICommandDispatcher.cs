@@ -1,6 +1,4 @@
-﻿using Venture.ProfileWrite.Business.Commands;
-
-namespace Venture.ProfileWrite.Business.CommandDispatcher
+﻿namespace Venture.Common.Cqrs.Commands
 {
     public interface ICommandDispatcher
     {

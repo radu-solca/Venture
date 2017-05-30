@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Venture.Common.Cqrs.Queries;
 using Venture.ProfileWrite.Business.Queries;
+using Venture.ProfileWrite.Business.QueryDispatcher;
 
 namespace Venture.ProfileWrite.Service.Controllers
 {

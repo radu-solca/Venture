@@ -1,6 +1,4 @@
-﻿using Venture.ProfileWrite.Business.Queries;
-
-namespace Venture.ProfileWrite.Business.QueryDispatcher
+﻿namespace Venture.Common.Cqrs.Queries
 {
     public interface IQueryDispatcher
     {

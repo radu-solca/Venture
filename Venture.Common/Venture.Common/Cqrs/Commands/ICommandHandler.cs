@@ -1,6 +1,4 @@
-﻿using Venture.ProfileWrite.Business.Commands;
-
-namespace Venture.ProfileWrite.Business.CommandHandlers
+﻿namespace Venture.Common.Cqrs.Commands
 {
     public interface ICommandHandler<in TCommand> where TCommand : ICommand
     {

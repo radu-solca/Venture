@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Reflection;
 using LiteGuard;
-using Venture.ProfileWrite.Business.Queries;
-using Venture.ProfileWrite.Business.QueryHandlers;
 
-namespace Venture.ProfileWrite.Business.QueryDispatcher
+namespace Venture.Common.Cqrs.Queries
 {
     public class QueryDispatcher : IQueryDispatcher
     {

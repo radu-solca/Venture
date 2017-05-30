@@ -1,9 +1,7 @@
 ﻿using System;
 using LiteGuard;
-using Venture.ProfileWrite.Business.CommandHandlers;
-using Venture.ProfileWrite.Business.Commands;
 
-namespace Venture.ProfileWrite.Business.CommandDispatcher
+namespace Venture.Common.Cqrs.Commands
 {
     public class CommandDispatcher : ICommandDispatcher
     {

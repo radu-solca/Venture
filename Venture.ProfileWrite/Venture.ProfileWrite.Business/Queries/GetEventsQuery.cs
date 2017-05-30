@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Venture.Common.Cqrs.Queries;
 using Venture.ProfileWrite.Data.Events;
 
 namespace Venture.ProfileWrite.Business.Queries

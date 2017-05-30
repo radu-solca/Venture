@@ -1,4 +1,4 @@
-﻿namespace Venture.ProfileWrite.Business.Queries
+﻿namespace Venture.Common.Cqrs.Queries
 {
     /// <summary>
     /// Represents a query.

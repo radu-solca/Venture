@@ -1,5 +1,6 @@
 ﻿//using Venture.ProfileWrite.Business.Models;
 
+using Venture.Common.Cqrs.Commands;
 using Venture.ProfileWrite.Business.Models;
 
 namespace Venture.ProfileWrite.Business.Commands
