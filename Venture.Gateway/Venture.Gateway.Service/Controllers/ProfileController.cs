@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using RawRabbit;
 using Venture.Gateway.Business.CommandDispatcher;
 using Venture.Gateway.Business.Commands;
 using Venture.Gateway.Business.Queries;
@@ -11,19 +12,19 @@ namespace Venture.Gateway.Service.Controllers
     public class ProfileController : Controller
     {
         private readonly ICommandDispatcher _commandDispatcher;
-        private readonly IQueryDispatcher _queryDispatcher;
+        private readonly IBusClient _bus;
 
-        public ProfileController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher)
+        public ProfileController(ICommandDispatcher commandDispatcher, IBusClient bus)
         {
             _commandDispatcher = commandDispatcher;
-            _queryDispatcher = queryDispatcher;
+            _bus = bus;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
             var query = new GetProfileQuery();
-            var result = await _queryDispatcher.DispatchAsync(query);
+            var result = await _bus.RequestAsync<GetProfileQuery, string>(query);
             return Ok(result);
         }
 

@@ -5,7 +5,6 @@ using RawRabbit.vNext;
 using Venture.Gateway.Business.CommandHandlers;
 using Venture.Gateway.Business.Commands;
 using Venture.Gateway.Business.Events;
-using Venture.Gateway.Business.Extensions;
 
 // ReSharper disable InconsistentNaming
 
@@ -18,9 +17,12 @@ namespace Venture.ProfileWrite.MOCK
 
         static void Main(string[] args)
         {
-            Console.WriteLine("PROFILE WRITE SERVICE MOCK");
+            Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!! PROFILE WRITE SERVICE MOCK !!!!!!!!!!!!!!!!!!!!!!!");
 
-            _bus.SubscribeToCommand(_handler);
+            _bus.SubscribeAsync<CreateProfileCommand>(async (msg, context) =>
+            {
+                await _handler.ExecuteAsync(msg);
+            });
 
             Console.Read();
         }
@@ -37,7 +39,7 @@ namespace Venture.ProfileWrite.MOCK
 
         public async Task ExecuteAsync(CreateProfileCommand command)
         {
-            Console.WriteLine("Wrote profile with email " + command.Email);
+            Console.WriteLine(" !!!!!!!!!!!!!!!!!!!!!!! Wrote profile with email " + command.Email + " !!!!!!!!!!!!!!!!!!!!!!!");
 
             var domainEvent = new ProfileCreatedEvent(
                     command.Email,

@@ -4,7 +4,6 @@ using RawRabbit;
 using RawRabbit.vNext;
 using Venture.Gateway.Business.EventHandlers;
 using Venture.Gateway.Business.Events;
-using Venture.Gateway.Business.Extensions;
 using Venture.Gateway.Business.Queries;
 using Venture.Gateway.Business.QueryHandlers;
 
@@ -16,15 +15,25 @@ namespace Venture.ProfileRead.MOCK
     {
         private static readonly IBusClient _bus = BusClientFactory.CreateDefault();
         private static readonly ProfileCreatedEventHandler _handler = new ProfileCreatedEventHandler();
-
+        private static readonly GetProfileQueryHandler _queryHandler = new GetProfileQueryHandler();
 
         static void Main(string[] args)
         {
-            Console.WriteLine("!!! PROFILE READ SERVICE MOCK !!!");
+            Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!! PROFILE READ SERVICE MOCK !!!!!!!!!!!!!!!!!!!!!!!");
 
-            _bus.SubscribeToEvent(_handler);
+            System.Threading.Thread.Sleep(30000);
 
-            
+            Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!! PROFILE SUBSCRIBED TO EVENT !!!!!!!!!!!!!!!!!!!!!!!");
+
+            _bus.SubscribeAsync<ProfileCreatedEvent>(async (domainEvent, context) =>
+            {
+                await _handler.ExecuteAsync(domainEvent);
+            });
+
+            _bus.RespondAsync<GetProfileQuery, string>(async (query, context) =>
+            {
+                return await _queryHandler.RetrieveAsync(query);
+            });
 
             Console.Read();
         }
@@ -34,7 +43,7 @@ namespace Venture.ProfileRead.MOCK
     {
         public async Task ExecuteAsync(ProfileCreatedEvent domainEvent)
         {
-            Console.WriteLine(" !!! Updated view model for new profile with email !!! " + domainEvent.Email);
+            Console.WriteLine(" !!!!!!!!!!!!!!!!!!!!!!! Updated view model for new profile with email " + domainEvent.Email + "!!!!!!!!!!!!!!!!!!!!!!!");
         }
     }
 
@@ -42,7 +51,7 @@ namespace Venture.ProfileRead.MOCK
     {
         public async Task<string> RetrieveAsync(GetProfileQuery query)
         {
-            Console.WriteLine(" !!! Got request for profiles. !!! ");
+            Console.WriteLine(" !!!!!!!!!!!!!!!!!!!!!!! Got request for profiles. !!!!!!!!!!!!!!!!!!!!!!! ");
             return "THis is a profile";
         }
     }
