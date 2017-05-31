@@ -6,11 +6,10 @@
 
   <ItemGroup>
     <PackageReference Include="LiteGuard" Version="1.1.0" />
+    <PackageReference Include="RawRabbit" Version="1.10.3" />
+    <PackageReference Include="RawRabbit.Extensions" Version="1.10.3" />
+    <PackageReference Include="RawRabbit.vNext" Version="1.10.3" />
     <PackageReference Include="Venture.Common" Version="1.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Venture.ProfileWrite.Data\Venture.ProfileWrite.Data.csproj" />
   </ItemGroup>
 
 </Project>
