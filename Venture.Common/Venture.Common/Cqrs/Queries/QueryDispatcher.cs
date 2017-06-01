@@ -4,7 +4,7 @@ using LiteGuard;
 
 namespace Venture.Common.Cqrs.Queries
 {
-    public class QueryDispatcher : IQueryDispatcher
+    public sealed class QueryDispatcher : IQueryDispatcher
     {
         private readonly IServiceProvider _serviceProvider;
 

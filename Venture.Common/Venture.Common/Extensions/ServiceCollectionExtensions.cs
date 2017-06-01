@@ -1,6 +1,5 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
-using RawRabbit;
+﻿using Microsoft.Extensions.DependencyInjection;
+using RawRabbit.Serialization;
 using RawRabbit.vNext;
 using Venture.Common.Cqrs.Commands;
 using Venture.Common.Cqrs.Queries;
@@ -16,8 +15,9 @@ namespace Venture.Common.Extensions
             serviceProvider.AddTransient<IQueryDispatcher, QueryDispatcher>();
 
             // Bus client
-            Func<IServiceProvider, IBusClient> busClientSupplier = p => BusClientFactory.CreateDefault();
-            serviceProvider.AddSingleton(busClientSupplier);
+            serviceProvider.AddRawRabbit(
+                custom: ioc => ioc.AddSingleton<IMessageSerializer, CustomJsonSerializer>()
+            );
 
             return serviceProvider;
         }

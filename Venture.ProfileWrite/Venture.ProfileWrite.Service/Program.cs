@@ -5,6 +5,7 @@ using RawRabbit;
 using Venture.Common.Cqrs.Commands;
 using Venture.Common.Extensions;
 using Venture.ProfileWrite.Business.Commands;
+using Venture.ProfileWrite.Business.CommandHandlers;
 
 namespace Venture.ProfileWrite.Service
 {
@@ -14,6 +15,7 @@ namespace Venture.ProfileWrite.Service
         {
             var serviceProvider = new ServiceCollection()
                 .AddVentureCommon()
+                .AddTransient<ICommandHandler<CreateProfileCommand>, CreateProfileComandHandler>()
                 .BuildServiceProvider();
 
             var bus = (IBusClient) serviceProvider.GetService(typeof(IBusClient));

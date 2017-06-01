@@ -13,7 +13,7 @@ namespace Venture.Gateway.Business.CommandHandlers
             _bus = bus;
         }
 
-        public void ExecuteAsync(CreateProfileCommand command)
+        public void Execute(CreateProfileCommand command)
         {
             _bus.PublishAsync(
                 command,

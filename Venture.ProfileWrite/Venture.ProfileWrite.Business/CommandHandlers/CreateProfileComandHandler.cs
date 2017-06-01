@@ -9,6 +9,9 @@ namespace Venture.ProfileWrite.Business.CommandHandlers
         public void Execute(CreateProfileCommand command)
         {
             Console.WriteLine(" !!!! Created profile !!!! ");
+            Console.WriteLine(command.Email);
+            Console.WriteLine(command.FirstName);
+            Console.WriteLine(command.LastName);
         }
     }
 }

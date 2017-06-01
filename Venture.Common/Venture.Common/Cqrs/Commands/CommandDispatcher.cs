@@ -3,7 +3,7 @@ using LiteGuard;
 
 namespace Venture.Common.Cqrs.Commands
 {
-    public class CommandDispatcher : ICommandDispatcher
+    public sealed class CommandDispatcher : ICommandDispatcher
     {
         private readonly IServiceProvider _serviceProvider;
 
