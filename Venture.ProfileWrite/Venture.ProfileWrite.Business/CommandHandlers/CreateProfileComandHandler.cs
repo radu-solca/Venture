@@ -1,21 +1,14 @@
-﻿using Venture.Common.Cqrs.Commands;
+﻿using System;
+using Venture.Common.Cqrs.Commands;
 using Venture.ProfileWrite.Business.Commands;
-using Venture.ProfileWrite.Data.Events;
 
 namespace Venture.ProfileWrite.Business.CommandHandlers
 {
     public class CreateProfileComandHandler : ICommandHandler<CreateProfileCommand>
     {
-        private readonly IEventStore _eventStore;
-
-        public CreateProfileComandHandler(IEventStore eventStore)
+        public void Execute(CreateProfileCommand command)
         {
-            _eventStore = eventStore;
-        }
-
-        public void ExecuteAsync(CreateProfileCommand command)
-        {
-            _eventStore.Raise("ProfileCreated", command.UserProfile);
+            Console.WriteLine(" !!!! Created profile !!!! ");
         }
     }
 }

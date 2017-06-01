@@ -5,15 +5,11 @@ VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Service Layer", "01 - Service Layer", "{798AD1D7-F32D-4C0D-9477-3DE748E26436}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - Data Access Layer", "03 - Data Access Layer", "{3C51E53A-A59C-4F14-BB86-01E3BC7D7FC4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Venture.ProfileWrite.Data", "Venture.ProfileWrite.Data\Venture.ProfileWrite.Data.csproj", "{E7C9FE46-1A87-43B5-B71F-6A558A2BF02C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Venture.ProfileWrite.Service", "Venture.ProfileWrite.Service\Venture.ProfileWrite.Service.csproj", "{46C5B543-75BC-4A57-9938-6A19D23F9CC3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Business Layer", "02 - Business Layer", "{9CFCD5CC-2801-4CE9-947A-980CCE9901BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Venture.ProfileWrite.Business", "Venture.ProfileWrite.Business\Venture.ProfileWrite.Business.csproj", "{59A5B99D-A8B6-47A9-9A35-AA6562BEF55A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Venture.ProfileWrite.Service", "Venture.ProfileWrite.Service\Venture.ProfileWrite.Service.csproj", "{CFC3CB7E-BFBA-4804-9431-30B50C8B0DC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,25 +17,20 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E7C9FE46-1A87-43B5-B71F-6A558A2BF02C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E7C9FE46-1A87-43B5-B71F-6A558A2BF02C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E7C9FE46-1A87-43B5-B71F-6A558A2BF02C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E7C9FE46-1A87-43B5-B71F-6A558A2BF02C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{46C5B543-75BC-4A57-9938-6A19D23F9CC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46C5B543-75BC-4A57-9938-6A19D23F9CC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46C5B543-75BC-4A57-9938-6A19D23F9CC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46C5B543-75BC-4A57-9938-6A19D23F9CC3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{59A5B99D-A8B6-47A9-9A35-AA6562BEF55A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{59A5B99D-A8B6-47A9-9A35-AA6562BEF55A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59A5B99D-A8B6-47A9-9A35-AA6562BEF55A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59A5B99D-A8B6-47A9-9A35-AA6562BEF55A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFC3CB7E-BFBA-4804-9431-30B50C8B0DC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFC3CB7E-BFBA-4804-9431-30B50C8B0DC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFC3CB7E-BFBA-4804-9431-30B50C8B0DC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFC3CB7E-BFBA-4804-9431-30B50C8B0DC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E7C9FE46-1A87-43B5-B71F-6A558A2BF02C} = {3C51E53A-A59C-4F14-BB86-01E3BC7D7FC4}
-		{46C5B543-75BC-4A57-9938-6A19D23F9CC3} = {798AD1D7-F32D-4C0D-9477-3DE748E26436}
 		{59A5B99D-A8B6-47A9-9A35-AA6562BEF55A} = {9CFCD5CC-2801-4CE9-947A-980CCE9901BF}
+		{CFC3CB7E-BFBA-4804-9431-30B50C8B0DC8} = {798AD1D7-F32D-4C0D-9477-3DE748E26436}
 	EndGlobalSection
 EndGlobal

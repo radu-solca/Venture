@@ -15,7 +15,13 @@ namespace Venture.Gateway.Business.CommandHandlers
 
         public void ExecuteAsync(CreateProfileCommand command)
         {
-            _bus.PublishAsync(command);
+            _bus.PublishAsync(
+                command,
+                configuration: config =>
+                {
+                    config.WithExchange(exchange => exchange.WithName("Venture.Commands"));
+                    config.WithRoutingKey(typeof(CreateProfileCommand).Name);
+                });
         }
     }
 }

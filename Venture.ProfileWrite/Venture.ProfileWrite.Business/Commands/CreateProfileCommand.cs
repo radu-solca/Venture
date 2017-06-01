@@ -1,17 +1,20 @@
 ﻿//using Venture.ProfileWrite.Business.Models;
 
 using Venture.Common.Cqrs.Commands;
-using Venture.ProfileWrite.Business.Models;
 
 namespace Venture.ProfileWrite.Business.Commands
 {
     public class CreateProfileCommand : ICommand
     {
-        public UserProfileCreateModel UserProfile { get; }
-
-        public CreateProfileCommand(UserProfileCreateModel userProfile)
+        public CreateProfileCommand(string email, string firstName, string lastName)
         {
-            UserProfile = userProfile;
+            Email = email;
+            FirstName = firstName;
+            LastName = lastName;
         }
+
+        public string Email { get; }
+        public string FirstName { get; }
+        public string LastName { get; }
     }
 }
