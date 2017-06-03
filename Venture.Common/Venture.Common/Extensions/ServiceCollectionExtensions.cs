@@ -3,23 +3,31 @@ using RawRabbit.Serialization;
 using RawRabbit.vNext;
 using Venture.Common.Cqrs.Commands;
 using Venture.Common.Cqrs.Queries;
+using Venture.Common.Events;
 
 namespace Venture.Common.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddVentureCommon(this IServiceCollection serviceProvider)
+        public static IServiceCollection AddVentureCommon(this IServiceCollection serviceCollection)
         {
             // Cqrs dispatchers
-            serviceProvider.AddTransient<ICommandDispatcher, CommandDispatcher>();
-            serviceProvider.AddTransient<IQueryDispatcher, QueryDispatcher>();
+            serviceCollection.AddTransient<ICommandDispatcher, CommandDispatcher>();
+            serviceCollection.AddTransient<IQueryDispatcher, QueryDispatcher>();
 
             // Bus client
-            serviceProvider.AddRawRabbit(
+            serviceCollection.AddRawRabbit(
                 custom: ioc => ioc.AddSingleton<IMessageSerializer, CustomJsonSerializer>()
             );
 
-            return serviceProvider;
+            return serviceCollection;
+        }
+
+        public static IServiceCollection AddVentureEventStore(this IServiceCollection serviceCollection, string connectionString, string dbname)
+        {
+            serviceCollection.AddSingleton<IEventStore>(_ => new EventStore(connectionString, dbname));
+
+            return serviceCollection;
         }
     }
 }

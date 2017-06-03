@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using RawRabbit;
 using Venture.Common.Cqrs.Commands;
@@ -15,6 +14,7 @@ namespace Venture.ProfileWrite.Service
         {
             var serviceProvider = new ServiceCollection()
                 .AddVentureCommon()
+                .AddVentureEventStore("localhost", "profile")
                 .AddTransient<ICommandHandler<CreateProfileCommand>, CreateProfileComandHandler>()
                 .BuildServiceProvider();
 
@@ -25,7 +25,6 @@ namespace Venture.ProfileWrite.Service
             bus.SubscribeAsync<CreateProfileCommand>(
                 async (command, context) =>
                 {
-                    Console.WriteLine(" !!! handling command !!! ");
                     await Task.Run(() => commandDispatcher.Handle(command));
                 },
                 config =>
