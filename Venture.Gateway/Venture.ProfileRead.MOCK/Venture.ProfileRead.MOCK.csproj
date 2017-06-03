@@ -6,13 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="RawRabbit" Version="1.10.3" />
-    <PackageReference Include="RawRabbit.Extensions" Version="1.10.3" />
-    <PackageReference Include="RawRabbit.vNext" Version="1.10.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Venture.Gateway.Business\Venture.Gateway.Business.csproj" />
+    <PackageReference Include="Venture.Common" Version="1.0.7" />
   </ItemGroup>
 
 </Project>

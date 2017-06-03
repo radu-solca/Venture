@@ -1,20 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LiteGuard;
 using Newtonsoft.Json;
+using RawRabbit;
 using StackExchange.Redis;
 
 namespace Venture.Common.Events
 {
     public class EventStore : IEventStore
     {
+        private readonly IBusClient _bus;
         private readonly IDatabaseAsync _db;
         private readonly string _dbname;
 
-        public EventStore(string connectionString, string dbname)
+        public EventStore(IBusClient bus, string connectionString, string dbname)
         {
-            _dbname = dbname;
+            Guard.AgainstNullArgument(nameof(bus), bus);
+            Guard.AgainstNullArgument(nameof(connectionString), connectionString);
+            Guard.AgainstNullArgument(nameof(dbname), dbname);
+
+            _bus = bus;
             _db = ConnectionMultiplexer.Connect(connectionString).GetDatabase();
+            _dbname = dbname;
         }
 
         public async Task<IEnumerable<DomainEvent>> GetEventsAsync(
@@ -55,6 +63,16 @@ namespace Venture.Common.Events
             var eventJson = Serialize(domainEvent);
 
             await _db.ListRightPushAsync(_dbname + ".events", eventJson, flags: CommandFlags.FireAndForget);
+
+            // TODO: Find a better plac to publish events.
+            await _bus.PublishAsync(
+                domainEvent,
+                configuration: config =>
+                {
+                    config.WithExchange(exchange => exchange.WithName("Venture.Events"));
+                    config.WithRoutingKey(_dbname + "Event");
+                }
+            );
         }
 
         private string Serialize(DomainEvent eventToSerialize)

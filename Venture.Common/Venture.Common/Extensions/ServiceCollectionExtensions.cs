@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RawRabbit;
 using RawRabbit.Serialization;
 using RawRabbit.vNext;
 using Venture.Common.Cqrs.Commands;
@@ -25,7 +26,12 @@ namespace Venture.Common.Extensions
 
         public static IServiceCollection AddVentureEventStore(this IServiceCollection serviceCollection, string connectionString, string dbname)
         {
-            serviceCollection.AddSingleton<IEventStore>(_ => new EventStore(connectionString, dbname));
+            serviceCollection.AddSingleton<IEventStore>(provider =>
+            {
+                var bus = provider.GetService<IBusClient>();
+
+                return new EventStore(bus, connectionString, dbname);
+            });
 
             return serviceCollection;
         }
