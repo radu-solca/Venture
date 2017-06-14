@@ -63,8 +63,8 @@ namespace Venture.Common.Events
                 domainEvent,
                 configuration: config =>
                 {
-                    config.WithExchange(exchange => exchange.WithName("Venture.Events"));
-                    config.WithRoutingKey(_dbname + "Event");
+                    config.WithExchange(exchange => exchange.WithName("Venture." + _dbname + ".Events"));
+                    config.WithRoutingKey(_dbname + ".Event");
                 }
             );
         }

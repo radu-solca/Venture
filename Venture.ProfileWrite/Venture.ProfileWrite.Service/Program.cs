@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using RawRabbit;
 using Venture.Common.Cqrs.Commands;
@@ -12,9 +13,11 @@ namespace Venture.ProfileWrite.Service
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("ProfileWrite started.");
+
             var serviceProvider = new ServiceCollection()
                 .AddVentureCommon()
-                .AddVentureEventStore("localhost", "profile")
+                .AddVentureEventStore("localhost", "Profile")
                 .AddTransient<ICommandHandler<CreateProfileCommand>, CreateProfileComandHandler>()
                 .BuildServiceProvider();
 

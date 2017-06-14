@@ -15,7 +15,14 @@ namespace Venture.Gateway.Business.QueryHandlers
 
         public string Retrieve(GetProfileQuery query)
         {
-            return _bus.RequestAsync<GetProfileQuery, string>(query).Result;
+            return _bus.RequestAsync<GetProfileQuery, string>(
+                query,
+                configuration: config =>
+                {
+                    config.WithExchange(exchange => exchange.WithName("Venture.Queries"));
+                    config.WithRoutingKey(typeof(GetProfileQuery).Name);
+                })
+                .Result;
         }
     }
 }
