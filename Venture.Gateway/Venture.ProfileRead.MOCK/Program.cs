@@ -19,7 +19,7 @@ namespace Venture.ProfileRead.MOCK
 
             var bus = (IBusClient)serviceProvider.GetService(typeof(IBusClient));
 
-            bus.SubscribeAsync<DomainEvent>(
+            bus.SubscribeAsync<ProfileCreatedEvent>(
                 async (domainEvent, context) =>
                 {
                     await Task.Run(() => Console.WriteLine(domainEvent.Type + " recieved"));
@@ -33,5 +33,12 @@ namespace Venture.ProfileRead.MOCK
 
             Console.ReadKey();
         }
+    }
+
+    public class ProfileCreatedEvent : BaseDomainEvent
+    {
+        public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

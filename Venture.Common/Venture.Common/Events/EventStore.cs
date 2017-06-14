@@ -25,20 +25,20 @@ namespace Venture.Common.Events
             _dbname = dbname;
         }
 
-        public async Task<IEnumerable<DomainEvent>> GetEventsAsync(
-            long firstEventSequenceNumber = 0, 
-            long lastEventSequenceNumber = long.MaxValue)
+        public async Task<IEnumerable<IDomainEvent>> GetEventsAsync(
+            DateTime startDate,
+            DateTime endDate)
         {
             var eventsRedis = await _db.ListRangeAsync(_dbname + ".events");
 
-            List<DomainEvent> events = new List<DomainEvent>();
+            List<IDomainEvent> events = new List<IDomainEvent>();
 
             foreach (var eventJson in eventsRedis)
             {
-                DomainEvent domainEvent = Deserialize(eventJson);
+                IDomainEvent domainEvent = Deserialize(eventJson);
 
-                if (domainEvent.SequenceNumber >= firstEventSequenceNumber &&
-                    domainEvent.SequenceNumber <= lastEventSequenceNumber)
+                if (domainEvent.OccuredAt >= startDate &&
+                    domainEvent.OccuredAt <= endDate)
                 {
                     events.Add(domainEvent);
                 }
@@ -47,24 +47,18 @@ namespace Venture.Common.Events
             return events;
         }
 
-        public async Task RaiseAsync(string type, object content)
+        public Task<IEnumerable<IDomainEvent>> GetEventsAsync()
         {
-            var nextSequenceNumberRedis = await _db.StringGetAsync(_dbname + ".nextSequenceNumber");
+            return GetEventsAsync(DateTime.MinValue, DateTime.MaxValue);
+        }
 
-            await _db.StringIncrementAsync(_dbname + ".nextSequenceNumber", flags: CommandFlags.FireAndForget);
-
-            long nextSequenceNumber;
-            if (!nextSequenceNumberRedis.TryParse(out nextSequenceNumber))
-            {
-                throw new Exception("nextSequenceNumber missing or invalid.");
-            }
-
-            var domainEvent = new DomainEvent(type, nextSequenceNumber, DateTime.Now, content);
+        public async Task RaiseAsync(IDomainEvent domainEvent)
+        {
             var eventJson = Serialize(domainEvent);
 
             await _db.ListRightPushAsync(_dbname + ".events", eventJson, flags: CommandFlags.FireAndForget);
 
-            // TODO: Find a better plac to publish events.
+            // TODO: Find a better place to publish events.
             await _bus.PublishAsync(
                 domainEvent,
                 configuration: config =>
@@ -75,14 +69,15 @@ namespace Venture.Common.Events
             );
         }
 
-        private string Serialize(DomainEvent eventToSerialize)
+        private string Serialize(IDomainEvent eventToSerialize)
         {
             return JsonConvert.SerializeObject(eventToSerialize);
         }
 
-        private DomainEvent Deserialize(string setializedEvent)
+        private IDomainEvent Deserialize(string setializedEvent)
         {
-            var result = JsonConvert.DeserializeObject<DomainEvent>(setializedEvent);
+            var result = JsonConvert.DeserializeObject<IDomainEvent>(setializedEvent);
+
             return result;
         }
     }
