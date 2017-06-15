@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using RawRabbit;
 using Venture.Common.Cqrs.Queries;
@@ -22,11 +21,11 @@ namespace Venture.ProfileRead.Service
                 .BuildServiceProvider();
 
             var bus = (IBusClient)serviceProvider.GetService(typeof(IBusClient));
-            var queryDispatcher = (IQueryDispatcher)serviceProvider.GetService(typeof(IQueryDispatcher));
+            var queryHandler = (IQueryHandler<GetProfileQuery, string>)serviceProvider.GetService(typeof(IQueryHandler<GetProfileQuery, string>));
 
-            bus.SubscribeToEvent<ProfileCreatedEvent>("Profile", "ProfileRead");
+            bus.SubscribeToEvent<ProfileCreatedEvent>("Profile", "ProfileRead", (domainEvent) => Console.WriteLine("Recieved " + domainEvent.GetType().FullName));
 
-            bus.SubscribeToQuery<GetProfileQuery, string>(queryDispatcher);
+            bus.SubscribeToQuery(queryHandler);
 
             Console.ReadKey();
         }

@@ -1,8 +1,6 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RawRabbit;
-using Venture.Common.Cqrs.Commands;
-using Venture.Common.Cqrs.Queries;
+using Venture.Common.Extensions;
 using Venture.Gateway.Business.Commands;
 using Venture.Gateway.Business.Queries;
 
@@ -11,20 +9,18 @@ namespace Venture.Gateway.Service.Controllers
     [Route("/v1/profiles")]
     public class ProfileController : Controller
     {
-        private readonly IQueryDispatcher _queryDispatcher;
-        private readonly ICommandDispatcher _commandDispatcher;
+        private readonly IBusClient _bus;
 
-        public ProfileController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
+        public ProfileController(IBusClient bus)
         {
-            _queryDispatcher = queryDispatcher;
-            _commandDispatcher = commandDispatcher;
+            _bus = bus;
         }
 
         [HttpGet]
         public IActionResult GetAsync()
         {
             var query = new GetProfileQuery();
-            var result = _queryDispatcher.Handle(query);
+            var result = _bus.Query<GetProfileQuery, string>(query);
             return Ok(result);
         }
 
@@ -32,7 +28,7 @@ namespace Venture.Gateway.Service.Controllers
         public IActionResult Post()
         {
             var command = new CreateProfileCommand("test@test.com", "Testy", "Testinson");
-            _commandDispatcher.Handle(command);
+            _bus.Command(command);
             return Ok();
         }
     }

@@ -4,6 +4,7 @@ using LiteGuard;
 
 namespace Venture.Common.Cqrs.Queries
 {
+    [Obsolete("Use the bus to dispatch queries instead", true)]
     public sealed class QueryDispatcher : IQueryDispatcher
     {
         private readonly IServiceProvider _serviceProvider;

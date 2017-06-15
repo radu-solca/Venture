@@ -11,10 +11,6 @@ namespace Venture.Common.Extensions
     {
         public static IServiceCollection AddVentureCommon(this IServiceCollection serviceCollection)
         {
-            // Cqrs dispatchers
-            serviceCollection.AddTransient<ICommandDispatcher, CommandDispatcher>();
-            serviceCollection.AddTransient<IQueryDispatcher, QueryDispatcher>();
-
             // Bus client
             serviceCollection.AddRawRabbit(
                 custom: ioc => ioc.AddSingleton<IMessageSerializer, CustomJsonSerializer>()

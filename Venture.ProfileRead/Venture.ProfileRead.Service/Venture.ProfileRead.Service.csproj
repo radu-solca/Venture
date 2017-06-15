@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Venture.Common" Version="1.0.14" />
+    <PackageReference Include="Venture.Common" Version="1.0.15" />
   </ItemGroup>
 
   <ItemGroup>

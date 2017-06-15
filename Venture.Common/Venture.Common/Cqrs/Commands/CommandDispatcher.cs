@@ -3,6 +3,7 @@ using LiteGuard;
 
 namespace Venture.Common.Cqrs.Commands
 {
+    [Obsolete("Use the bus to dispatch commands instead", true)]
     public sealed class CommandDispatcher : ICommandDispatcher
     {
         private readonly IServiceProvider _serviceProvider;

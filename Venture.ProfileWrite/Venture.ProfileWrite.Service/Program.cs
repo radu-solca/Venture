@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using RawRabbit;
 using Venture.Common.Cqrs.Commands;
@@ -23,9 +22,9 @@ namespace Venture.ProfileWrite.Service
 
             var bus = (IBusClient) serviceProvider.GetService(typeof(IBusClient));
 
-            var commandDispatcher = (ICommandDispatcher) serviceProvider.GetService(typeof(ICommandDispatcher));
+            var commandHandler = (ICommandHandler<CreateProfileCommand>) serviceProvider.GetService(typeof(ICommandHandler<CreateProfileCommand>));
 
-            bus.SubscribeToCommand<CreateProfileCommand>(commandDispatcher);
+            bus.SubscribeToCommand(commandHandler);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using RawRabbit;
+﻿using System;
+using RawRabbit;
 using Venture.Common.Cqrs.Commands;
 using Venture.Common.Events;
 using Venture.Common.Extensions;
@@ -19,7 +20,7 @@ namespace Venture.ProfileWrite.Business.CommandHandlers
 
         public void Execute(CreateProfileCommand command)
         {
-            var profileCreatedEvent = new ProfileCreatedEvent()
+            var profileCreatedEvent = new ProfileCreatedEvent(Guid.NewGuid())
             {
                 Email = command.Email,
                 LastName = command.LastName,
@@ -31,10 +32,14 @@ namespace Venture.ProfileWrite.Business.CommandHandlers
         }
     }
 
-    public class ProfileCreatedEvent : BaseDomainEvent
+    public class ProfileCreatedEvent : DomainEvent
     {
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        public ProfileCreatedEvent(Guid aggregateId) : base(aggregateId)
+        {
+        }
     }
 }

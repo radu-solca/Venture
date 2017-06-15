@@ -26,13 +26,13 @@ namespace Venture.Common.Extensions
                 });
         }
 
-        public static void SubscribeToCommand<TCommand>(this IBusClient bus, ICommandDispatcher commandDispatcher)
+        public static void SubscribeToCommand<TCommand>(this IBusClient bus, ICommandHandler<TCommand> commandHandler)
             where TCommand : class, ICommand
         {
             bus.SubscribeAsync<TCommand>(
                 async (command, context) =>
                 {
-                    await Task.Run(() => commandDispatcher.Handle(command));
+                    await Task.Run(() => commandHandler.Execute(command));
                 },
                 config =>
                 {
@@ -55,12 +55,12 @@ namespace Venture.Common.Extensions
                 .Result;
         }
 
-        public static void SubscribeToQuery<TQuery, TResult>(this IBusClient bus, IQueryDispatcher queryDispatcher) where TQuery : class, IQuery<TResult>
+        public static void SubscribeToQuery<TQuery, TResult>(this IBusClient bus, IQueryHandler<TQuery, TResult> queryHandler) where TQuery : class, IQuery<TResult>
         {
             bus.RespondAsync<TQuery, TResult>(
                 async (query, context) =>
                 {
-                    return await Task.Run(() => queryDispatcher.Handle(query));
+                    return await Task.Run(() => queryHandler.Retrieve(query));
                 },
                 config =>
                 {
@@ -83,14 +83,13 @@ namespace Venture.Common.Extensions
             );
         }
 
-        public static void SubscribeToEvent<TDomainEvent>(this IBusClient bus, string key, string queueName)
+        public static void SubscribeToEvent<TDomainEvent>(this IBusClient bus, string key, string queueName, Action<TDomainEvent> eventHandler)
             where TDomainEvent : class, IDomainEvent
         {
             bus.SubscribeAsync<TDomainEvent>(
                 async (domainEvent, context) =>
                 {
-                    // TODO: Stop hardcoding the handling of events. Either pass handler as parameter, or create event dispatching mechanism (similar to commands/queries).
-                    await Task.Run(() => Console.WriteLine(domainEvent.Type + " recieved"));
+                    await Task.Run(() => eventHandler(domainEvent));
                 },
                 config =>
                 {
