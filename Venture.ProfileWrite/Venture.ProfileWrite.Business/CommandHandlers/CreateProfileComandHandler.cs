@@ -1,5 +1,7 @@
-﻿using Venture.Common.Cqrs.Commands;
+﻿using RawRabbit;
+using Venture.Common.Cqrs.Commands;
 using Venture.Common.Events;
+using Venture.Common.Extensions;
 using Venture.ProfileWrite.Business.Commands;
 
 namespace Venture.ProfileWrite.Business.CommandHandlers
@@ -7,10 +9,12 @@ namespace Venture.ProfileWrite.Business.CommandHandlers
     public class CreateProfileComandHandler : ICommandHandler<CreateProfileCommand>
     {
         private readonly IEventStore _eventStore;
+        private readonly IBusClient _bus;
 
-        public CreateProfileComandHandler(IEventStore eventStore)
+        public CreateProfileComandHandler(IEventStore eventStore, IBusClient bus)
         {
             _eventStore = eventStore;
+            _bus = bus;
         }
 
         public void Execute(CreateProfileCommand command)
@@ -23,6 +27,7 @@ namespace Venture.ProfileWrite.Business.CommandHandlers
             };
 
             _eventStore.RaiseAsync(profileCreatedEvent);
+            _bus.PublishEvent(profileCreatedEvent, "Profile");
         }
     }
 

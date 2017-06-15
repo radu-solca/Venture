@@ -25,18 +25,7 @@ namespace Venture.ProfileWrite.Service
 
             var commandDispatcher = (ICommandDispatcher) serviceProvider.GetService(typeof(ICommandDispatcher));
 
-            bus.SubscribeAsync<CreateProfileCommand>(
-                async (command, context) =>
-                {
-                    await Task.Run(() => commandDispatcher.Handle(command));
-                },
-                config =>
-                {
-                    config.WithExchange(exchange => exchange.WithName("Venture.Commands"));
-                    config.WithRoutingKey(typeof(CreateProfileCommand).Name);
-                    config.WithQueue(queue => queue.WithName("Venture.ProfileWrite"));
-                });
-
+            bus.SubscribeToCommand<CreateProfileCommand>(commandDispatcher);
         }
     }
 }

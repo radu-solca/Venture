@@ -1,5 +1,6 @@
 ﻿using RawRabbit;
 using Venture.Common.Cqrs.Queries;
+using Venture.Common.Extensions;
 using Venture.Gateway.Business.Queries;
 
 namespace Venture.Gateway.Business.QueryHandlers
@@ -15,14 +16,7 @@ namespace Venture.Gateway.Business.QueryHandlers
 
         public string Retrieve(GetProfileQuery query)
         {
-            return _bus.RequestAsync<GetProfileQuery, string>(
-                query,
-                configuration: config =>
-                {
-                    config.WithExchange(exchange => exchange.WithName("Venture.Queries"));
-                    config.WithRoutingKey(typeof(GetProfileQuery).Name);
-                })
-                .Result;
+            return _bus.Query<GetProfileQuery, string>(query);
         }
     }
 }

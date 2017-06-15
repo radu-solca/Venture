@@ -1,5 +1,6 @@
 ﻿using RawRabbit;
 using Venture.Common.Cqrs.Commands;
+using Venture.Common.Extensions;
 using Venture.Gateway.Business.Commands;
 
 namespace Venture.Gateway.Business.CommandHandlers
@@ -15,13 +16,7 @@ namespace Venture.Gateway.Business.CommandHandlers
 
         public void Execute(CreateProfileCommand command)
         {
-            _bus.PublishAsync(
-                command,
-                configuration: config =>
-                {
-                    config.WithExchange(exchange => exchange.WithName("Venture.Commands"));
-                    config.WithRoutingKey(typeof(CreateProfileCommand).Name);
-                });
+            _bus.Command(command);
         }
     }
 }

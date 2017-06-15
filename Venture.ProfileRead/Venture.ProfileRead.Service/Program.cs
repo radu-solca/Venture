@@ -24,28 +24,9 @@ namespace Venture.ProfileRead.Service
             var bus = (IBusClient)serviceProvider.GetService(typeof(IBusClient));
             var queryDispatcher = (IQueryDispatcher)serviceProvider.GetService(typeof(IQueryDispatcher));
 
-            bus.SubscribeAsync<ProfileCreatedEvent>(
-                async (domainEvent, context) =>
-                {
-                    await Task.Run(() => Console.WriteLine(domainEvent.Type + " recieved"));
-                },
-                config =>
-                {
-                    config.WithExchange(exchange => exchange.WithName("Venture.Profile.Events"));
-                    config.WithRoutingKey("Profile.Event");
-                    config.WithQueue(queue => queue.WithName("Venture.ProfileRead"));
-                });
+            bus.SubscribeToEvent<ProfileCreatedEvent>("Profile", "ProfileRead");
 
-            bus.RespondAsync<GetProfileQuery, string>(
-                async (query, context) =>
-                {
-                    return await Task.Run(() => queryDispatcher.Handle(query));
-                },
-                 config =>
-                {
-                    config.WithExchange(exchange => exchange.WithName("Venture.Queries"));
-                    config.WithRoutingKey(typeof(GetProfileQuery).Name);
-                });
+            bus.SubscribeToQuery<GetProfileQuery, string>(queryDispatcher);
 
             Console.ReadKey();
         }

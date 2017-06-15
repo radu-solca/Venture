@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="LiteGuard" Version="1.1.0" />
-    <PackageReference Include="Venture.Common" Version="1.0.11" />
+    <PackageReference Include="Venture.Common" Version="1.0.14" />
   </ItemGroup>
 
 </Project>
