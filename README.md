@@ -6,4 +6,4 @@ TODO:
 
 -Event sourcing (COMMON)
 
--Remove Dispatchers alltogether; Bus should be enough.
+-Remove Dispatchers alltogether; Bus should be enough. (DONE)
