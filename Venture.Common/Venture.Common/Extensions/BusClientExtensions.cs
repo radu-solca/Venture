@@ -70,8 +70,7 @@ namespace Venture.Common.Extensions
                 });
         }
 
-        public static void PublishEvent<TDomainEvent>(this IBusClient bus, TDomainEvent domainEvent, string key)
-            where TDomainEvent : class, IDomainEvent
+        public static void PublishEvent(this IBusClient bus, DomainEvent domainEvent, string key)
         {
             bus.PublishAsync(
                 domainEvent,
@@ -83,10 +82,9 @@ namespace Venture.Common.Extensions
             );
         }
 
-        public static void SubscribeToEvent<TDomainEvent>(this IBusClient bus, string key, string queueName, Action<TDomainEvent> eventHandler)
-            where TDomainEvent : class, IDomainEvent
+        public static void SubscribeToEvent(this IBusClient bus, string key, string queueName, Action<DomainEvent> eventHandler)
         {
-            bus.SubscribeAsync<TDomainEvent>(
+            bus.SubscribeAsync<DomainEvent>(
                 async (domainEvent, context) =>
                 {
                     await Task.Run(() => eventHandler(domainEvent));

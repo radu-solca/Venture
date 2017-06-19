@@ -6,12 +6,12 @@ namespace Venture.Common.Events
 {
     public interface IEventStore
     {
-        Task<IEnumerable<IDomainEvent>> GetEventsAsync(
+        Task<IEnumerable<DomainEvent>> GetEventsAsync(
             DateTime startDate,
             DateTime endDate);
 
-        Task<IEnumerable<IDomainEvent>> GetEventsAsync();
+        Task<IEnumerable<DomainEvent>> GetEventsAsync();
 
-        Task RaiseAsync(IDomainEvent domainEvent);
+        Task RaiseAsync(DomainEvent domainEvent);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using RawRabbit;
 using Venture.Common.Cqrs.Commands;
 using Venture.Common.Events;
@@ -20,26 +21,28 @@ namespace Venture.ProfileWrite.Business.CommandHandlers
 
         public void Execute(CreateProfileCommand command)
         {
-            var profileCreatedEvent = new ProfileCreatedEvent(Guid.NewGuid())
+            var payload = new
             {
-                Email = command.Email,
-                LastName = command.LastName,
-                FirstName = command.FirstName
+                command.Email,
+                command.FirstName,
+                command.LastName
             };
+
+            var profileCreatedEvent = new DomainEvent("ProfileCreated", Guid.NewGuid(), 1, JsonConvert.SerializeObject(payload));
 
             _eventStore.RaiseAsync(profileCreatedEvent);
             _bus.PublishEvent(profileCreatedEvent, "Profile");
         }
     }
 
-    public class ProfileCreatedEvent : DomainEvent
-    {
-        public string Email { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+    //public class ProfileCreatedEvent : DomainEvent
+    //{
+    //    public string Email { get; set; }
+    //    public string FirstName { get; set; }
+    //    public string LastName { get; set; }
 
-        public ProfileCreatedEvent(Guid aggregateId) : base(aggregateId)
-        {
-        }
-    }
+    //    public ProfileCreatedEvent(Guid aggregateId) : base(aggregateId)
+    //    {
+    //    }
+    //}
 }

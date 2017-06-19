@@ -2,21 +2,33 @@
 
 namespace Venture.Common.Events
 {
-    public abstract class DomainEvent : IDomainEvent
+    public sealed class DomainEvent
     {
         public Guid Id { get; }
 
         public string Type { get; }
         public DateTime OccuredAt { get; }
+
         public Guid AggregateId { get; }
+        public int Version { get; }
 
-        protected DomainEvent(Guid aggregateId)
+        public string JsonPayload { get; }
+
+        public DomainEvent(string type, Guid aggregateId, int version, string jsonPayload)
         {
-            Id = Guid.NewGuid();
+            if (version <= 0)
+            {
+                throw new ArgumentException("Version number must be at least 1. Got " + version);
+            }
 
-            Type = GetType().Name;
+            Id = Guid.NewGuid();
             OccuredAt = DateTime.Now;
+
+            Type = type;
             AggregateId = aggregateId;
+            Version = version;
+
+            JsonPayload = jsonPayload;
         }
     }
 }

@@ -21,17 +21,17 @@ namespace Venture.Common.Events
             _dbname = dbname;
         }
 
-        public async Task<IEnumerable<IDomainEvent>> GetEventsAsync(
+        public async Task<IEnumerable<DomainEvent>> GetEventsAsync(
             DateTime startDate,
             DateTime endDate)
         {
             var eventsRedis = await _db.ListRangeAsync(_dbname + ".Events");
 
-            List<IDomainEvent> events = new List<IDomainEvent>();
+            List<DomainEvent> events = new List<DomainEvent>();
 
             foreach (var eventJson in eventsRedis)
             {
-                IDomainEvent domainEvent = Deserialize(eventJson);
+                DomainEvent domainEvent = Deserialize(eventJson);
 
                 if (domainEvent.OccuredAt >= startDate &&
                     domainEvent.OccuredAt <= endDate)
@@ -43,12 +43,12 @@ namespace Venture.Common.Events
             return events;
         }
 
-        public Task<IEnumerable<IDomainEvent>> GetEventsAsync()
+        public Task<IEnumerable<DomainEvent>> GetEventsAsync()
         {
             return GetEventsAsync(DateTime.MinValue, DateTime.MaxValue);
         }
 
-        public async Task RaiseAsync(IDomainEvent domainEvent)
+        public async Task RaiseAsync(DomainEvent domainEvent)
         {
             var eventJson = Serialize(domainEvent);
 
@@ -56,14 +56,14 @@ namespace Venture.Common.Events
 
         }
 
-        private string Serialize(IDomainEvent eventToSerialize)
+        private string Serialize(DomainEvent eventToSerialize)
         {
             return JsonConvert.SerializeObject(eventToSerialize);
         }
 
-        private IDomainEvent Deserialize(string setializedEvent)
+        private DomainEvent Deserialize(string setializedEvent)
         {
-            var result = JsonConvert.DeserializeObject<IDomainEvent>(setializedEvent);
+            var result = JsonConvert.DeserializeObject<DomainEvent>(setializedEvent);
 
             return result;
         }

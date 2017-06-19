@@ -2,18 +2,13 @@
 
 namespace Venture.Common.Data
 {
-    public class Entity : IEntity
+    public class Entity
     {
-        public Guid Id { get; }
+        public Guid Id { get; protected set; }
 
-        public DateTime CreatedAt { get; }
-        public DateTime UpdatedAt { get; }
-
-        public Entity(Guid id, DateTime createdAt)
+        public bool IsCreated()
         {
-            Id = id;
-            CreatedAt = createdAt;
-            UpdatedAt = CreatedAt;
+            return Id == Guid.Empty;
         }
     }
 }
