@@ -6,7 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Venture.Common" Version="1.0.21" />
+    <PackageReference Include="Venture.Common" Version="1.0.23" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Venture.ProjectWrite.Application\Venture.ProjectWrite.Application.csproj" />
   </ItemGroup>
 
 </Project>

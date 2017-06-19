@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Linq;
 using LiteGuard;
 using Newtonsoft.Json;
 using StackExchange.Redis;
@@ -21,11 +21,19 @@ namespace Venture.Common.Events
             _dbname = dbname;
         }
 
-        public async Task<IEnumerable<DomainEvent>> GetEventsAsync(
-            DateTime startDate,
-            DateTime endDate)
+        public IEnumerable<DomainEvent> GetEvents(
+            Guid aggregateId, 
+            int startVersion = Int32.MinValue, 
+            int endVersion = Int32.MaxValue)
         {
-            var eventsRedis = await _db.ListRangeAsync(_dbname + ".Events");
+            return GetEvents(startVersion, endVersion).Where(e => e.AggregateId == aggregateId);
+        }
+
+        public IEnumerable<DomainEvent> GetEvents(
+            int startVersion = Int32.MinValue,
+            int endVersion = Int32.MaxValue)
+        {
+            var eventsRedis = _db.ListRangeAsync(_dbname + ".Events").Result;
 
             List<DomainEvent> events = new List<DomainEvent>();
 
@@ -33,8 +41,8 @@ namespace Venture.Common.Events
             {
                 DomainEvent domainEvent = Deserialize(eventJson);
 
-                if (domainEvent.OccuredAt >= startDate &&
-                    domainEvent.OccuredAt <= endDate)
+                if (domainEvent.Version >= startVersion &&
+                    domainEvent.Version <= endVersion)
                 {
                     events.Add(domainEvent);
                 }
@@ -43,17 +51,10 @@ namespace Venture.Common.Events
             return events;
         }
 
-        public Task<IEnumerable<DomainEvent>> GetEventsAsync()
-        {
-            return GetEventsAsync(DateTime.MinValue, DateTime.MaxValue);
-        }
-
-        public async Task RaiseAsync(DomainEvent domainEvent)
+        public void Raise(DomainEvent domainEvent)
         {
             var eventJson = Serialize(domainEvent);
-
-            await _db.ListRightPushAsync(_dbname + ".Events", eventJson, flags: CommandFlags.FireAndForget);
-
+            _db.ListRightPushAsync(_dbname + ".Events", eventJson, flags: CommandFlags.FireAndForget);
         }
 
         private string Serialize(DomainEvent eventToSerialize)

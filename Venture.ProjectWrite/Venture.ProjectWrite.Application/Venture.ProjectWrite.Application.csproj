@@ -8,4 +8,8 @@
     <PackageReference Include="Venture.Common" Version="1.0.23" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Venture.ProjectWrite.Domain\Venture.ProjectWrite.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

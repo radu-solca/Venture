@@ -13,38 +13,29 @@ namespace Venture.Common.Data
             UncommitedChanges = new List<DomainEvent>();
         }
 
-        private void ApplyOld(DomainEvent domainEvent)
-        {
-            
-        }
-
-        protected abstract void Apply(DomainEvent domainEvent);
-
         public void MarkChangesAsCommited()
         {
             UncommitedChanges.Clear();
         }
 
+        public void LoadFromHistory(IEnumerable<DomainEvent> history)
+        {
+            foreach (var domainEvent in history)
+            {
+                Apply(domainEvent, false);
+            }
+        }
 
+        protected void Apply(DomainEvent domainEvent, bool isNew = true)
+        {
+            if (isNew)
+            {
+                UncommitedChanges.Add(domainEvent);
+            }
 
-        //public void LoadFromHistory(IEnumerable<DomainEvent> history)
-        //{
-        //    foreach (var domainEvent in history)
-        //    {
-        //        Apply(domainEvent, false);
-        //    }
-        //}
+            ChangeState(domainEvent);
+        }
 
-        //protected void Apply(DomainEvent domainEvent, bool isNew = true)
-        //{
-        //    if (isNew)
-        //    {
-        //        UncommitedChanges.Add(domainEvent);
-        //    }
-
-        //    ChangeState(domainEvent);
-        //}
-
-        //protected abstract void ChangeState(DomainEvent domainEvent);
+        protected abstract void ChangeState(DomainEvent domainEvent);
     }
 }

@@ -9,10 +9,19 @@ namespace Venture.Common.Extensions
 {
     public static class BusClientExtensions
     {
-        private static readonly string _commandsExchangeName = "Venture.Commands";
-        private static readonly string _commandsQueueName = "Venture.Commands";
-        private static readonly string _queryExchangeName = "Venture.Queries";
-        private static readonly string _queryQueueName = "Venture.Queries";
+        private const string CommandsExchangeName = "Venture.Commands";
+        private const string CommandsQueueName = "Venture.Commands";
+        private const string QueryExchangeName = "Venture.Queries";
+        private const string QueryQueueName = "Venture.Queries";
+        private static string _eventsExchangeName;
+        private static string _eventsQueueName;
+        private const string EventsKeyName = "Venture.DomainEvent";
+
+        public static void SetAppName(string appName)
+        {
+            _eventsExchangeName = "Venture." + appName + ".EventFeed";
+            _eventsQueueName = "Venture." + appName + "EventQueue";
+        }
 
         public static void Command<TCommand>(this IBusClient bus, TCommand command)
             where TCommand : class, ICommand
@@ -21,7 +30,7 @@ namespace Venture.Common.Extensions
                 command,
                 configuration: config =>
                 {
-                    config.WithExchange(exchange => exchange.WithName(_commandsExchangeName));
+                    config.WithExchange(exchange => exchange.WithName(CommandsExchangeName));
                     config.WithRoutingKey(typeof(TCommand).Name);
                 });
         }
@@ -36,9 +45,9 @@ namespace Venture.Common.Extensions
                 },
                 config =>
                 {
-                    config.WithExchange(exchange => exchange.WithName(_commandsExchangeName));
+                    config.WithExchange(exchange => exchange.WithName(CommandsExchangeName));
                     config.WithRoutingKey(typeof(TCommand).Name);
-                    config.WithQueue(queue => queue.WithName(_commandsQueueName));
+                    config.WithQueue(queue => queue.WithName(CommandsQueueName));
                 });
         }
 
@@ -49,7 +58,7 @@ namespace Venture.Common.Extensions
                     query,
                     configuration: config =>
                     {
-                        config.WithExchange(exchange => exchange.WithName(_queryExchangeName));
+                        config.WithExchange(exchange => exchange.WithName(QueryExchangeName));
                         config.WithRoutingKey(typeof(TQuery).Name);
                     })
                 .Result;
@@ -64,25 +73,25 @@ namespace Venture.Common.Extensions
                 },
                 config =>
                 {
-                    config.WithExchange(exchange => exchange.WithName(_queryExchangeName));
+                    config.WithExchange(exchange => exchange.WithName(QueryExchangeName));
                     config.WithRoutingKey(typeof(TQuery).Name);
-                    config.WithQueue(queue => queue.WithName(_queryQueueName));
+                    config.WithQueue(queue => queue.WithName(QueryQueueName));
                 });
         }
 
-        public static void PublishEvent(this IBusClient bus, DomainEvent domainEvent, string key)
+        public static void PublishEvent(this IBusClient bus, DomainEvent domainEvent)
         {
             bus.PublishAsync(
                 domainEvent,
                 configuration: config =>
                 {
-                    config.WithExchange(exchange => exchange.WithName("Venture." + key + ".Events"));
-                    config.WithRoutingKey(key + ".Event");
+                    config.WithExchange(exchange => exchange.WithName(_eventsExchangeName));
+                    config.WithRoutingKey(EventsKeyName);
                 }
             );
         }
 
-        public static void SubscribeToEvent(this IBusClient bus, string key, string queueName, Action<DomainEvent> eventHandler)
+        public static void SubscribeToEvent(this IBusClient bus, Action<DomainEvent> eventHandler)
         {
             bus.SubscribeAsync<DomainEvent>(
                 async (domainEvent, context) =>
@@ -91,9 +100,9 @@ namespace Venture.Common.Extensions
                 },
                 config =>
                 {
-                    config.WithExchange(exchange => exchange.WithName("Venture." + key + ".Events"));
-                    config.WithRoutingKey(key + ".Event");
-                    config.WithQueue(queue => queue.WithName("Venture." + queueName));
+                    config.WithExchange(exchange => exchange.WithName(_eventsExchangeName));
+                    config.WithRoutingKey(EventsKeyName);
+                    config.WithQueue(queue => queue.WithName(_eventsQueueName));
                 });
         }
     }

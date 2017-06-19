@@ -7,7 +7,7 @@ namespace Venture.Common.Events
         public Guid Id { get; }
 
         public string Type { get; }
-        public DateTime OccuredAt { get; }
+        public DateTime OccuredOn { get; }
 
         public Guid AggregateId { get; }
         public int Version { get; }
@@ -22,7 +22,7 @@ namespace Venture.Common.Events
             }
 
             Id = Guid.NewGuid();
-            OccuredAt = DateTime.Now;
+            OccuredOn = DateTime.Now;
 
             Type = type;
             AggregateId = aggregateId;
