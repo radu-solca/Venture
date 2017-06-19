@@ -37,6 +37,8 @@ namespace Venture.Common.Data
                 _eventStore.Raise(change);
                 _bus.PublishEvent(change);
             }
+
+            aggregate.MarkChangesAsCommited();
         }
     }
 }

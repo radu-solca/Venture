@@ -6,14 +6,15 @@ namespace Venture.ProjectWrite.Domain
 {
     public sealed class Comment : Entity
     {
-        public User Author { get; }
+        public Guid AuthorId { get; }
         public string Content { get; }
+        public DateTime PostedOn { get; }
 
-
-        public Comment(Guid id, User author, string content)
+        public Comment(Guid id, Guid authorId, string content, DateTime postedOn)
         {
-            Author = author;
+            AuthorId = authorId;
             Content = content;
+            PostedOn = postedOn;
             Id = id;
         }
     }

@@ -30,7 +30,7 @@ namespace Venture.Gateway.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddVentureCommon();
+            services.AddVentureCommon("Gateway");
 
             services.AddTransient<ICommandHandler<CreateProfileCommand>, CreateProfileCommandHandler>();
             services.AddTransient<IQueryHandler<GetProfileQuery, string>, GetProfileQueryHandler>();

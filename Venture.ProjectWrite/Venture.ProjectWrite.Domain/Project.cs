@@ -10,20 +10,22 @@ namespace Venture.ProjectWrite.Domain
     {
         public string Title { get; private set; }
         public string Description { get; private set; }
-        public IList<string> Tags { get; private set; }
-        public IList<Comment> Chat { get; private set; }
+        public Guid OwnerId { get; private set; }
+        public ICollection<string> Tags { get; private set; }
+        public ICollection<Comment> Chat { get; private set; }
 
         public void CreateProject(
             Guid id, 
             string title, 
-            string description)
+            string description,
+            Guid ownerId)
         {
-            if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(description))
+            if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(description) || ownerId == Guid.Empty)
             {
-                throw new ArgumentException("A title and a description needs to be provided.");
+                throw new ArgumentException("A title, description and ownerId needs to be provided.");
             }
 
-            var payload = new { title, description };
+            var payload = new { title, description, ownerId };
             var jsonPayload = JsonConvert.SerializeObject(payload);
 
             var projectCreatedEvent = new DomainEvent(
@@ -37,6 +39,8 @@ namespace Venture.ProjectWrite.Domain
 
         public void UpdateTitle(string newTitle)
         {
+            CheckIfCreated();
+
             var payload = new {newTitle};
             var jsonPayload = JsonConvert.SerializeObject(payload);
 
@@ -51,6 +55,8 @@ namespace Venture.ProjectWrite.Domain
 
         public void UpdateDescription(string newDescription)
         {
+            CheckIfCreated();
+
             var payload = new { newDescription };
             var jsonPayload = JsonConvert.SerializeObject(payload);
 
@@ -65,6 +71,8 @@ namespace Venture.ProjectWrite.Domain
 
         public void UpdateTags(IList<string> addedTags, IList<string> removedTags)
         {
+            CheckIfCreated();
+
             var payload = new { addedTags, removedTags };
             var jsonPayload = JsonConvert.SerializeObject(payload);
 
@@ -77,9 +85,11 @@ namespace Venture.ProjectWrite.Domain
             Apply(tagsUpdatedEvent);
         }
 
-        public void PostComment(Comment comment)
+        public void PostComment(Guid authorId, string content, DateTime postedOn)
         {
-            var payload = new { comment };
+            CheckIfCreated();
+
+            var payload = new { authorId, content, postedOn };
             var jsonPayload = JsonConvert.SerializeObject(payload);
 
             var commentPostedEvent = new DomainEvent(
@@ -100,6 +110,7 @@ namespace Venture.ProjectWrite.Domain
                     Id = domainEvent.AggregateId;
                     Title = data.title;
                     Description = data.description;
+                    OwnerId = data.ownerId;
 
                     Tags = new List<string>();
                     Chat = new List<Comment>();
@@ -107,30 +118,43 @@ namespace Venture.ProjectWrite.Domain
                     break;
 
                 case "ProjectTitleUpdated":
-                    Title = data.title;
+                    CheckIfCreated();
+                    Title = data.newTitle;
                     break;
 
                 case "ProjectDescriptionUpdated":
-                    Description = data.description;
+                    CheckIfCreated();
+                    Description = data.newDescription;
                     break;
 
                 case "ProjectTagsUpdated":
+                    CheckIfCreated();
                     foreach (var removedTag in data.removedTags)
                     {
-                        Tags.Remove(removedTag);
+                        Tags.Remove((string)removedTag);
                     }
                     foreach (var addedTag in data.addedTags)
                     {
-                        Tags.Add(addedTag);
+                        Tags.Add((string)addedTag);
                     }
                     break;
 
                 case "ProjectCommentPosted":
-                    Chat.Add(data.comment);
+                    CheckIfCreated();
+                    var comment = new Comment(Guid.NewGuid(), (Guid)data.authorId, (string)data.content, (DateTime)data.postedOn);
+                    Chat.Add(comment);
                     break;
 
                 default:
                     throw new Exception("Unknown event");
+            }
+        }
+
+        private void CheckIfCreated()
+        {
+            if (!IsCreated())
+            {
+                throw new Exception("Project not created");
             }
         }
     }

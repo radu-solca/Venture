@@ -10,9 +10,7 @@ namespace Venture.Common.Extensions
     public static class BusClientExtensions
     {
         private const string CommandsExchangeName = "Venture.Commands";
-        private const string CommandsQueueName = "Venture.Commands";
         private const string QueryExchangeName = "Venture.Queries";
-        private const string QueryQueueName = "Venture.Queries";
         private static string _eventsExchangeName;
         private static string _eventsQueueName;
         private const string EventsKeyName = "Venture.DomainEvent";
@@ -47,7 +45,7 @@ namespace Venture.Common.Extensions
                 {
                     config.WithExchange(exchange => exchange.WithName(CommandsExchangeName));
                     config.WithRoutingKey(typeof(TCommand).Name);
-                    config.WithQueue(queue => queue.WithName(CommandsQueueName));
+                    config.WithQueue(queue => queue.WithName(CommandsExchangeName + "." + typeof(TCommand).Name + ".Queue"));
                 });
         }
 
@@ -75,7 +73,7 @@ namespace Venture.Common.Extensions
                 {
                     config.WithExchange(exchange => exchange.WithName(QueryExchangeName));
                     config.WithRoutingKey(typeof(TQuery).Name);
-                    config.WithQueue(queue => queue.WithName(QueryQueueName));
+                    config.WithQueue(queue => queue.WithName(QueryExchangeName + "." + typeof(TQuery).Name + ".Queue"));
                 });
         }
 

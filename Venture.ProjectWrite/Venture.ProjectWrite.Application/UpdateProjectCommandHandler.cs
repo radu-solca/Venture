@@ -33,7 +33,7 @@ namespace Venture.ProjectWrite.Application
 
             //DEBUG
             var sameProject = _projectRepository.Get(project.Id);
-            Console.WriteLine("updated:" +sameProject.Id);
+            Console.WriteLine("Updated:" + sameProject.Id);
             Console.WriteLine("new title: " + sameProject.Title);
             Console.WriteLine("new descr: " + sameProject.Description);
         }

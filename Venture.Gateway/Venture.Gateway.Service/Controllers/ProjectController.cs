@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using RawRabbit;
 using Venture.Common.Extensions;
 using Venture.Gateway.Business.Commands;
+using Venture.Gateway.Business.Models;
 
 namespace Venture.Gateway.Service.Controllers
 {
@@ -11,7 +13,6 @@ namespace Venture.Gateway.Service.Controllers
     {
         private readonly IBusClient _bus;
 
-        private static int DELETEMECOUNTER = 0;
 
         public ProjectController(IBusClient bus)
         {
@@ -19,17 +20,36 @@ namespace Venture.Gateway.Service.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post()
+        public IActionResult Post([FromBody]ProjectCreateModel model)
         {
-            var command = new CreateProjectCommand("Title", "Description");
+            var command = new CreateProjectCommand(model.Title, model.Description, model.OwnerId);
             _bus.Command(command);
             return Ok();
         }
 
         [HttpPatch]
-        public IActionResult Patch(Guid id, string title, string description)
+        [Route("{id}")]
+        public IActionResult Patch(Guid id, [FromBody]ProjectUpdateModel model)
         {
-            var command = new UpdateProjectCommand(new Guid("9f285030-89ec-48f1-8b3e-28042dc1d972"), "Updated Title " + (DELETEMECOUNTER ++), "Desc");
+            var command = new UpdateProjectCommand(id, model.Title, model.Description);
+            _bus.Command(command);
+            return Ok();
+        }
+
+        [HttpPatch]
+        [Route("{id}/tags")]
+        public IActionResult Patch(Guid id, [FromBody]ProjectUpdateTagsModel model)
+        {
+            var command = new UpdateProjectTagsCommand(id, model.AddTags ?? new List<string>(), model.RemoveTags ?? new List<string>());
+            _bus.Command(command);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("{id}/comments")]
+        public IActionResult PostComment(Guid id, [FromBody]PostCommentOnProjectModel model)
+        {
+            var command = new PostCommentOnProjectCommand(id, model.AuthorId, model.Content, DateTime.Now);
             _bus.Command(command);
             return Ok();
         }

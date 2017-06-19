@@ -21,14 +21,20 @@ namespace Venture.ProjectWrite.Service
                 .AddTransient<Repository<Project>, ProjectRepository>()
                 .AddTransient<ICommandHandler<CreateProjectCommand>, CreateProjectCommandHandler>()
                 .AddTransient<ICommandHandler<UpdateProjectCommand>, UpdateProjectCommandHandler>()
+                .AddTransient<ICommandHandler<UpdateProjectTagsCommand>, UpdateProjectTagsCommandHandler>()
+                .AddTransient<ICommandHandler<PostCommentOnProjectCommand>, PostCommentOnProjectCommandHandler>()
                 .BuildServiceProvider();
 
             var bus = (IBusClient)serviceProvider.GetService(typeof(IBusClient));
             var createProjectCommandHandler = (ICommandHandler<CreateProjectCommand>)serviceProvider.GetService(typeof(ICommandHandler<CreateProjectCommand>));
             var updateProjectCommandHandler = (ICommandHandler<UpdateProjectCommand>)serviceProvider.GetService(typeof(ICommandHandler<UpdateProjectCommand>));
+            var updateProjectTagsCommandHandler = (ICommandHandler<UpdateProjectTagsCommand>)serviceProvider.GetService(typeof(ICommandHandler<UpdateProjectTagsCommand>));
+            var postCommentOnProjectCommandHandler = (ICommandHandler<PostCommentOnProjectCommand>)serviceProvider.GetService(typeof(ICommandHandler<PostCommentOnProjectCommand>));
 
             bus.SubscribeToCommand(createProjectCommandHandler);
             bus.SubscribeToCommand(updateProjectCommandHandler);
+            bus.SubscribeToCommand(updateProjectTagsCommandHandler);
+            bus.SubscribeToCommand(postCommentOnProjectCommandHandler);
 
             Console.ReadKey();
         }

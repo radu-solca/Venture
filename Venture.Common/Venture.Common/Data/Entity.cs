@@ -8,7 +8,7 @@ namespace Venture.Common.Data
 
         public bool IsCreated()
         {
-            return Id == Guid.Empty;
+            return Id != Guid.Empty;
         }
     }
 }

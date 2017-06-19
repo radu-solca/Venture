@@ -33,6 +33,8 @@ namespace Venture.Common.Data
                 UncommitedChanges.Add(domainEvent);
             }
 
+            Version = domainEvent.Version;
+
             ChangeState(domainEvent);
         }
 
