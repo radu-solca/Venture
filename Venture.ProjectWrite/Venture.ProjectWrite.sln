@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Service Layer", "01 - Service Layer", "{650FFC8D-B5E4-4577-A32E-4E62F6B5960B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Venture.ProjectWrite.Service", "Venture.ProjectWrite.Service\Venture.ProjectWrite.Service.csproj", "{64338966-F187-419E-86B6-5A9646473946}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Domain Layer", "02 - Domain Layer", "{2DA6A181-DC24-4FF4-9D9A-78ACE33AF1BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Venture.ProjectWrite.Domain", "Venture.ProjectWrite.Domain\Venture.ProjectWrite.Domain.csproj", "{88F2DDC7-BADB-4F12-B33C-BFAA168C6F67}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64338966-F187-419E-86B6-5A9646473946}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64338966-F187-419E-86B6-5A9646473946}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64338966-F187-419E-86B6-5A9646473946}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64338966-F187-419E-86B6-5A9646473946}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88F2DDC7-BADB-4F12-B33C-BFAA168C6F67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88F2DDC7-BADB-4F12-B33C-BFAA168C6F67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88F2DDC7-BADB-4F12-B33C-BFAA168C6F67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88F2DDC7-BADB-4F12-B33C-BFAA168C6F67}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{64338966-F187-419E-86B6-5A9646473946} = {650FFC8D-B5E4-4577-A32E-4E62F6B5960B}
+		{88F2DDC7-BADB-4F12-B33C-BFAA168C6F67} = {2DA6A181-DC24-4FF4-9D9A-78ACE33AF1BD}
+	EndGlobalSection
+EndGlobal
