@@ -67,14 +67,29 @@ namespace Venture.ProjectWrite.Domain
             Apply(descriptionUpdatedEvent);
         }
 
-        public void UpdateTags(IList<string> addedTags, IList<string> removedTags)
+        public void AddTags(IList<string> tagsToAdd)
         {
             CheckIfCreated();
 
-            var payload = new { addedTags, removedTags };
+            var payload = new { addedTags = tagsToAdd };
             var jsonPayload = JsonConvert.SerializeObject(payload);
 
-            var tagsUpdatedEvent = new ProjectTagsUpdatedEvent(
+            var tagsUpdatedEvent = new ProjectTagsAddedEvent(
+                Id,
+                Version + 1,
+                jsonPayload);
+
+            Apply(tagsUpdatedEvent);
+        }
+
+        public void RemoveTags(IList<string> tagsToRemove)
+        {
+            CheckIfCreated();
+
+            var payload = new { removedTags = tagsToRemove };
+            var jsonPayload = JsonConvert.SerializeObject(payload);
+
+            var tagsUpdatedEvent = new ProjectTagsRemovedEvent(
                 Id,
                 Version + 1,
                 jsonPayload);
@@ -123,15 +138,19 @@ namespace Venture.ProjectWrite.Domain
                     Description = data.newDescription;
                     break;
 
-                case "ProjectTagsUpdatedEvent":
+                case "ProjectTagsAddedEvent":
+                    CheckIfCreated();
+                    foreach (var addedTag in data.addedTags)
+                    {
+                        Tags.Add((string)addedTag);
+                    }
+                    break;
+
+                case "ProjectTagsRemovedEvent":
                     CheckIfCreated();
                     foreach (var removedTag in data.removedTags)
                     {
                         Tags.Remove((string)removedTag);
-                    }
-                    foreach (var addedTag in data.addedTags)
-                    {
-                        Tags.Add((string)addedTag);
                     }
                     break;
 

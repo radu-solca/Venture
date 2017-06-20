@@ -10,7 +10,8 @@ namespace Venture.ProjectRead.Application
         IEventHandler<ProjectTitleUpdatedEvent>,
         IEventHandler<ProjectDescriptionUpdatedEvent>,
         IEventHandler<ProjectCommentPostedEvent>,
-        IEventHandler<ProjectTagsUpdatedEvent>
+        IEventHandler<ProjectTagsAddedEvent>,
+        IEventHandler<ProjectTagsRemovedEvent>
     {
         public void Handle(ProjectCreatedEvent domainEvent)
         {
@@ -32,7 +33,12 @@ namespace Venture.ProjectRead.Application
             DELETEME(domainEvent);
         }
 
-        public void Handle(ProjectTagsUpdatedEvent domainEvent)
+        public void Handle(ProjectTagsAddedEvent domainEvent)
+        {
+            DELETEME(domainEvent);
+        }
+
+        public void Handle(ProjectTagsRemovedEvent domainEvent)
         {
             DELETEME(domainEvent);
         }

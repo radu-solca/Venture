@@ -18,7 +18,8 @@ namespace Venture.ProjectWrite.Application
         {
             var project = _projectRepository.Get(command.Id);
 
-            project.UpdateTags(command.AddTags, command.RemoveTags);
+            project.RemoveTags(command.RemoveTags);
+            project.AddTags(command.AddTags);
 
             _projectRepository.Update(project);
 

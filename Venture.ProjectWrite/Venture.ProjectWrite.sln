@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Application Layer", "0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Venture.ProjectWrite.Application", "Venture.ProjectWrite.Application\Venture.ProjectWrite.Application.csproj", "{119A097C-8291-402F-8D66-F3A626C0A538}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - Tests", "04 - Tests", "{8AB5BD7F-F122-48AD-82A6-1315CCE8953B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Venture.ProjectWrite.Domain.Tests", "Venture.ProjectWrite.Domain.Tests\Venture.ProjectWrite.Domain.Tests.csproj", "{9D6A72E3-61A9-44BF-B830-A7911926A27E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,10 @@ Global
 		{119A097C-8291-402F-8D66-F3A626C0A538}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{119A097C-8291-402F-8D66-F3A626C0A538}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{119A097C-8291-402F-8D66-F3A626C0A538}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D6A72E3-61A9-44BF-B830-A7911926A27E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D6A72E3-61A9-44BF-B830-A7911926A27E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D6A72E3-61A9-44BF-B830-A7911926A27E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D6A72E3-61A9-44BF-B830-A7911926A27E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,5 +49,6 @@ Global
 		{64338966-F187-419E-86B6-5A9646473946} = {650FFC8D-B5E4-4577-A32E-4E62F6B5960B}
 		{88F2DDC7-BADB-4F12-B33C-BFAA168C6F67} = {2DA6A181-DC24-4FF4-9D9A-78ACE33AF1BD}
 		{119A097C-8291-402F-8D66-F3A626C0A538} = {6D231EB3-8ADF-4074-B1F3-9EB5F78ADAB9}
+		{9D6A72E3-61A9-44BF-B830-A7911926A27E} = {8AB5BD7F-F122-48AD-82A6-1315CCE8953B}
 	EndGlobalSection
 EndGlobal

@@ -21,8 +21,9 @@ namespace Venture.ProjectRead.Service
                 .AddTransient<IEventHandler<ProjectCreatedEvent>, ProjectDenormalizer>()
                 .AddTransient<IEventHandler<ProjectTitleUpdatedEvent>, ProjectDenormalizer>()
                 .AddTransient<IEventHandler<ProjectDescriptionUpdatedEvent>, ProjectDenormalizer>()
-                .AddTransient<IEventHandler<ProjectTagsUpdatedEvent>, ProjectDenormalizer>()
                 .AddTransient<IEventHandler<ProjectCommentPostedEvent>, ProjectDenormalizer>()
+                .AddTransient<IEventHandler<ProjectTagsAddedEvent>, ProjectDenormalizer>()
+                .AddTransient<IEventHandler<ProjectTagsRemovedEvent>, ProjectDenormalizer>()
                 .BuildServiceProvider();
 
             var bus = (IBusClient)serviceProvider.GetService(typeof(IBusClient));
@@ -30,14 +31,16 @@ namespace Venture.ProjectRead.Service
             var projectCreatedEventHandler = (IEventHandler<ProjectCreatedEvent>)serviceProvider.GetService(typeof(IEventHandler<ProjectCreatedEvent>));
             var projectTitleUpdatedEvent = (IEventHandler<ProjectTitleUpdatedEvent>)serviceProvider.GetService(typeof(IEventHandler<ProjectTitleUpdatedEvent>));
             var projectDescriptionUpdatedEvent = (IEventHandler<ProjectDescriptionUpdatedEvent>)serviceProvider.GetService(typeof(IEventHandler<ProjectDescriptionUpdatedEvent>));
-            var projectTagsUpdatedEvent = (IEventHandler<ProjectTagsUpdatedEvent>)serviceProvider.GetService(typeof(IEventHandler<ProjectTagsUpdatedEvent>));
             var projectCommentPostedEvent = (IEventHandler<ProjectCommentPostedEvent>)serviceProvider.GetService(typeof(IEventHandler<ProjectCommentPostedEvent>));
+            var projectTagsAddedEvent = (IEventHandler<ProjectTagsAddedEvent>)serviceProvider.GetService(typeof(IEventHandler<ProjectTagsAddedEvent>));
+            var projectTagsRemovedEvent = (IEventHandler<ProjectTagsRemovedEvent>)serviceProvider.GetService(typeof(IEventHandler<ProjectTagsRemovedEvent>));
 
             bus.SubscribeToEvent(projectCreatedEventHandler);
             bus.SubscribeToEvent(projectTitleUpdatedEvent);
             bus.SubscribeToEvent(projectDescriptionUpdatedEvent);
-            bus.SubscribeToEvent(projectTagsUpdatedEvent);
             bus.SubscribeToEvent(projectCommentPostedEvent);
+            bus.SubscribeToEvent(projectTagsAddedEvent);
+            bus.SubscribeToEvent(projectTagsRemovedEvent);
 
             Console.ReadKey();
         }
