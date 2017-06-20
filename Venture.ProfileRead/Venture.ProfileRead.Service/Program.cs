@@ -15,26 +15,26 @@ namespace Venture.ProfileRead.Service
             Console.WriteLine("ProfileRead started.");
 
             var serviceProvider = new ServiceCollection()
-                .AddVentureCommon()
+                .AddVentureCommon("ProfileRead")
                 .AddTransient<IQueryHandler<GetProfileQuery, string>, GetProfileQueryHandler>()
                 .BuildServiceProvider();
 
             var bus = (IBusClient)serviceProvider.GetService(typeof(IBusClient));
             var queryHandler = (IQueryHandler<GetProfileQuery, string>)serviceProvider.GetService(typeof(IQueryHandler<GetProfileQuery, string>));
 
-            bus.SubscribeToEvent("Profile", "ProfileRead", (domainEvent) =>
+            bus.SubscribeToEvent((domainEvent) =>
             {
                 Console.WriteLine("Recieved " + domainEvent.GetType().FullName);
                 Console.WriteLine(domainEvent.Type);
                 Console.WriteLine(domainEvent.AggregateId);
                 Console.WriteLine(domainEvent.Id);
-                Console.WriteLine(domainEvent.OccuredAt);
+                Console.WriteLine(domainEvent.OccuredOn);
                 Console.WriteLine(domainEvent.Version);
 
                 var payload = domainEvent.JsonPayload;
 
                 Console.WriteLine(payload);
-            });
+            }, "ProfileWrite");
 
             bus.SubscribeToQuery(queryHandler);
 

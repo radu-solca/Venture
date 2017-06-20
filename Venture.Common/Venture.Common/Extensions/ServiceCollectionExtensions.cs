@@ -7,10 +7,10 @@ namespace Venture.Common.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddVentureCommon(this IServiceCollection serviceCollection, string appName)
+        public static IServiceCollection AddVentureCommon(this IServiceCollection serviceCollection, string serviceName)
         {
             // Bus client
-            BusClientExtensions.SetAppName(appName);
+            BusClientExtensions.SetServiceName(serviceName);
 
             serviceCollection.AddRawRabbit(
                 custom: ioc => ioc.AddSingleton<IMessageSerializer, CustomJsonSerializer>()

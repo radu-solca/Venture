@@ -11,17 +11,16 @@ namespace Venture.Common.Extensions
     {
         private const string CommandsExchangeName = "Venture.Commands";
         private const string QueryExchangeName = "Venture.Queries";
-        private static string _eventsExchangeName;
-        private static string _eventsQueueName;
-        private const string EventsKeyName = "Venture.DomainEvent";
+        private const string EventsExchangeName = "Venture.EventFeed";
 
-        public static void SetAppName(string appName)
+        private static string _serviceName;
+
+        public static void SetServiceName(string serviceName)
         {
-            _eventsExchangeName = "Venture." + appName + ".EventFeed";
-            _eventsQueueName = "Venture." + appName + "EventQueue";
+            _serviceName = serviceName;
         }
 
-        public static void Command<TCommand>(this IBusClient bus, TCommand command)
+        public static void PublishCommand<TCommand>(this IBusClient bus, TCommand command)
             where TCommand : class, ICommand
         {
             bus.PublishAsync(
@@ -39,7 +38,7 @@ namespace Venture.Common.Extensions
             bus.SubscribeAsync<TCommand>(
                 async (command, context) =>
                 {
-                    await Task.Run(() => commandHandler.Execute(command));
+                    await Task.Run(() => commandHandler.Handle(command));
                 },
                 config =>
                 {
@@ -49,7 +48,7 @@ namespace Venture.Common.Extensions
                 });
         }
 
-        public static TResult Query<TQuery, TResult>(this IBusClient bus, TQuery query)
+        public static TResult PublishQuery<TQuery, TResult>(this IBusClient bus, TQuery query)
             where TQuery : class, IQuery<TResult>
         {
             return bus.RequestAsync<TQuery, TResult>(
@@ -67,7 +66,7 @@ namespace Venture.Common.Extensions
             bus.RespondAsync<TQuery, TResult>(
                 async (query, context) =>
                 {
-                    return await Task.Run(() => queryHandler.Retrieve(query));
+                    return await Task.Run(() => queryHandler.Handle(query));
                 },
                 config =>
                 {
@@ -77,30 +76,33 @@ namespace Venture.Common.Extensions
                 });
         }
 
-        public static void PublishEvent(this IBusClient bus, DomainEvent domainEvent)
+        public static void PublishEvent<TEvent>(this IBusClient bus, TEvent domainEvent)
+            where TEvent : DomainEvent
         {
             bus.PublishAsync(
                 domainEvent,
                 configuration: config =>
                 {
-                    config.WithExchange(exchange => exchange.WithName(_eventsExchangeName));
-                    config.WithRoutingKey(EventsKeyName);
+                    config.WithExchange(exchange => exchange.WithName(EventsExchangeName));
+                    config.WithRoutingKey(domainEvent.Type);
                 }
             );
         }
 
-        public static void SubscribeToEvent(this IBusClient bus, Action<DomainEvent> eventHandler)
+        public static void SubscribeToEvent<TEvent>(this IBusClient bus, IEventHandler<TEvent> eventHandler) 
+            where TEvent : DomainEvent
         {
-            bus.SubscribeAsync<DomainEvent>(
+            bus.SubscribeAsync<TEvent>(
                 async (domainEvent, context) =>
                 {
-                    await Task.Run(() => eventHandler(domainEvent));
+                    await Task.Run(() => eventHandler.Handle(domainEvent));
                 },
                 config =>
                 {
-                    config.WithExchange(exchange => exchange.WithName(_eventsExchangeName));
-                    config.WithRoutingKey(EventsKeyName);
-                    config.WithQueue(queue => queue.WithName(_eventsQueueName));
+                    config.WithExchange(exchange => exchange.WithName(EventsExchangeName));
+                    config.WithRoutingKey(typeof(TEvent).Name);
+                    // Create an unique queue for each subscription, to facilitate broadcasting with multiple instances of the same service.
+                    config.WithQueue(queue => queue.WithName("Venture." + _serviceName + "." + typeof(TEvent).Name + "Queue." + Guid.NewGuid()));
                 });
         }
     }

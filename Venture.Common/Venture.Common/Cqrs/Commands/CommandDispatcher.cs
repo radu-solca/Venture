@@ -25,7 +25,7 @@ namespace Venture.Common.Cqrs.Commands
                 throw new Exception("Command handler not found for type " + typeof(ICommandHandler<TCommand>));
             }
 
-            handler.Execute(command);
+            handler.Handle(command);
         }
     }
 }

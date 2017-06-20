@@ -14,7 +14,7 @@ namespace Venture.ProjectWrite.Application
             _projectRepository = projectRepository;
         }
 
-        public void Execute(CreateProjectCommand command)
+        public void Handle(CreateProjectCommand command)
         {
             var newProject = new Project();
             newProject.CreateProject(Guid.NewGuid(), command.Title, command.Description, command.OwnerId);

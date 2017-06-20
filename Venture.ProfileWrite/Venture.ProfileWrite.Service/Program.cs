@@ -15,8 +15,8 @@ namespace Venture.ProfileWrite.Service
             Console.WriteLine("ProfileWrite started.");
 
             var serviceProvider = new ServiceCollection()
-                .AddVentureCommon()
-                .AddVentureEventStore("localhost", "Profile")
+                .AddVentureCommon("ProfileWrite")
+                .AddVentureEventStore("localhost", "ProfileWrite")
                 .AddTransient<ICommandHandler<CreateProfileCommand>, CreateProfileComandHandler>()
                 .BuildServiceProvider();
 

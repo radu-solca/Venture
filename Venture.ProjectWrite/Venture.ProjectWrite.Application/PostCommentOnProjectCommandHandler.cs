@@ -14,7 +14,7 @@ namespace Venture.ProjectWrite.Application
             _projectRepository = projectRepository;
         }
 
-        public void Execute(PostCommentOnProjectCommand command)
+        public void Handle(PostCommentOnProjectCommand command)
         {
             var project = _projectRepository.Get(command.ProjectId);
             project.PostComment(command.AuthorId,command.Content,command.PostedOn);

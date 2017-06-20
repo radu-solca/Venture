@@ -2,7 +2,7 @@
 
 namespace Venture.Common.Events
 {
-    public sealed class DomainEvent
+    public class DomainEvent
     {
         public Guid Id { get; }
 
@@ -21,10 +21,11 @@ namespace Venture.Common.Events
                 throw new ArgumentException("Version number must be at least 1. Got " + version);
             }
 
+            Type = type;
+
             Id = Guid.NewGuid();
             OccuredOn = DateTime.Now;
 
-            Type = type;
             AggregateId = aggregateId;
             Version = version;
 

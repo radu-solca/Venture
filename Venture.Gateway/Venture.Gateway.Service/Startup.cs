@@ -3,13 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Venture.Common.Cqrs.Commands;
-using Venture.Common.Cqrs.Queries;
 using Venture.Common.Extensions;
-using Venture.Gateway.Business.CommandHandlers;
-using Venture.Gateway.Business.Commands;
-using Venture.Gateway.Business.Queries;
-using Venture.Gateway.Business.QueryHandlers;
 
 namespace Venture.Gateway.Service
 {
@@ -31,9 +25,6 @@ namespace Venture.Gateway.Service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddVentureCommon("Gateway");
-
-            services.AddTransient<ICommandHandler<CreateProfileCommand>, CreateProfileCommandHandler>();
-            services.AddTransient<IQueryHandler<GetProfileQuery, string>, GetProfileQueryHandler>();
 
             // Add framework services.
             services.AddMvc();

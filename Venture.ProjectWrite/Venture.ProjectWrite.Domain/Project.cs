@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Venture.Common.Data;
 using Venture.Common.Events;
+using Venture.ProjectWrite.Domain.DomainEvents;
 
 namespace Venture.ProjectWrite.Domain
 {
@@ -28,8 +29,7 @@ namespace Venture.ProjectWrite.Domain
             var payload = new { title, description, ownerId };
             var jsonPayload = JsonConvert.SerializeObject(payload);
 
-            var projectCreatedEvent = new DomainEvent(
-                "ProjectCreated",
+            var projectCreatedEvent = new ProjectCreatedEvent(
                 id,
                 1,
                 jsonPayload);
@@ -44,8 +44,7 @@ namespace Venture.ProjectWrite.Domain
             var payload = new {newTitle};
             var jsonPayload = JsonConvert.SerializeObject(payload);
 
-            var titleUpdatedEvent = new DomainEvent(
-                "ProjectTitleUpdated",
+            var titleUpdatedEvent = new ProjectTitleUpdatedEvent(
                 Id,
                 Version + 1,
                 jsonPayload);
@@ -60,8 +59,7 @@ namespace Venture.ProjectWrite.Domain
             var payload = new { newDescription };
             var jsonPayload = JsonConvert.SerializeObject(payload);
 
-            var descriptionUpdatedEvent = new DomainEvent(
-                "ProjectDescriptionUpdated",
+            var descriptionUpdatedEvent = new ProjectDescriptionUpdatedEvent(
                 Id,
                 Version + 1,
                 jsonPayload);
@@ -76,8 +74,7 @@ namespace Venture.ProjectWrite.Domain
             var payload = new { addedTags, removedTags };
             var jsonPayload = JsonConvert.SerializeObject(payload);
 
-            var tagsUpdatedEvent = new DomainEvent(
-                "ProjectTagsUpdated",
+            var tagsUpdatedEvent = new ProjectTagsUpdatedEvent(
                 Id,
                 Version + 1,
                 jsonPayload);
@@ -92,8 +89,7 @@ namespace Venture.ProjectWrite.Domain
             var payload = new { authorId, content, postedOn };
             var jsonPayload = JsonConvert.SerializeObject(payload);
 
-            var commentPostedEvent = new DomainEvent(
-                "ProjectCommentPosted",
+            var commentPostedEvent = new ProjectCommentPostedEvent(
                 Id,
                 Version + 1,
                 jsonPayload);
@@ -106,7 +102,7 @@ namespace Venture.ProjectWrite.Domain
             dynamic data = JsonConvert.DeserializeObject(domainEvent.JsonPayload);
             switch (domainEvent.Type)
             {
-                case "ProjectCreated":
+                case "ProjectCreatedEvent":
                     Id = domainEvent.AggregateId;
                     Title = data.title;
                     Description = data.description;
@@ -117,17 +113,17 @@ namespace Venture.ProjectWrite.Domain
 
                     break;
 
-                case "ProjectTitleUpdated":
+                case "ProjectTitleUpdatedEvent":
                     CheckIfCreated();
                     Title = data.newTitle;
                     break;
 
-                case "ProjectDescriptionUpdated":
+                case "ProjectDescriptionUpdatedEvent":
                     CheckIfCreated();
                     Description = data.newDescription;
                     break;
 
-                case "ProjectTagsUpdated":
+                case "ProjectTagsUpdatedEvent":
                     CheckIfCreated();
                     foreach (var removedTag in data.removedTags)
                     {
@@ -139,7 +135,7 @@ namespace Venture.ProjectWrite.Domain
                     }
                     break;
 
-                case "ProjectCommentPosted":
+                case "ProjectCommentPostedEvent":
                     CheckIfCreated();
                     var comment = new Comment(Guid.NewGuid(), (Guid)data.authorId, (string)data.content, (DateTime)data.postedOn);
                     Chat.Add(comment);

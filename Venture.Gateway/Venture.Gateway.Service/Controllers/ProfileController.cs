@@ -20,7 +20,7 @@ namespace Venture.Gateway.Service.Controllers
         public IActionResult GetAsync()
         {
             var query = new GetProfileQuery();
-            var result = _bus.Query<GetProfileQuery, string>(query);
+            var result = _bus.PublishQuery<GetProfileQuery, string>(query);
             return Ok(result);
         }
 
@@ -28,7 +28,7 @@ namespace Venture.Gateway.Service.Controllers
         public IActionResult Post()
         {
             var command = new CreateProfileCommand("test@test.com", "Testy", "Testinson");
-            _bus.Command(command);
+            _bus.PublishCommand(command);
             return Ok();
         }
     }

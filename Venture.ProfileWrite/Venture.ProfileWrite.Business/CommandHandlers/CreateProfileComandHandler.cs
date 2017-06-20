@@ -30,8 +30,8 @@ namespace Venture.ProfileWrite.Business.CommandHandlers
 
             var profileCreatedEvent = new DomainEvent("ProfileCreated", Guid.NewGuid(), 1, JsonConvert.SerializeObject(payload));
 
-            _eventStore.RaiseAsync(profileCreatedEvent);
-            _bus.PublishEvent(profileCreatedEvent, "Profile");
+            _eventStore.Raise(profileCreatedEvent);
+            _bus.PublishEvent(profileCreatedEvent);
         }
     }
 

@@ -23,7 +23,7 @@ namespace Venture.Gateway.Service.Controllers
         public IActionResult Post([FromBody]ProjectCreateModel model)
         {
             var command = new CreateProjectCommand(model.Title, model.Description, model.OwnerId);
-            _bus.Command(command);
+            _bus.PublishCommand(command);
             return Ok();
         }
 
@@ -32,7 +32,7 @@ namespace Venture.Gateway.Service.Controllers
         public IActionResult Patch(Guid id, [FromBody]ProjectUpdateModel model)
         {
             var command = new UpdateProjectCommand(id, model.Title, model.Description);
-            _bus.Command(command);
+            _bus.PublishCommand(command);
             return Ok();
         }
 
@@ -41,7 +41,7 @@ namespace Venture.Gateway.Service.Controllers
         public IActionResult Patch(Guid id, [FromBody]ProjectUpdateTagsModel model)
         {
             var command = new UpdateProjectTagsCommand(id, model.AddTags ?? new List<string>(), model.RemoveTags ?? new List<string>());
-            _bus.Command(command);
+            _bus.PublishCommand(command);
             return Ok();
         }
 
@@ -50,7 +50,7 @@ namespace Venture.Gateway.Service.Controllers
         public IActionResult PostComment(Guid id, [FromBody]PostCommentOnProjectModel model)
         {
             var command = new PostCommentOnProjectCommand(id, model.AuthorId, model.Content, DateTime.Now);
-            _bus.Command(command);
+            _bus.PublishCommand(command);
             return Ok();
         }
     }

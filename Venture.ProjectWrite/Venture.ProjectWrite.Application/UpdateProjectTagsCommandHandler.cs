@@ -14,7 +14,7 @@ namespace Venture.ProjectWrite.Application
             _projectRepository = projectRepository;
         }
 
-        public void Execute(UpdateProjectTagsCommand command)
+        public void Handle(UpdateProjectTagsCommand command)
         {
             var project = _projectRepository.Get(command.Id);
 
