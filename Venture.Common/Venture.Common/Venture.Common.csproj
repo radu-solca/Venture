@@ -5,11 +5,12 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <Version>1.0.34</Version>
+    <Version>1.0.35</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="LiteGuard" Version="1.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="1.1.1" />
     <PackageReference Include="RawRabbit" Version="1.10.3" />
     <PackageReference Include="RawRabbit.Extensions" Version="1.10.3" />

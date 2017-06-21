@@ -5,6 +5,8 @@ using Venture.Common.Cqrs.Commands;
 using Venture.Common.Data;
 using Venture.Common.Extensions;
 using Venture.ProjectWrite.Application;
+using Venture.ProjectWrite.Application.CommandHandlers;
+using Venture.ProjectWrite.Application.Commands;
 using Venture.ProjectWrite.Domain;
 
 namespace Venture.ProjectWrite.Service
@@ -18,11 +20,12 @@ namespace Venture.ProjectWrite.Service
             var serviceProvider = new ServiceCollection()
                 .AddVentureCommon("ProjectWrite")
                 .AddVentureEventStore("localhost", "ProjectWrite")
-                .AddTransient<Repository<Project>, ProjectRepository>()
+                .AddTransient<IRepository<Project>, ProjectRepository>()
                 .AddTransient<ICommandHandler<CreateProjectCommand>, CreateProjectCommandHandler>()
                 .AddTransient<ICommandHandler<UpdateProjectCommand>, UpdateProjectCommandHandler>()
                 .AddTransient<ICommandHandler<UpdateProjectTagsCommand>, UpdateProjectTagsCommandHandler>()
                 .AddTransient<ICommandHandler<PostCommentOnProjectCommand>, PostCommentOnProjectCommandHandler>()
+                .AddTransient<ICommandHandler<DeleteProjectCommand>, DeleteProjectCommandHandler>()
                 .BuildServiceProvider();
 
             var bus = (IBusClient)serviceProvider.GetService(typeof(IBusClient));
@@ -30,11 +33,13 @@ namespace Venture.ProjectWrite.Service
             var updateProjectCommandHandler = (ICommandHandler<UpdateProjectCommand>)serviceProvider.GetService(typeof(ICommandHandler<UpdateProjectCommand>));
             var updateProjectTagsCommandHandler = (ICommandHandler<UpdateProjectTagsCommand>)serviceProvider.GetService(typeof(ICommandHandler<UpdateProjectTagsCommand>));
             var postCommentOnProjectCommandHandler = (ICommandHandler<PostCommentOnProjectCommand>)serviceProvider.GetService(typeof(ICommandHandler<PostCommentOnProjectCommand>));
+            var deleteProjectCommandHandler = (ICommandHandler<DeleteProjectCommand>)serviceProvider.GetService(typeof(ICommandHandler<DeleteProjectCommand>));
 
             bus.SubscribeToCommand(createProjectCommandHandler);
             bus.SubscribeToCommand(updateProjectCommandHandler);
             bus.SubscribeToCommand(updateProjectTagsCommandHandler);
             bus.SubscribeToCommand(postCommentOnProjectCommandHandler);
+            bus.SubscribeToCommand(deleteProjectCommandHandler);
 
             Console.ReadKey();
         }

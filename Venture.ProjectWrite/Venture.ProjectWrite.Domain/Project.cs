@@ -112,6 +112,18 @@ namespace Venture.ProjectWrite.Domain
             Apply(commentPostedEvent);
         }
 
+        public override void Delete()
+        {
+            CheckIfCreated();
+
+            var projectDeletedEvent = new ProjectDeletedEvent(
+                Id,
+                Version + 1,
+                null);
+
+            Apply(projectDeletedEvent);
+        }
+
         protected override void ChangeState(DomainEvent domainEvent)
         {
             dynamic data = JsonConvert.DeserializeObject(domainEvent.JsonPayload);
@@ -129,17 +141,14 @@ namespace Venture.ProjectWrite.Domain
                     break;
 
                 case "ProjectTitleUpdatedEvent":
-                    CheckIfCreated();
                     Title = data.newTitle;
                     break;
 
                 case "ProjectDescriptionUpdatedEvent":
-                    CheckIfCreated();
                     Description = data.newDescription;
                     break;
 
                 case "ProjectTagsAddedEvent":
-                    CheckIfCreated();
                     foreach (var addedTag in data.addedTags)
                     {
                         Tags.Add((string)addedTag);
@@ -147,7 +156,6 @@ namespace Venture.ProjectWrite.Domain
                     break;
 
                 case "ProjectTagsRemovedEvent":
-                    CheckIfCreated();
                     foreach (var removedTag in data.removedTags)
                     {
                         Tags.Remove((string)removedTag);
@@ -155,9 +163,12 @@ namespace Venture.ProjectWrite.Domain
                     break;
 
                 case "ProjectCommentPostedEvent":
-                    CheckIfCreated();
                     var comment = new Comment(Guid.NewGuid(), (Guid)data.authorId, (string)data.content, (DateTime)data.postedOn);
                     Chat.Add(comment);
+                    break;
+
+                case "ProjectDeletedEvent":
+                    Deleted = true;
                     break;
 
                 default:

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using Venture.Common.Data.Interaces;
 using Venture.Common.Events;
 
 namespace Venture.Common.Data
 {
-    public abstract class AggregateRoot : Entity
+    public abstract class AggregateRoot : Entity, IEventStoreable
     {
         public int Version { get; protected set; }
         public IList<DomainEvent> UncommitedChanges { get; }
@@ -25,6 +26,8 @@ namespace Venture.Common.Data
                 Apply(domainEvent, false);
             }
         }
+
+        public abstract override void Delete();
 
         protected void Apply(DomainEvent domainEvent, bool isNew = true)
         {

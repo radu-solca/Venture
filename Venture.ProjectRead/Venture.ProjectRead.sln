@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Application Layer", "0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Venture.ProjectRead.Application", "Venture.ProjectRead.Application\Venture.ProjectRead.Application.csproj", "{FAE7F366-5A4B-4095-BAB9-07D63108B0AB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - Data Access Layer", "03 - Data Access Layer", "{B5D97432-FF01-4C4E-983B-E341D3AEE00A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Venture.ProjectRead.Data", "Venture.ProjectRead.Data\Venture.ProjectRead.Data.csproj", "{799B612C-AE4C-4FD6-9D68-847604697BE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +29,10 @@ Global
 		{FAE7F366-5A4B-4095-BAB9-07D63108B0AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAE7F366-5A4B-4095-BAB9-07D63108B0AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAE7F366-5A4B-4095-BAB9-07D63108B0AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{799B612C-AE4C-4FD6-9D68-847604697BE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{799B612C-AE4C-4FD6-9D68-847604697BE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{799B612C-AE4C-4FD6-9D68-847604697BE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{799B612C-AE4C-4FD6-9D68-847604697BE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,5 +40,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{91D637D3-73D4-41E7-A7FD-686AB9AAABEE} = {F2F48F3F-5888-451F-B9D0-EA34EBB2A95D}
 		{FAE7F366-5A4B-4095-BAB9-07D63108B0AB} = {9D8DBFC9-7AF4-47B7-9B76-C43182E4CDE5}
+		{799B612C-AE4C-4FD6-9D68-847604697BE1} = {B5D97432-FF01-4C4E-983B-E341D3AEE00A}
 	EndGlobalSection
 EndGlobal

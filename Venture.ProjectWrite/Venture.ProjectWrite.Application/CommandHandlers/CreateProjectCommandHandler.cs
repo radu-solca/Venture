@@ -7,9 +7,9 @@ namespace Venture.ProjectWrite.Application
 {
     public sealed class CreateProjectCommandHandler : ICommandHandler<CreateProjectCommand>
     {
-        private readonly Repository<Project> _projectRepository;
+        private readonly IRepository<Project> _projectRepository;
 
-        public CreateProjectCommandHandler(Repository<Project> projectRepository)
+        public CreateProjectCommandHandler(IRepository<Project> projectRepository)
         {
             _projectRepository = projectRepository;
         }
@@ -19,7 +19,7 @@ namespace Venture.ProjectWrite.Application
             var newProject = new Project();
             newProject.CreateProject(Guid.NewGuid(), command.Title, command.Description, command.OwnerId);
 
-            _projectRepository.Update(newProject);
+            _projectRepository.Add(newProject);
 
             //DEBUG
             var sameProject = _projectRepository.Get(newProject.Id);

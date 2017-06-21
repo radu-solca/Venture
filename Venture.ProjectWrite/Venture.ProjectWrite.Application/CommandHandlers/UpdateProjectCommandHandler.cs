@@ -7,9 +7,9 @@ namespace Venture.ProjectWrite.Application
 {
     public sealed class UpdateProjectCommandHandler : ICommandHandler<UpdateProjectCommand>
     {
-        private readonly Repository<Project> _projectRepository;
+        private readonly IRepository<Project> _projectRepository;
 
-        public UpdateProjectCommandHandler(Repository<Project> projectRepository)
+        public UpdateProjectCommandHandler(IRepository<Project> projectRepository)
         {
             _projectRepository = projectRepository;
         }

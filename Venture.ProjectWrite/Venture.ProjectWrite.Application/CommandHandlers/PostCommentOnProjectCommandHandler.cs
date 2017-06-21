@@ -7,9 +7,9 @@ namespace Venture.ProjectWrite.Application
 {
    public sealed class PostCommentOnProjectCommandHandler : ICommandHandler<PostCommentOnProjectCommand>
     {
-        private readonly Repository<Project> _projectRepository;
+        private readonly IRepository<Project> _projectRepository;
 
-        public PostCommentOnProjectCommandHandler(Repository<Project> projectRepository)
+        public PostCommentOnProjectCommandHandler(IRepository<Project> projectRepository)
         {
             _projectRepository = projectRepository;
         }

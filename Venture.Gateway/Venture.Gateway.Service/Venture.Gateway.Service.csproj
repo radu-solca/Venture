@@ -23,7 +23,7 @@
     <PackageReference Include="RawRabbit" Version="1.10.3" />
     <PackageReference Include="RawRabbit.Extensions" Version="1.10.3" />
     <PackageReference Include="RawRabbit.vNext" Version="1.10.3" />
-    <PackageReference Include="Venture.Common" Version="1.0.34" />
+    <PackageReference Include="Venture.Common" Version="1.0.35" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
