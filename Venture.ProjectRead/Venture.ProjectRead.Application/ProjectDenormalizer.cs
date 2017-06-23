@@ -27,14 +27,15 @@ namespace Venture.ProjectRead.Application
         {
             LogToConsole(domainEvent);
 
-            var newProject = new Project();
-
             dynamic eventData = JsonConvert.DeserializeObject(domainEvent.JsonPayload);
 
-            newProject.Id = domainEvent.AggregateId;
-            newProject.OwnerId = (Guid) eventData.ownerId;
-            newProject.Title = (string) eventData.title;
-            newProject.Description = (string) eventData.description;
+            var newProject = new Project
+            {
+                Id = domainEvent.AggregateId,
+                OwnerId = (Guid) eventData.ownerId,
+                Title = (string) eventData.title,
+                Description = (string) eventData.description
+            };
 
             _projectRepository.Add(newProject);
         }
@@ -71,13 +72,15 @@ namespace Venture.ProjectRead.Application
 
             dynamic eventData = JsonConvert.DeserializeObject(domainEvent.JsonPayload);
 
-            var newComment = new Comment();
+            var newComment = new Comment
+            {
+                ProjectId = domainEvent.AggregateId,
+                AuthorId = (Guid) eventData.authorId,
+                AuthorName = "Tim",
+                PostedOn = (DateTime) eventData.postedOn,
+                Content = (string) eventData.content
+            };
 
-            newComment.ProjectId = domainEvent.AggregateId;
-            newComment.AuthorId = (Guid) eventData.authorId;
-            newComment.AuthorName = "Tim";
-            newComment.PostedOn = (DateTime) eventData.postedOn;
-            newComment.Content = (string) eventData.content;
 
             _commentRepository.Add(newComment);
         }
