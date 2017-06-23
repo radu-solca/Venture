@@ -12,7 +12,6 @@ namespace Venture.ProjectWrite.Domain
         public string Title { get; private set; }
         public string Description { get; private set; }
         public Guid OwnerId { get; private set; }
-        public ICollection<string> Tags { get; private set; }
         public ICollection<Comment> Chat { get; private set; }
 
         public void CreateProject(
@@ -67,36 +66,6 @@ namespace Venture.ProjectWrite.Domain
             Apply(descriptionUpdatedEvent);
         }
 
-        public void AddTags(IList<string> tagsToAdd)
-        {
-            CheckIfCreated();
-
-            var payload = new { addedTags = tagsToAdd };
-            var jsonPayload = JsonConvert.SerializeObject(payload);
-
-            var tagsUpdatedEvent = new ProjectTagsAddedEvent(
-                Id,
-                Version + 1,
-                jsonPayload);
-
-            Apply(tagsUpdatedEvent);
-        }
-
-        public void RemoveTags(IList<string> tagsToRemove)
-        {
-            CheckIfCreated();
-
-            var payload = new { removedTags = tagsToRemove };
-            var jsonPayload = JsonConvert.SerializeObject(payload);
-
-            var tagsUpdatedEvent = new ProjectTagsRemovedEvent(
-                Id,
-                Version + 1,
-                jsonPayload);
-
-            Apply(tagsUpdatedEvent);
-        }
-
         public void PostComment(Guid authorId, string content, DateTime postedOn)
         {
             CheckIfCreated();
@@ -135,7 +104,6 @@ namespace Venture.ProjectWrite.Domain
                     Description = data.description;
                     OwnerId = data.ownerId;
 
-                    Tags = new List<string>();
                     Chat = new List<Comment>();
 
                     break;
@@ -146,20 +114,6 @@ namespace Venture.ProjectWrite.Domain
 
                 case "ProjectDescriptionUpdatedEvent":
                     Description = data.newDescription;
-                    break;
-
-                case "ProjectTagsAddedEvent":
-                    foreach (var addedTag in data.addedTags)
-                    {
-                        Tags.Add((string)addedTag);
-                    }
-                    break;
-
-                case "ProjectTagsRemovedEvent":
-                    foreach (var removedTag in data.removedTags)
-                    {
-                        Tags.Remove((string)removedTag);
-                    }
                     break;
 
                 case "ProjectCommentPostedEvent":

@@ -1,46 +1,51 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using RawRabbit;
-using Venture.Common.Cqrs.Commands;
+using Venture.Common.Data;
 using Venture.Common.Events;
 using Venture.Common.Extensions;
 using Venture.ProjectRead.Application;
 using Venture.ProjectRead.Application.DomainEvents;
+using Venture.ProjectRead.Data;
+using Venture.ProjectRead.Data.Entities;
 
 namespace Venture.ProjectRead.Service
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("ProjectRead");
 
             var serviceProvider = new ServiceCollection()
                 .AddVentureCommon("ProjectWrite")
-                .AddVentureEventStore("localhost", "ProjectWrite")
+
+                .AddDbContext<ProjectReadContext>()
+                .AddTransient<IRepository<Project>, ProjectRepository>()
+                .AddTransient<IRepository<Comment>, CommentRepository>()
+
                 .AddTransient<IEventHandler<ProjectCreatedEvent>, ProjectDenormalizer>()
                 .AddTransient<IEventHandler<ProjectTitleUpdatedEvent>, ProjectDenormalizer>()
                 .AddTransient<IEventHandler<ProjectDescriptionUpdatedEvent>, ProjectDenormalizer>()
                 .AddTransient<IEventHandler<ProjectCommentPostedEvent>, ProjectDenormalizer>()
-                .AddTransient<IEventHandler<ProjectTagsAddedEvent>, ProjectDenormalizer>()
-                .AddTransient<IEventHandler<ProjectTagsRemovedEvent>, ProjectDenormalizer>()
+
+                .AddTransient<IEventHandler<ProjectDeletedEvent>, ProjectDenormalizer>()
+
                 .BuildServiceProvider();
 
             var bus = (IBusClient)serviceProvider.GetService(typeof(IBusClient));
 
             var projectCreatedEventHandler = (IEventHandler<ProjectCreatedEvent>)serviceProvider.GetService(typeof(IEventHandler<ProjectCreatedEvent>));
-            var projectTitleUpdatedEvent = (IEventHandler<ProjectTitleUpdatedEvent>)serviceProvider.GetService(typeof(IEventHandler<ProjectTitleUpdatedEvent>));
-            var projectDescriptionUpdatedEvent = (IEventHandler<ProjectDescriptionUpdatedEvent>)serviceProvider.GetService(typeof(IEventHandler<ProjectDescriptionUpdatedEvent>));
-            var projectCommentPostedEvent = (IEventHandler<ProjectCommentPostedEvent>)serviceProvider.GetService(typeof(IEventHandler<ProjectCommentPostedEvent>));
-            var projectTagsAddedEvent = (IEventHandler<ProjectTagsAddedEvent>)serviceProvider.GetService(typeof(IEventHandler<ProjectTagsAddedEvent>));
-            var projectTagsRemovedEvent = (IEventHandler<ProjectTagsRemovedEvent>)serviceProvider.GetService(typeof(IEventHandler<ProjectTagsRemovedEvent>));
+            var projectTitleUpdatedEventHandler = (IEventHandler<ProjectTitleUpdatedEvent>)serviceProvider.GetService(typeof(IEventHandler<ProjectTitleUpdatedEvent>));
+            var projectDescriptionUpdatedEventHandler = (IEventHandler<ProjectDescriptionUpdatedEvent>)serviceProvider.GetService(typeof(IEventHandler<ProjectDescriptionUpdatedEvent>));
+            var projectCommentPostedEventHandler = (IEventHandler<ProjectCommentPostedEvent>)serviceProvider.GetService(typeof(IEventHandler<ProjectCommentPostedEvent>));
+            var projectDeletedEventHandler = (IEventHandler<ProjectDeletedEvent>)serviceProvider.GetService(typeof(IEventHandler<ProjectDeletedEvent>));
 
             bus.SubscribeToEvent(projectCreatedEventHandler);
-            bus.SubscribeToEvent(projectTitleUpdatedEvent);
-            bus.SubscribeToEvent(projectDescriptionUpdatedEvent);
-            bus.SubscribeToEvent(projectCommentPostedEvent);
-            bus.SubscribeToEvent(projectTagsAddedEvent);
-            bus.SubscribeToEvent(projectTagsRemovedEvent);
+            bus.SubscribeToEvent(projectTitleUpdatedEventHandler);
+            bus.SubscribeToEvent(projectDescriptionUpdatedEventHandler);
+            bus.SubscribeToEvent(projectCommentPostedEventHandler);
+            bus.SubscribeToEvent(projectDeletedEventHandler);
 
             Console.ReadKey();
         }

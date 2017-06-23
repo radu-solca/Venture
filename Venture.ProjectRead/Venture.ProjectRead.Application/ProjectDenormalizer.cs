@@ -1,7 +1,9 @@
 ﻿using System;
-using System.Dynamic;
+using Newtonsoft.Json;
+using Venture.Common.Data;
 using Venture.Common.Events;
 using Venture.ProjectRead.Application.DomainEvents;
+using Venture.ProjectRead.Data.Entities;
 
 namespace Venture.ProjectRead.Application
 {
@@ -10,40 +12,82 @@ namespace Venture.ProjectRead.Application
         IEventHandler<ProjectTitleUpdatedEvent>,
         IEventHandler<ProjectDescriptionUpdatedEvent>,
         IEventHandler<ProjectCommentPostedEvent>,
-        IEventHandler<ProjectTagsAddedEvent>,
-        IEventHandler<ProjectTagsRemovedEvent>
+        IEventHandler<ProjectDeletedEvent>
     {
+        private readonly IRepository<Project> _projectRepository;
+        private readonly IRepository<Comment> _commentRepository;
+
+        public ProjectDenormalizer(IRepository<Project> projectRepository, IRepository<Comment> commentRepository)
+        {
+            _projectRepository = projectRepository;
+            _commentRepository = commentRepository;
+        }
+
         public void Handle(ProjectCreatedEvent domainEvent)
         {
-            DELETEME(domainEvent);
+            LogToConsole(domainEvent);
+
+            var newProject = new Project();
+
+            dynamic eventData = JsonConvert.DeserializeObject(domainEvent.JsonPayload);
+
+            newProject.Id = domainEvent.AggregateId;
+            newProject.OwnerId = (Guid) eventData.ownerId;
+            newProject.Title = (string) eventData.title;
+            newProject.Description = (string) eventData.description;
+
+            _projectRepository.Add(newProject);
         }
 
         public void Handle(ProjectTitleUpdatedEvent domainEvent)
         {
-            DELETEME(domainEvent);
+            LogToConsole(domainEvent);
+
+            dynamic eventData = JsonConvert.DeserializeObject(domainEvent.JsonPayload);
+
+            var project = _projectRepository.Get(domainEvent.AggregateId);
+
+            project.Title = (string)eventData.newTitle;
+
+            _projectRepository.Update(project);
         }
 
         public void Handle(ProjectDescriptionUpdatedEvent domainEvent)
         {
-            DELETEME(domainEvent);
+            LogToConsole(domainEvent);
+
+            dynamic eventData = JsonConvert.DeserializeObject(domainEvent.JsonPayload);
+
+            var project = _projectRepository.Get(domainEvent.AggregateId);
+
+            project.Description = (string)eventData.newDescription;
+
+            _projectRepository.Update(project);
         }
 
         public void Handle(ProjectCommentPostedEvent domainEvent)
         {
-            DELETEME(domainEvent);
+            LogToConsole(domainEvent);
+
+            dynamic eventData = JsonConvert.DeserializeObject(domainEvent.JsonPayload);
+
+            var newComment = new Comment();
+
+            newComment.ProjectId = domainEvent.AggregateId;
+            newComment.AuthorId = (Guid) eventData.authorId;
+            newComment.AuthorName = "Tim";
+            newComment.PostedOn = (DateTime) eventData.postedOn;
+            newComment.Content = (string) eventData.content;
+
+            _commentRepository.Add(newComment);
         }
 
-        public void Handle(ProjectTagsAddedEvent domainEvent)
+        public void Handle(ProjectDeletedEvent domainEvent)
         {
-            DELETEME(domainEvent);
+            _projectRepository.Delete(domainEvent.AggregateId);
         }
 
-        public void Handle(ProjectTagsRemovedEvent domainEvent)
-        {
-            DELETEME(domainEvent);
-        }
-
-        private void DELETEME(DomainEvent domainEvent)
+        private void LogToConsole(DomainEvent domainEvent)
         {
             Console.WriteLine("Got event of type " + domainEvent.Type + " for aggregate with id=" + domainEvent.AggregateId + " v" + domainEvent.Version + " occured on " + domainEvent.OccuredOn);
             Console.WriteLine("With payload: " + domainEvent.JsonPayload);

@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
+using Venture.Common.Data.Interfaces;
 
-namespace Venture.ProjectRead.Data
+namespace Venture.ProjectRead.Data.Entities
 {
-    public class Project
+    public class Project : IEntity
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public Guid OwnerId { get; set; }
-        public ICollection<string> Tags { get; set; }
     }
 }

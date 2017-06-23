@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Venture.Common.Data.Interaces;
+using Venture.Common.Data.Interfaces;
 
 namespace Venture.Common.Data
 {

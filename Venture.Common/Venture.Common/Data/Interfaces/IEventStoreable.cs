@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Venture.Common.Events;
 
-namespace Venture.Common.Data.Interaces
+namespace Venture.Common.Data.Interfaces
 {
     public interface IEventStoreable
     {
@@ -9,5 +9,6 @@ namespace Venture.Common.Data.Interaces
         IList<DomainEvent> UncommitedChanges { get; }
         void MarkChangesAsCommited();
         void LoadFromHistory(IEnumerable<DomainEvent> history);
+        void Delete();
     }
 }

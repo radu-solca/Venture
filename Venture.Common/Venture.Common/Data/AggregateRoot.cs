@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Venture.Common.Data.Interaces;
+using Venture.Common.Data.Interfaces;
 using Venture.Common.Events;
 
 namespace Venture.Common.Data

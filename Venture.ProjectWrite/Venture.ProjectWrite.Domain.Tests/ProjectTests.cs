@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -83,7 +82,6 @@ namespace Venture.ProjectWrite.Domain.Tests
             Sut.OwnerId.Should().Be(_ownerId);
 
             Sut.Chat.Should().BeEmpty();
-            Sut.Tags.Should().BeEmpty();
         }
 
         [TestMethod]
@@ -97,36 +95,6 @@ namespace Venture.ProjectWrite.Domain.Tests
 
             // Assert
             Sut.Chat.Should().HaveCount(1);
-        }
-
-        [TestMethod]
-        public void When_TagsAdded_Then_TagsShouldBeUpdatedProperly()
-        {
-            // Arrange
-            CreateProject();
-            var tagsToAdd = new List<string>{"tag"};
-
-            // Act
-            Sut.AddTags(tagsToAdd);
-
-            // Assert
-            Sut.Tags.Should().HaveCount(1);
-        }
-
-        [TestMethod]
-        public void When_TagsRemoved_Then_TagsShouldBeUpdatedProperly()
-        {
-            // Arrange
-            CreateProject();
-            var tagsToAdd = new List<string> { "tag1", "tag2", "tag3" };
-            var tagsToRemove = new List<string> { "tag2" };
-            Sut.AddTags(tagsToAdd);
-
-            // Act
-            Sut.RemoveTags(tagsToRemove);
-
-            // Assert
-            Sut.Tags.Should().HaveCount(2);
         }
 
         private void CreateProject()

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using RawRabbit;
-using Venture.Common.Data.Interaces;
+using Venture.Common.Data.Interfaces;
 using Venture.Common.Events;
 using Venture.Common.Extensions;
 

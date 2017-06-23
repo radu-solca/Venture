@@ -1,5 +1,5 @@
 ﻿using System;
-using Venture.Common.Data.Interaces;
+using Venture.Common.Data.Interfaces;
 
 namespace Venture.Common.Data
 {

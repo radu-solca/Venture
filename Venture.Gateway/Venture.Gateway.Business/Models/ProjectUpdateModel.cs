@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Venture.Gateway.Business.Models
+﻿namespace Venture.Gateway.Business.Models
 {
     public class ProjectUpdateModel
     {

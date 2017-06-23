@@ -13,7 +13,7 @@ namespace Venture.ProjectWrite.Service
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("ProjectWrite");
 
@@ -21,23 +21,22 @@ namespace Venture.ProjectWrite.Service
                 .AddVentureCommon("ProjectWrite")
                 .AddVentureEventStore("localhost", "ProjectWrite")
                 .AddTransient<IRepository<Project>, ProjectRepository>()
+
                 .AddTransient<ICommandHandler<CreateProjectCommand>, CreateProjectCommandHandler>()
                 .AddTransient<ICommandHandler<UpdateProjectCommand>, UpdateProjectCommandHandler>()
-                .AddTransient<ICommandHandler<UpdateProjectTagsCommand>, UpdateProjectTagsCommandHandler>()
                 .AddTransient<ICommandHandler<PostCommentOnProjectCommand>, PostCommentOnProjectCommandHandler>()
                 .AddTransient<ICommandHandler<DeleteProjectCommand>, DeleteProjectCommandHandler>()
+
                 .BuildServiceProvider();
 
             var bus = (IBusClient)serviceProvider.GetService(typeof(IBusClient));
             var createProjectCommandHandler = (ICommandHandler<CreateProjectCommand>)serviceProvider.GetService(typeof(ICommandHandler<CreateProjectCommand>));
             var updateProjectCommandHandler = (ICommandHandler<UpdateProjectCommand>)serviceProvider.GetService(typeof(ICommandHandler<UpdateProjectCommand>));
-            var updateProjectTagsCommandHandler = (ICommandHandler<UpdateProjectTagsCommand>)serviceProvider.GetService(typeof(ICommandHandler<UpdateProjectTagsCommand>));
             var postCommentOnProjectCommandHandler = (ICommandHandler<PostCommentOnProjectCommand>)serviceProvider.GetService(typeof(ICommandHandler<PostCommentOnProjectCommand>));
             var deleteProjectCommandHandler = (ICommandHandler<DeleteProjectCommand>)serviceProvider.GetService(typeof(ICommandHandler<DeleteProjectCommand>));
 
             bus.SubscribeToCommand(createProjectCommandHandler);
             bus.SubscribeToCommand(updateProjectCommandHandler);
-            bus.SubscribeToCommand(updateProjectTagsCommandHandler);
             bus.SubscribeToCommand(postCommentOnProjectCommandHandler);
             bus.SubscribeToCommand(deleteProjectCommandHandler);
 
