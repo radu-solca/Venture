@@ -14,12 +14,21 @@ namespace Venture.Common.Data
         private readonly IEventStore _eventStore;
         private readonly IBusClient _bus;
 
+        /// <summary>
+        /// The constructor
+        /// </summary>
+        /// <param name="eventStore">An event store.</param>
+        /// <param name="bus">A bus client.</param>
         protected EventRepository(IEventStore eventStore, IBusClient bus)
         {
             _eventStore = eventStore;
             _bus = bus;
         }
 
+        /// <summary>
+        /// Gets all entities
+        /// </summary>
+        /// <returns></returns>
         public ICollection<TEntity> Get()
         {
             var history = _eventStore.GetEvents();
@@ -46,6 +55,11 @@ namespace Venture.Common.Data
             return results;
         }
 
+        /// <summary>
+        /// Gets entity with the specified id.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <returns></returns>
         public TEntity Get(Guid id)
         {
             var entity = new TEntity();
@@ -57,11 +71,19 @@ namespace Venture.Common.Data
             return entity;
         }
 
+        /// <summary>
+        /// Adds a new entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
         public void Add(TEntity entity)
         {
             Update(entity);
         }
 
+        /// <summary>
+        /// Deletes the entity with the specified id.
+        /// </summary>
+        /// <param name="id">The id.</param>
         public void Delete(Guid id)
         {
             var entity = Get(id);
@@ -69,9 +91,13 @@ namespace Venture.Common.Data
             Update(entity);
         }
 
-        public void Update(TEntity aggregate)
+        /// <summary>
+        /// Updates the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        public void Update(TEntity entity)
         {
-            var uncommitedChanges = aggregate.UncommitedChanges;
+            var uncommitedChanges = entity.UncommitedChanges;
 
             foreach (var change in uncommitedChanges)
             {
@@ -79,7 +105,7 @@ namespace Venture.Common.Data
                 _bus.PublishEvent(change);
             }
 
-            aggregate.MarkChangesAsCommited();
+            entity.MarkChangesAsCommited();
         }
     }
 }
