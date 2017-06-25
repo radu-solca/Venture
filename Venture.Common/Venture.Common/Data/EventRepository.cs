@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LiteGuard;
 using RawRabbit;
 using Venture.Common.Data.Interfaces;
 using Venture.Common.Events;
@@ -21,6 +22,9 @@ namespace Venture.Common.Data
         /// <param name="bus">A bus client.</param>
         protected EventRepository(IEventStore eventStore, IBusClient bus)
         {
+            Guard.AgainstNullArgument(nameof(eventStore), eventStore);
+            Guard.AgainstNullArgument(nameof(bus), bus);
+
             _eventStore = eventStore;
             _bus = bus;
         }
@@ -68,6 +72,12 @@ namespace Venture.Common.Data
 
             entity.LoadFromHistory(history);
 
+            if (entity.Id != id)
+            {
+                // no entity found with specified id
+                return null;
+            }
+
             return entity;
         }
 
@@ -77,6 +87,7 @@ namespace Venture.Common.Data
         /// <param name="entity">The entity.</param>
         public void Add(TEntity entity)
         {
+            Guard.AgainstNullArgument(nameof(entity), entity);
             Update(entity);
         }
 
@@ -97,6 +108,8 @@ namespace Venture.Common.Data
         /// <param name="entity">The entity.</param>
         public void Update(TEntity entity)
         {
+            Guard.AgainstNullArgument(nameof(entity), entity);
+
             var uncommitedChanges = entity.UncommitedChanges;
 
             foreach (var change in uncommitedChanges)
