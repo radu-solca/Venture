@@ -20,6 +20,8 @@ namespace Venture.Common.Extensions
             _serviceName = serviceName;
         }
 
+
+        /// <typeparam name="TCommand">The command type</typeparam>
         public static void PublishCommand<TCommand>(this IBusClient bus, TCommand command)
             where TCommand : class, ICommand
         {
@@ -32,6 +34,10 @@ namespace Venture.Common.Extensions
                 });
         }
 
+        /// <summary>
+        /// Attaches a handler to a specific command.
+        /// </summary>
+        /// <typeparam name="TCommand"></typeparam>
         public static void SubscribeToCommand<TCommand>(this IBusClient bus, ICommandHandler<TCommand> commandHandler)
             where TCommand : class, ICommand
         {
@@ -48,6 +54,14 @@ namespace Venture.Common.Extensions
                 });
         }
 
+        /// <summary>
+        /// Publish a query.
+        /// This is a synchronous RPC call.
+        /// If no subscribers answer for a number of seconds, then a timeout exception will be thrown.
+        /// </summary>
+        /// <typeparam name="TQuery">The query type</typeparam>
+        /// <typeparam name="TResult">The expected result type</typeparam>
+        /// <returns>The returned value.</returns>
         public static TResult PublishQuery<TQuery, TResult>(this IBusClient bus, TQuery query)
             where TQuery : class, IQuery<TResult>
         {
@@ -61,6 +75,11 @@ namespace Venture.Common.Extensions
                 .Result;
         }
 
+        /// <summary>
+        /// Attaches a handler to a specific query.
+        /// </summary>
+        /// <typeparam name="TQuery">The query type</typeparam>
+        /// <typeparam name="TResult">The expected result type</typeparam>
         public static void SubscribeToQuery<TQuery, TResult>(this IBusClient bus, IQueryHandler<TQuery, TResult> queryHandler) where TQuery : class, IQuery<TResult>
         {
             bus.RespondAsync<TQuery, TResult>(
@@ -76,6 +95,7 @@ namespace Venture.Common.Extensions
                 });
         }
 
+        /// <typeparam name="TEvent">The event type</typeparam>
         public static void PublishEvent<TEvent>(this IBusClient bus, TEvent domainEvent)
             where TEvent : DomainEvent
         {
@@ -89,6 +109,10 @@ namespace Venture.Common.Extensions
             );
         }
 
+        /// <summary>
+        /// Attach a handler to a specific event.
+        /// </summary>
+        /// <typeparam name="TEvent"></typeparam>
         public static void SubscribeToEvent<TEvent>(this IBusClient bus, IEventHandler<TEvent> eventHandler) 
             where TEvent : DomainEvent
         {
