@@ -18,7 +18,7 @@ namespace Venture.Common.Tests.Extensions
         public void SetUp()
         {
             _sut = new ServiceCollection()
-                .AddVentureCommon()
+                .AddVentureCommon("test")
                 .BuildServiceProvider();
         }
 
