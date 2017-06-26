@@ -10,8 +10,8 @@ namespace Venture.ProjectWrite.Domain.Tests
         public Project Sut { get; set; }
 
         private readonly Guid _id = new Guid("84231485-0eb6-4b76-b4fe-fc639083eb0b");
-        private readonly string _title = "some title";
-        private readonly string _description = "some desc";
+        private const string Title = "some title";
+        private const string Description = "some desc";
         private readonly Guid _ownerId = new Guid("95d7418e-1dc5-4fcd-9cc3-51dd2edf50bd");
 
         [TestInitialize]
@@ -45,8 +45,8 @@ namespace Venture.ProjectWrite.Domain.Tests
 
             // Act
             CreateProject();
-            Sut.UpdateTitle("new title");
-            Sut.PostComment(_ownerId, "a comment", DateTime.Now);
+            UpdateTitle();
+            PostComment();
 
             // Assert
             Sut.UncommitedChanges.Should().HaveCount(3);
@@ -57,8 +57,8 @@ namespace Venture.ProjectWrite.Domain.Tests
         {
             // Arrange
             CreateProject();
-            Sut.UpdateTitle("new title");
-            Sut.PostComment(_ownerId, "a comment", DateTime.Now);
+            UpdateTitle();
+            PostComment();
 
             // Act
             Sut.MarkChangesAsCommited();
@@ -77,9 +77,9 @@ namespace Venture.ProjectWrite.Domain.Tests
 
             // Assert
             Sut.Id.Should().Be(_id);
-            Sut.Title.Should().Be(_title);
-            Sut.Description.Should().Be(_description);
-            Sut.OwnerId.Should().Be(_ownerId);
+            Sut.Title.Should().Be(Title);
+            Sut.Description.Should().Be(Description);
+            Sut.ProjectOwner.Id.Should().Be(_ownerId);
 
             Sut.Chat.Should().BeEmpty();
         }
@@ -91,7 +91,7 @@ namespace Venture.ProjectWrite.Domain.Tests
             CreateProject();
 
             // Act
-            Sut.PostComment(_ownerId, "a comment", DateTime.Now);
+            PostComment();
 
             // Assert
             Sut.Chat.Should().HaveCount(1);
@@ -99,7 +99,17 @@ namespace Venture.ProjectWrite.Domain.Tests
 
         private void CreateProject()
         {
-            Sut.CreateProject(_id, _title, _description, _ownerId);
+            Sut.Create(_id, Title, Description, new User(_ownerId));
+        }
+
+        private void UpdateTitle()
+        {
+            Sut.UpdateTitle("new title");
+        }
+
+        private void PostComment()
+        {
+            Sut.PostComment(new Comment(Guid.NewGuid(), new User(_ownerId), "a comment", DateTime.Now));
         }
     }
 }

@@ -10,6 +10,7 @@ using Venture.ProjectRead.Data;
 using Venture.ProjectRead.Data.Entities;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace Venture.ProjectRead.Service
 {

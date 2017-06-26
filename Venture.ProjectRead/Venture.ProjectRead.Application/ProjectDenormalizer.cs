@@ -32,9 +32,9 @@ namespace Venture.ProjectRead.Application
             var newProject = new Project
             {
                 Id = domainEvent.AggregateId,
-                OwnerId = (Guid) eventData.ownerId,
-                Title = (string) eventData.title,
-                Description = (string) eventData.description
+                OwnerId = (Guid) eventData.OwnerId,
+                Title = (string) eventData.Title,
+                Description = (string) eventData.Description
             };
 
             _projectRepository.Add(newProject);
@@ -48,7 +48,7 @@ namespace Venture.ProjectRead.Application
 
             var project = _projectRepository.Get(domainEvent.AggregateId);
 
-            project.Title = (string)eventData.newTitle;
+            project.Title = (string)eventData.NewTitle;
 
             _projectRepository.Update(project);
         }
@@ -61,7 +61,7 @@ namespace Venture.ProjectRead.Application
 
             var project = _projectRepository.Get(domainEvent.AggregateId);
 
-            project.Description = (string)eventData.newDescription;
+            project.Description = (string)eventData.NewDescription;
 
             _projectRepository.Update(project);
         }
@@ -75,10 +75,10 @@ namespace Venture.ProjectRead.Application
             var newComment = new Comment
             {
                 ProjectId = domainEvent.AggregateId,
-                AuthorId = (Guid) eventData.authorId,
+                AuthorId = (Guid) eventData.AuthorId,
                 AuthorName = "Tim",
-                PostedOn = (DateTime) eventData.postedOn,
-                Content = (string) eventData.content
+                PostedOn = (DateTime) eventData.PostedOn,
+                Content = (string) eventData.Content
             };
 
 

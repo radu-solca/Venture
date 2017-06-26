@@ -17,7 +17,11 @@ namespace Venture.ProjectWrite.Application
         public void Handle(PostCommentOnProjectCommand command)
         {
             var project = _projectRepository.Get(command.ProjectId);
-            project.PostComment(command.AuthorId,command.Content,command.PostedOn);
+            project.PostComment(
+                new Comment(Guid.NewGuid(), 
+                new User(command.AuthorId),
+                command.Content,
+                command.PostedOn));
 
             _projectRepository.Update(project);
 
@@ -26,7 +30,7 @@ namespace Venture.ProjectWrite.Application
             Console.WriteLine("Comment posted on: " + sameProject.Id);
             foreach (var comment in sameProject.Chat)
             {
-                Console.WriteLine(comment.AuthorId + ": " + comment.Content + " on " + comment.PostedOn);
+                Console.WriteLine(comment.Author.Id + ": " + comment.Content + " on " + comment.PostedOn);
             }
         }
     }

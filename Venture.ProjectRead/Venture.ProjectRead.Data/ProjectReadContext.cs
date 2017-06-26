@@ -8,13 +8,17 @@ namespace Venture.ProjectRead.Data
         public DbSet<Project> Projects { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
+        public ProjectReadContext(DbContextOptions<ProjectReadContext> options)
+            : base(options)
+        { }
 
-            optionsBuilder.UseSqlServer(
-                "Server=(localdb)\\MSSQLLocalDB;Database=Venture.ProjectRead.Store;Trusted_Connection=True;");
-            //"Server=NASA_PC_2-0-1\\SQLEXPRESS;Database=Venture.ProjectRead.Store;Trusted_Connection=True;");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    base.OnConfiguring(optionsBuilder);
+
+        //    optionsBuilder.UseSqlServer(
+        //        "Server=(localdb)\\MSSQLLocalDB;Database=Venture.ProjectRead.Store;Trusted_Connection=True;");
+        //    //"Server=NASA_PC_2-0-1\\SQLEXPRESS;Database=Venture.ProjectRead.Store;Trusted_Connection=True;");
+        //}
     }
 }
