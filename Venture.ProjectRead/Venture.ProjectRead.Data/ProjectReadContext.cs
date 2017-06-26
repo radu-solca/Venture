@@ -13,7 +13,8 @@ namespace Venture.ProjectRead.Data
             base.OnConfiguring(optionsBuilder);
 
             optionsBuilder.UseSqlServer(
-                "Server=NASA_PC_2-0-1\\SQLEXPRESS;Database=Venture.ProjectRead.Store;Trusted_Connection=True;");
+                "Server=(localdb)\\MSSQLLocalDB;Database=Venture.ProjectRead.Store;Trusted_Connection=True;");
+            //"Server=NASA_PC_2-0-1\\SQLEXPRESS;Database=Venture.ProjectRead.Store;Trusted_Connection=True;");
         }
     }
 }

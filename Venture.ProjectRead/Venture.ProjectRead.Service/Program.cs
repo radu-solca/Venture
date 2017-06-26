@@ -8,6 +8,8 @@ using Venture.ProjectRead.Application;
 using Venture.ProjectRead.Application.DomainEvents;
 using Venture.ProjectRead.Data;
 using Venture.ProjectRead.Data.Entities;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace Venture.ProjectRead.Service
 {
@@ -17,10 +19,20 @@ namespace Venture.ProjectRead.Service
         {
             Console.WriteLine("ProjectRead");
 
-            var serviceProvider = new ServiceCollection()
-                .AddVentureCommon("ProjectWrite")
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
 
-                .AddDbContext<ProjectReadContext>()
+            string connectionString = config.GetConnectionString("DefaultConnection");
+
+            var serviceProvider = new ServiceCollection()
+                .AddVentureCommon("ProjectRead")
+
+                .AddDbContext<ProjectReadContext>(options =>
+                    options.UseSqlServer(connectionString)
+                )
+
                 .AddTransient<IRepository<Project>, ProjectRepository>()
                 .AddTransient<IRepository<Comment>, CommentRepository>()
 
