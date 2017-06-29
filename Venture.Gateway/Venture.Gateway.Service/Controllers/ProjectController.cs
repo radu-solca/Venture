@@ -1,9 +1,12 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using RawRabbit;
 using Venture.Common.Extensions;
 using Venture.Gateway.Business.Commands;
 using Venture.Gateway.Business.Models;
+using Venture.Gateway.Business.Queries;
+using Venture.Gateway.Business.QueryResults;
 
 namespace Venture.Gateway.Service.Controllers
 {
@@ -16,6 +19,23 @@ namespace Venture.Gateway.Service.Controllers
         public ProjectController(IBusClient bus)
         {
             _bus = bus;
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult Get(Guid id)
+        {
+            var query = new GetProjectQuery(id);
+            var result = _bus.PublishQuery(query);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            var project = JsonConvert.DeserializeObject<ProjectViewModel>(result);
+
+            return Ok(project);
         }
 
         [HttpPost]

@@ -1,7 +1,11 @@
 ﻿namespace Venture.Common.Cqrs.Queries
 {
-    public interface IQueryHandler<in TQuery, out TResult> where TQuery : IQuery<TResult>
+    public interface IQueryHandler<in TQuery> where TQuery : IQuery
     {
-        TResult Handle(TQuery query);
+        /// <summary>
+        ///  Handles a query.
+        /// </summary>
+        /// <returns>A JSON string.</returns>
+        string Handle(TQuery query);
     }
 }

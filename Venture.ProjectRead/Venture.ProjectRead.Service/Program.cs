@@ -11,6 +11,10 @@ using Venture.ProjectRead.Data.Entities;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
+using Venture.Common.Cqrs.Queries;
+using Venture.ProjectRead.Application.Queries;
+using Venture.ProjectRead.Application.QueryHandlers;
+using Venture.ProjectRead.Application.QueryResults;
 
 namespace Venture.ProjectRead.Service
 {
@@ -34,15 +38,19 @@ namespace Venture.ProjectRead.Service
                     options.UseSqlServer(connectionString)
                 )
 
+                // Repositories
                 .AddTransient<IRepository<Project>, ProjectRepository>()
                 .AddTransient<IRepository<Comment>, CommentRepository>()
 
+                // Event handlers
                 .AddTransient<IEventHandler<ProjectCreatedEvent>, ProjectDenormalizer>()
                 .AddTransient<IEventHandler<ProjectTitleUpdatedEvent>, ProjectDenormalizer>()
                 .AddTransient<IEventHandler<ProjectDescriptionUpdatedEvent>, ProjectDenormalizer>()
                 .AddTransient<IEventHandler<ProjectCommentPostedEvent>, ProjectDenormalizer>()
-
                 .AddTransient<IEventHandler<ProjectDeletedEvent>, ProjectDenormalizer>()
+
+                // Query handlers
+                .AddTransient<IQueryHandler<GetProjectQuery>, GetProjectQueryHandler>()
 
                 .BuildServiceProvider();
 
@@ -59,6 +67,10 @@ namespace Venture.ProjectRead.Service
             bus.SubscribeToEvent(projectDescriptionUpdatedEventHandler);
             bus.SubscribeToEvent(projectCommentPostedEventHandler);
             bus.SubscribeToEvent(projectDeletedEventHandler);
+
+            var getProjectQueryHandler = (IQueryHandler<GetProjectQuery>)serviceProvider.GetService(typeof(IQueryHandler<GetProjectQuery>));
+
+            bus.SubscribeToQuery(getProjectQueryHandler);
 
             Console.ReadKey();
         }

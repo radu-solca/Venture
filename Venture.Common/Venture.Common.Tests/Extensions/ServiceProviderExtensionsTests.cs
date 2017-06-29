@@ -29,30 +29,6 @@ namespace Venture.Common.Tests.Extensions
         }
 
         [TestMethod]
-        public void When_AddVentureCommonIsCalled_QueryDispatcherShouldBeRegistered()
-        {
-            // Arrange
-
-            // Act
-            var queryDispatcher = _sut.GetService<IQueryDispatcher>();
-
-            // Assert
-            queryDispatcher.Should().NotBeNull();
-        }
-
-        [TestMethod]
-        public void When_AddVentureCommonIsCalled_CommandDispatcherShouldBeRegistered()
-        {
-            // Arrange
-
-            // Act
-            var commandDispatcher = _sut.GetService<ICommandDispatcher>();
-
-            // Assert
-            commandDispatcher.Should().NotBeNull();
-        }
-
-        [TestMethod]
         public void When_AddVentureCommonIsCalled_BusClientShouldBeRegistered()
         {
             // Arrange

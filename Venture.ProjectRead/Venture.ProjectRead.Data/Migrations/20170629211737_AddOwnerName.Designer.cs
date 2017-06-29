@@ -8,9 +8,10 @@ using Venture.ProjectRead.Data;
 namespace Venture.ProjectRead.Data.Migrations
 {
     [DbContext(typeof(ProjectReadContext))]
-    partial class ProjectReadContextModelSnapshot : ModelSnapshot
+    [Migration("20170629211737_AddOwnerName")]
+    partial class AddOwnerName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

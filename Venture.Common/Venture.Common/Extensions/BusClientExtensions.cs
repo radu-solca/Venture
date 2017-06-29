@@ -60,12 +60,11 @@ namespace Venture.Common.Extensions
         /// If no subscribers answer for a number of seconds, then a timeout exception will be thrown.
         /// </summary>
         /// <typeparam name="TQuery">The query type</typeparam>
-        /// <typeparam name="TResult">The expected result type</typeparam>
         /// <returns>The returned value.</returns>
-        public static TResult PublishQuery<TQuery, TResult>(this IBusClient bus, TQuery query)
-            where TQuery : class, IQuery<TResult>
+        public static string PublishQuery<TQuery>(this IBusClient bus, TQuery query)
+            where TQuery : class, IQuery
         {
-            return bus.RequestAsync<TQuery, TResult>(
+            return bus.RequestAsync<TQuery, string>(
                     query,
                     configuration: config =>
                     {
@@ -79,10 +78,9 @@ namespace Venture.Common.Extensions
         /// Attaches a handler to a specific query.
         /// </summary>
         /// <typeparam name="TQuery">The query type</typeparam>
-        /// <typeparam name="TResult">The expected result type</typeparam>
-        public static void SubscribeToQuery<TQuery, TResult>(this IBusClient bus, IQueryHandler<TQuery, TResult> queryHandler) where TQuery : class, IQuery<TResult>
+        public static void SubscribeToQuery<TQuery>(this IBusClient bus, IQueryHandler<TQuery> queryHandler) where TQuery : class, IQuery
         {
-            bus.RespondAsync<TQuery, TResult>(
+            bus.RespondAsync<TQuery, string>(
                 async (query, context) =>
                 {
                     return await Task.Run(() => queryHandler.Handle(query));
