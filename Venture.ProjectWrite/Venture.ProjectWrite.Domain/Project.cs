@@ -11,7 +11,7 @@ namespace Venture.ProjectWrite.Domain
     {
         public string Title { get; private set; }
         public string Description { get; private set; }
-        public User ProjectOwner { get; private set; }
+        public User Owner { get; private set; }
         public ICollection<Comment> Chat { get; private set; }
 
         public void Create(
@@ -88,7 +88,7 @@ namespace Venture.ProjectWrite.Domain
             var projectDeletedEvent = new ProjectDeletedEvent(
                 Id,
                 Version + 1,
-                null);
+                "");
 
             Apply(projectDeletedEvent);
         }
@@ -102,7 +102,7 @@ namespace Venture.ProjectWrite.Domain
                     Id = domainEvent.AggregateId;
                     Title = (string)data.Title;
                     Description = (string)data.Description;
-                    ProjectOwner = new User((Guid)data.OwnerId);
+                    Owner = new User((Guid)data.OwnerId);
 
                     Chat = new List<Comment>();
 

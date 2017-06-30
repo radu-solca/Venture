@@ -27,18 +27,6 @@ namespace Venture.ProjectWrite.Domain.Tests
         }
 
         [TestMethod]
-        public void When_Instanciated__Then_ShouldNotBeCreated()
-        {
-            // Arrange
-
-            // Act
-            var isCreated = Sut.IsCreated();
-
-            // Assert
-            isCreated.Should().BeFalse();
-        }
-
-        [TestMethod]
         public void When_ActedUpon_Then_ShouldHaveUncommitedChanges()
         {
             // Arrange
@@ -53,21 +41,6 @@ namespace Venture.ProjectWrite.Domain.Tests
         }
 
         [TestMethod]
-        public void When_ChangesMarkedAsCommited_Then_ShouldHaveNoUncommitedChanges()
-        {
-            // Arrange
-            CreateProject();
-            UpdateTitle();
-            PostComment();
-
-            // Act
-            Sut.MarkChangesAsCommited();
-
-            // Assert
-            Sut.UncommitedChanges.Should().BeEmpty();
-        }
-
-        [TestMethod]
         public void When_Created_Then_ShouldHaveCorrectData()
         {
             // Arrange
@@ -79,7 +52,7 @@ namespace Venture.ProjectWrite.Domain.Tests
             Sut.Id.Should().Be(_id);
             Sut.Title.Should().Be(Title);
             Sut.Description.Should().Be(Description);
-            Sut.ProjectOwner.Id.Should().Be(_ownerId);
+            Sut.Owner.Id.Should().Be(_ownerId);
 
             Sut.Chat.Should().BeEmpty();
         }

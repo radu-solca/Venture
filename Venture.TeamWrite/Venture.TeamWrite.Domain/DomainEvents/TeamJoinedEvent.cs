@@ -5,7 +5,7 @@ namespace Venture.TeamWrite.Domain.DomainEvents
 {
     public sealed class TeamJoinedEvent : DomainEvent
     {
-        public TeamJoinedEvent(Guid aggregateId, int version, string jsonPayload) : base((string) "TeamJoinedEvent", aggregateId, version, jsonPayload)
+        public TeamJoinedEvent(Guid aggregateId, int version, string jsonPayload) : base("TeamJoinedEvent", aggregateId, version, jsonPayload)
         {
         }
     }

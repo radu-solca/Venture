@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Venture.ProjectWrite", "Venture.ProjectWrite", "{0F2D88FA-0197-49C2-BC51-372838CBC9E8}"
 EndProject
@@ -58,6 +58,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Service Layer", "01 - Service Layer", "{028D3C8B-2A10-43BA-97C9-86DA173AF6ED}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Business Layer", "02 - Business Layer", "{7E8D1CD0-2ADB-4B81-84AF-AC619543F6DB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - Domain Layer", "03 - Domain Layer", "{EF9106F9-BBD9-4C06-BFFB-3E34E6615576}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -139,5 +141,6 @@ Global
 		{FBBDFAA8-2195-42EA-BFDB-E2E41519C728} = {1C9A5FD7-E9E4-48A0-B461-90328E7B3330}
 		{028D3C8B-2A10-43BA-97C9-86DA173AF6ED} = {115D7E81-0FA4-40D4-AE3C-047CC7B98475}
 		{7E8D1CD0-2ADB-4B81-84AF-AC619543F6DB} = {115D7E81-0FA4-40D4-AE3C-047CC7B98475}
+		{EF9106F9-BBD9-4C06-BFFB-3E34E6615576} = {B7E1964A-0B39-4EF1-9AAC-417FF766FC56}
 	EndGlobalSection
 EndGlobal
