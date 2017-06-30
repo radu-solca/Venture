@@ -1,6 +1,5 @@
 ﻿using System;
 using Venture.Common.Cqrs.Queries;
-using Venture.Gateway.Business.QueryResults;
 
 namespace Venture.Gateway.Business.Queries
 {
