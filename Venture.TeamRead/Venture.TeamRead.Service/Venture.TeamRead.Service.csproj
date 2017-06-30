@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Venture.Common" Version="1.0.37" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Venture.TeamRead.Application\Venture.TeamRead.Application.csproj" />
+    <ProjectReference Include="..\Venture.TeamRead.Data\Venture.TeamRead.Data.csproj" />
+  </ItemGroup>
+
+</Project>

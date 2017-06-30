@@ -5,7 +5,7 @@ namespace Venture.ProjectRead.Data.Factories
 {
     /// <summary>
     /// This factory exists only so entity framework can create its context to update the database.
-    /// Unfortunately, RF doesn't recognise AddDbContext calls unless they're on an ASP.NET project.
+    /// Unfortunately, EF doesn't recognise AddDbContext calls unless they're on an ASP.NET project.
     /// </summary>
     internal class ProjectReadContextFactory : IDbContextFactory<ProjectReadContext>
     {
