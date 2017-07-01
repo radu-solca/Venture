@@ -25,6 +25,12 @@ namespace Venture.Gateway.Service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddVentureCommon("Gateway");
+            services.AddCors(o => o.AddPolicy("OpenBordersPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
 
             // Add framework services.
             services.AddMvc();
@@ -36,6 +42,7 @@ namespace Venture.Gateway.Service
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseCors("OpenBordersPolicy");
             app.UseMvc();
         }
     }

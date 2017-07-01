@@ -1,0 +1,128 @@
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-md-12 no-padding-left no-padding-right">
+                <div class="col-md-8 no-padding-left">
+                    <h2>{{project.title}}</h2>
+                    <h5 class="margin-bottom">Created by <a href="">John Doe</a></h5>
+
+                </div>
+                <div class="col-md-4 text-right no-padding-right">
+                    <a *ngIf="!isOwner" class=" btn btn-success margin-top" href="/projects/1">Join</a>
+                    <a *ngIf="isOwner" class="btn btn-default margin-top" href="/projects/1">Edit</a>
+                    <a *ngIf="isOwner" class="btn btn-default margin-top" href="/projects/1">Delete</a>
+                </div>
+            </div>
+
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a data-toggle="tab" href="#details"> <span class="glyphicon glyphicon-align-left"></span> Details</a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#team"> <span class="glyphicon glyphicon-education"></span> Team</a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#comments"> <span class="glyphicon glyphicon-comment"></span> Comments</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="details" class="tab-pane fade in active">
+                    <p class="group inner list-group-item-text margin-top">
+                        {{project.description}}</p>
+                </div>
+                <div id="team" class="tab-pane fade">
+                    <div class="col-md-12 no-padding-left no-padding-right">
+                        <div class="team-members col-lg-3 no-padding">
+                            <div *ngIf="isOwner" class="col-lg-12 no-padding">
+                                <h4> Pending</h4>
+                                <ul class="pending">
+                                    <li><span>Laura Jerome</span> <a class="margin-left btn btn-default btn-xs margin-top" href="/projects/1">Approve</a></li>
+                                    <li>Moira Glenda <a class="margin-left btn btn-default btn-xs margin-top" href="/projects/1">Approve</a></li>
+                                    <li>Judith Brittany <a class="margin-left btn btn-default btn-xs margin-top" href="/projects/1">Approve</a></li>
+                                    <li>Corey Wilfred <a class="margin-left btn btn-default btn-xs margin-top" href="/projects/1">Approve</a></li>
+                                    <li>John Johnson <a class="margin-left btn btn-default btn-xs margin-top" href="/projects/1">Approve</a></li>
+                                    <li>Michael Jay <a class="margin-left btn btn-default btn-xs margin-top" href="/projects/1">Approve</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-12 no-padding">
+                                <h4> Members</h4>
+                                <ul class="approved">
+                                    <li>John Doe <span class="label label-success">Owner</span></li>
+                                    <li>Ophelia Deidra</li>
+                                    <li>Gabriel Zoe</li>
+                                    <li>Norton Mathew</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div *ngIf="isTeamMember" class="col-lg-9 no-padding-right private-comments">
+                            <div class="margin-bottom margin-top text-right">
+                                <textarea class="form-control" rows="3" id="comment"></textarea>
+                                <a class="btn btn-success margin-top" href="#">Send</a>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <strong>Jane Johnson</strong> <span class="text-muted">26-05-2017 15:42</span>
+                                        </div>
+                                        <div class="panel-body">
+                                            Asdfgghklj;
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <strong>Lucy Liu</strong> <span class="text-muted">26-05-2017 19:25</span>
+                                        </div>
+                                        <div class="panel-body">
+                                            Lorem ipsum dolor sit amet.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="!isTeamMember" class="col-md-9 no-padding-left no-padding-right no-padding-bottom margin-top">
+                            <div class="alert alert-danger">
+                                <strong>Comments hidden!</strong> You need to be a member to see private comments.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="comments" class="tab-pane fade">
+                    <div class="margin-bottom margin-top text-right">
+                        <textarea class="form-control" rows="3" id="comment"></textarea>
+                        <a class="btn btn-success margin-top" href="#">Send</a>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>Jane Johnson</strong> <span class="text-muted">26-05-2017 15:42</span>
+                                </div>
+                                <div class="panel-body">
+                                    Asdfgghklj;
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>Lucy Liu</strong> <span class="text-muted">26-05-2017 19:25</span>
+                                </div>
+                                <div class="panel-body">
+                                    Lorem ipsum dolor sit amet.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

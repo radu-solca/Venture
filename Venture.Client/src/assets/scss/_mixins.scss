@@ -1,0 +1,17 @@
+$sides: ('top', 'right', 'bottom', 'left');
+@each $property in ('margin', 'padding') {
+    .#{$property} {
+        #{$property}: 16px !important;
+    }
+    .no-#{$property} {
+        #{$property}: 0 !important;
+    }
+    @each $side in $sides {
+        .#{$property}-#{$side} {
+            #{$property}-#{$side}: 16px !important;
+        }
+        .no-#{$property}-#{$side} {
+            #{$property}-#{$side}: 0 !important;
+        }
+    }
+}

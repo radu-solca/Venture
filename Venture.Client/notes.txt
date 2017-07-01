@@ -1,0 +1,12 @@
+## notes
+
+USER can do:
+- view project
+- comment on public chat of project
+- join team of project
+- if join is approved, comment on team chat
+
+PROJECT OWNER can:
+- edit/delete? project
+- approve users into the team
+- permanent member

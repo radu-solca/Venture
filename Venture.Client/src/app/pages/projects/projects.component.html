@@ -1,0 +1,25 @@
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div id="Projects" class="row">
+
+				<div class="item  col-sm-6 col-lg-4" *ngFor="let project of projects">
+					<div class="thumbnail">
+						<div class="caption">
+							<h3 class="group inner list-group-item-heading">
+								{{project.title}}</h3>
+							<p class="group inner list-group-item-text margin-top">
+								{{project.description}}</p>
+							<div class="row">
+								<div class="col-md-12 text-right">
+									<a class="btn btn-success margin-top" href="/projects/{{project.id}}">Details</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

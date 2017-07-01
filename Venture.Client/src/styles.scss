@@ -1,0 +1,74 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* START Venture colors & fonts */
+@import "assets/scss/_palette.scss";
+@import "assets/scss/_typography.scss";
+@import "assets/scss/_mixins.scss";
+/* END */
+
+/* START Overwrite Bootstrap variables */
+/* === base === */
+$body-bg: transparent;
+$link-color: $purple;
+/* === typography === */
+$font-family-sans-serif: 'Montserrat', sans-serif;
+/* === buttons === */
+$brand-primary: $pink;
+$brand-success: $purple;
+$btn-default-border: $purple;
+$btn-default-color: $purple;
+$brand-danger: $red;
+$brand-warning: $orange;
+$brand-info: $blue;
+$border-radius-base: 0;
+$border-radius-large: 0;
+$border-radius-small: 0;
+$btn-font-weight: 300;
+/* === navbar === */
+$navbar-default-bg: $dark;
+$navbar-default-color: $light-grey;
+$navbar-default-link-color: $light-grey;
+$navbar-default-link-hover-color: darken($light-grey, 10%);
+$navbar-default-link-active-color: $pink;
+$navbar-default-link-active-bg: transparent;
+$navbar-default-border: transparent;
+/* === thumbnail === */
+$thumbnail-bg: $light;
+/* === tabs === */
+$nav-tabs-link-hover-border-color: transparent;
+$nav-tabs-border-color: $light-grey;
+// $nav-tabs-active-link-hover-border-color: transparent;
+/* END */
+
+/* START Fix Bootstrap Glyphicons: path problem */
+$icon-font-path: "../node_modules/bootstrap-sass/assets/fonts/bootstrap/";
+
+@function font-path($path) {
+  @return $path;
+}
+/* END */
+
+/* START import Bootstrap SCSS */
+@import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
+@import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+/* END */
+
+/* START other global styles */
+html {
+    height: 100%;
+}
+body {
+    height: calc(100% - $navbar-height);
+    margin: 0;
+    @include gradient-directional($light-grey, lighten($light-grey,10%), 45deg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+.btn{
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+span.glyphicon{
+    padding-right: 6px;
+}
+/* END */
