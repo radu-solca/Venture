@@ -18,6 +18,11 @@ namespace Venture.ProjectWrite.Application
         {
             var project = _projectRepository.Get(command.Id);
 
+            if (project == null || project.Deleted)
+            {
+                return;
+            }
+
             if (!string.IsNullOrEmpty(command.Title))
             {
                 project.UpdateTitle(command.Title);

@@ -16,6 +16,13 @@ namespace Venture.ProjectWrite.Application.CommandHandlers
 
         public void Handle(DeleteProjectCommand command)
         {
+            var project = _projectRepository.Get(command.ProjectId);
+
+            if (project == null || project.Deleted)
+            {
+                return;
+            }
+
             _projectRepository.Delete(command.ProjectId);
         }
     }

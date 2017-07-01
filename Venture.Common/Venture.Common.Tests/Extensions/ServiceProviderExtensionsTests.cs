@@ -3,8 +3,6 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RawRabbit;
-using Venture.Common.Cqrs.Commands;
-using Venture.Common.Cqrs.Queries;
 using Venture.Common.Extensions;
 
 namespace Venture.Common.Tests.Extensions

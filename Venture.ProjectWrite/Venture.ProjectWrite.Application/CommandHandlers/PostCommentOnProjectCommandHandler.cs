@@ -17,6 +17,12 @@ namespace Venture.ProjectWrite.Application
         public void Handle(PostCommentOnProjectCommand command)
         {
             var project = _projectRepository.Get(command.ProjectId);
+
+            if (project == null || project.Deleted)
+            {
+                return;
+            }
+
             project.PostComment(
                 new Comment(Guid.NewGuid(), 
                 new User(command.AuthorId),

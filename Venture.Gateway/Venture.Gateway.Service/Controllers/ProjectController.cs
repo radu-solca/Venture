@@ -10,11 +10,11 @@ using Venture.Gateway.Business.Queries;
 
 namespace Venture.Gateway.Service.Controllers
 {
+    [Produces("application/json")]
     [Route("/v1/projects")]
     public class ProjectController : Controller
     {
         private readonly IBusClient _bus;
-
 
         public ProjectController(IBusClient bus)
         {
@@ -71,8 +71,17 @@ namespace Venture.Gateway.Service.Controllers
             return Ok();
         }
 
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete(Guid id)
+        {
+            var command = new DeleteProjectCommand(id);
+            _bus.PublishCommand(command);
+            return Ok();
+        }
+
         [HttpPost]
-        [Route("{id}/comments")]
+        [Route("{id}/chat")]
         public IActionResult PostComment(Guid id, [FromBody]CommentPostModel model)
         {
             var command = new PostCommentOnProjectCommand(id, model.AuthorId, model.Content, DateTime.Now);
@@ -81,20 +90,15 @@ namespace Venture.Gateway.Service.Controllers
         }
 
         [HttpGet]
-        [Route("{projectId}/comments")]
-        public IActionResult GetComments(Guid projectId)
+        [Route("{id}/chat")]
+        public IActionResult GetComments(Guid id)
         {
-            var query = new GetProjectCommentsQuery(projectId);
+            var query = new GetProjectCommentsQuery(id);
             var result = _bus.PublishQuery(query);
 
-            if (result == null)
-            {
-                return NotFound();
-            }
+            var chat = JsonConvert.DeserializeObject<List<CommentViewModel>>(result);
 
-            var project = JsonConvert.DeserializeObject<List<CommentViewModel>>(result);
-
-            return Ok(project);
+            return Ok(chat);
         }
     }
 }

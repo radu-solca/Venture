@@ -22,8 +22,7 @@ namespace Venture.TeamWrite.Application.EventHandlers
         {
             Console.WriteLine(domainEvent.AggregateId + " " + domainEvent.Type + " " + domainEvent.JsonPayload);
 
-            dynamic eventData = JsonConvert.DeserializeObject(domainEvent.JsonPayload);
-            var teamId = (Guid)eventData.ProjectId;
+            var teamId = domainEvent.AggregateId;
 
             _teamRepository.Delete(teamId);
         }

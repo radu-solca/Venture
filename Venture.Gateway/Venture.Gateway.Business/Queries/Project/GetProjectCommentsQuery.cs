@@ -1,7 +1,7 @@
 ﻿using System;
 using Venture.Common.Cqrs.Queries;
 
-namespace Venture.Gateway.Service.Controllers
+namespace Venture.Gateway.Business.Queries
 {
     public class GetProjectCommentsQuery : IQuery
     {

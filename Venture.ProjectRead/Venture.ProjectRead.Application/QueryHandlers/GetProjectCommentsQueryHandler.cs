@@ -31,7 +31,7 @@ namespace Venture.ProjectRead.Application.QueryHandlers
 
             if (_projectRepository.Get(query.ProjectId) == null)
             {
-                return null;
+                return "";
             }
 
             var comments = _commentRepository.GetByProjectId(query.ProjectId);
