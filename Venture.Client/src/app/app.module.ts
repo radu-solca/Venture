@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule, Http } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 /* START bootstrap */
 import { BsDropdownModule } from 'ngx-bootstrap';
@@ -35,7 +36,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     BsDropdownModule.forRoot(),
     BrowserModule,
-    HttpModule
+    HttpModule,
+    FormsModule
   ],
   providers: [ProjectService],
   bootstrap: [AppComponent]

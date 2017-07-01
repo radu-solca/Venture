@@ -2,40 +2,59 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import 'rxjs/add/operator/switchMap';
-
 import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/project.model';
+import { Comment } from '../../models/comment.model';
 
 @Component({
-  selector: 'app-project',
-  templateUrl: './project.component.html',
-  styleUrls: ['./project.component.scss']
+	selector: 'app-project',
+	templateUrl: './project.component.html',
+	styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
 
-  private isOwner : boolean;
-  private isTeamMember : boolean;
-  private project : Project;
+	//Temp stuff:
+	private isOwner: boolean;
+	private isTeamMember: boolean;
+	private ownerId: string = "173c3bfa-0000-0000-8488-54e618afd0ef";
 
-  constructor(
-    private route : ActivatedRoute,
-    private projectService : ProjectService,
-    private router : Router
-  ) {}
+	private project: Project;
+	private chat: Comment[];
 
-  ngOnInit() {
-    this.isOwner = false;
-    this.isTeamMember = false;
+	private commentText: string;
 
-    this.route.paramMap
-      .switchMap((params: ParamMap) => this.projectService.getById(params.get('id')))
-      .subscribe((project: Project) => {
-        if(project === undefined){
-          this.router.navigate(["notfound"]);
-        }
-        
-        this.project = project;
-      });
-  }
+	constructor(
+		private route: ActivatedRoute,
+		private projectService: ProjectService,
+		private router: Router
+	) { }
+
+	ngOnInit() {
+		this.isOwner = false;
+		this.isTeamMember = false;
+
+		this.route.params.subscribe(params => {
+			let id = params['id'];
+			this.loadData(id);
+		})
+	}
+
+	private loadData(id: string): void {
+		this.projectService
+			.getById(id)
+			.subscribe(project => this.project = project);
+
+		this.projectService
+			.getChat(id)
+			.subscribe(chat => this.chat = chat);
+	}
+
+	private postInChat(): void {
+		let comment = new Comment({authorId : this.ownerId, content : this.commentText});
+		this.projectService.postInChat(this.project.id, comment)
+			.subscribe(
+				res => console.log(res),
+				err => console.log(err));
+		this.commentText = "";
+	}
 }
