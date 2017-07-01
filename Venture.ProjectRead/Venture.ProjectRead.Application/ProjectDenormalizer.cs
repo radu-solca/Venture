@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Venture.Common.Data;
 using Venture.Common.Events;
-using Venture.ProjectRead.Application.DomainEvents;
+using Venture.ProjectRead.Data.DomainEvents;
 using Venture.ProjectRead.Data.Entities;
 
 namespace Venture.ProjectRead.Application
@@ -72,11 +72,11 @@ namespace Venture.ProjectRead.Application
 
             dynamic eventData = JsonConvert.DeserializeObject(domainEvent.JsonPayload);
 
+            // TODO: add usernames.
             var newComment = new Comment
             {
                 ProjectId = domainEvent.AggregateId,
                 AuthorId = (Guid) eventData.AuthorId,
-                AuthorName = "Tim",
                 PostedOn = (DateTime) eventData.PostedOn,
                 Content = (string) eventData.Content
             };

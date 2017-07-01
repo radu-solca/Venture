@@ -5,7 +5,6 @@ using Venture.Common.Data;
 using Venture.Common.Events;
 using Venture.Common.Extensions;
 using Venture.ProjectRead.Application;
-using Venture.ProjectRead.Application.DomainEvents;
 using Venture.ProjectRead.Data;
 using Venture.ProjectRead.Data.Entities;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Venture.Common.Cqrs.Queries;
 using Venture.ProjectRead.Application.Queries;
 using Venture.ProjectRead.Application.QueryHandlers;
+using Venture.ProjectRead.Data.DomainEvents;
 
 namespace Venture.ProjectRead.Service
 {

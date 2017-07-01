@@ -1,7 +1,7 @@
 using System;
 using Venture.Common.Events;
 
-namespace Venture.ProjectRead.Application.DomainEvents
+namespace Venture.ProjectRead.Data.DomainEvents
 {
     public sealed class ProjectDescriptionUpdatedEvent : DomainEvent
     {

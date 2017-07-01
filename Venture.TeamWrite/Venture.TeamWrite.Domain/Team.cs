@@ -31,6 +31,7 @@ namespace Venture.TeamWrite.Domain
         public void Join(User user)
         {
             CheckIfCreated();
+            CheckIfDeleted();
 
             var payload = new { UserId = user.Id};
             var jsonPayload = JsonConvert.SerializeObject(payload);
@@ -43,9 +44,26 @@ namespace Venture.TeamWrite.Domain
             Apply(teamJoinedEvent);
         }
 
+        public void Leave(User user)
+        {
+            CheckIfCreated();
+            CheckIfDeleted();
+
+            var payload = new { UserId = user.Id };
+            var jsonPayload = JsonConvert.SerializeObject(payload);
+
+            var teamLeftEvent = new TeamLeftEvent(
+                Id,
+                Version + 1,
+                jsonPayload);
+
+            Apply(teamLeftEvent);
+        }
+
         public void Approve(User user)
         {
             CheckIfCreated();
+            CheckIfDeleted();
 
             if (! Users.Any(u => u.Id == user.Id))
             {
@@ -66,6 +84,7 @@ namespace Venture.TeamWrite.Domain
         public void PostComment(Comment comment)
         {
             CheckIfCreated();
+            CheckIfDeleted();
 
             if (!comment.Author.Approved && !(comment.Author.Id == ProjectOwner.Id))
             {
@@ -113,6 +132,10 @@ namespace Venture.TeamWrite.Domain
                     Users.Add(new User((Guid)data.UserId));
                     break;
 
+                case "TeamLeftEvent":
+                    Users.Remove(Users.SingleOrDefault(u => u.Id == (Guid)data.UserId));
+                    break;
+
                 case "TeamUserApprovedEvent":
                     var user = Users.FirstOrDefault(u => u.Id == (Guid)data.UserId);
 
@@ -138,7 +161,15 @@ namespace Venture.TeamWrite.Domain
         {
             if (!IsCreated())
             {
-                throw new Exception("Team not created");
+                throw new InvalidOperationException("Team not created");
+            }
+        }
+
+        private void CheckIfDeleted()
+        {
+            if (!Deleted)
+            {
+                throw new InvalidOperationException("Team not created");
             }
         }
     }
