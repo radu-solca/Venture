@@ -17,14 +17,14 @@ namespace Venture.Users.Application
 
         public void Handle(RegisterUserCommand command)
         {
-            var userWithSameName = Enumerable.FirstOrDefault<User>(_useRepository.Get(), u => u.Name == command.Name);
+            var userWithSameName = Enumerable.FirstOrDefault<User>(_useRepository.Get(), u => u.UserName == command.Name);
             if (userWithSameName != null)
             {
                 return;
             }
 
-            var newUser = new User { Id = Guid.NewGuid(), Name = command.Name, Password = command.Password };
-            _useRepository.Add(newUser);
+            //var newUser = new User { Id = Guid.NewGuid(), Name = command.Name, Password = command.Password };
+            //_useRepository.Add(newUser);
         }
     }
 }

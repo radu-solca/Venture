@@ -8,9 +8,10 @@ using Venture.Users.Data;
 namespace Venture.Users.Data.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    partial class UsersContextModelSnapshot : ModelSnapshot
+    [Migration("20170702122458_UseOpenIddictAndIdentityUser")]
+    partial class UseOpenIddictAndIdentityUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

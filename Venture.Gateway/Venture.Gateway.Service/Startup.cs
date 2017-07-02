@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Venture.Common.Extensions;
 
 namespace Venture.Gateway.Service
@@ -42,7 +44,23 @@ namespace Venture.Gateway.Service
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            //var tokenValidationParameters = new TokenValidationParameters
+
+            //{
+            //    ValidateIssuerSigningKey = true,
+            //    ValidateIssuer = true,
+            //    ValidIssuer = "http://localhost:5000/",
+            //    IssuerSigningKey = new X509SecurityKey(new X509Certificate2(certLocation)),
+            //};
+
             app.UseCors("OpenBordersPolicy");
+            //app.UseJwtBearerAuthentication(
+            //    new JwtBearerOptions()
+            //    {
+            //        AutomaticAuthenticate = true,
+            //        RequireHttpsMetadata = false,
+            //        TokenValidationParameters = tokenValidationParameters
+            //    });
             app.UseMvc();
         }
     }

@@ -17,7 +17,7 @@ namespace Venture.Users.Application
 
         public string Handle(GetUserByNameQuery query)
         {
-            var user = Enumerable.FirstOrDefault<User>(_useRepository.Get(), u => u.Name == query.UserName);
+            var user = Enumerable.FirstOrDefault<User>(_useRepository.Get(), u => u.UserName == query.UserName);
             return JsonConvert.SerializeObject(user);
         }
     }

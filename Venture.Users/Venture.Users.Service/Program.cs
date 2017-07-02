@@ -7,7 +7,6 @@ using RawRabbit;
 using Venture.Common.Cqrs.Commands;
 using Venture.Common.Cqrs.Queries;
 using Venture.Common.Data;
-using Venture.Common.Events;
 using Venture.Common.Extensions;
 using Venture.Users.Application;
 using Venture.Users.Data;
