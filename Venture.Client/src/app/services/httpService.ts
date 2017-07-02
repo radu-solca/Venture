@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
+import { AuthService } from "app/services/auth.service";
 
 export class HttpService{
 
 	constructor(
 		private http: Http, 
-		private apiEndpoint: string
+		private apiEndpoint: string,
 	){}
 
 	protected post(

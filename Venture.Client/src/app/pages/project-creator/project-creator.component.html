@@ -1,0 +1,20 @@
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div id="Projects" class="row">
+
+				<div class="item  col-sm-12 col-lg-4">
+
+					<input [(ngModel)]="titleText" name="title" placeholder="Title" type="text" class="form-control" style="width:100%"/>
+					<textarea [(ngModel)]="descriptionText" name="description" placeholder="Description" type="textBox" class="margin-top form-control" style="height:200px;"></textarea>
+					<div class="row">
+						<div class="col-md-12 text-right">
+							<a class="btn btn-success margin-top" (click)="createProject()" routerLink="/projects" routerLinkActive="active">Create</a>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

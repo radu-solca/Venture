@@ -13,7 +13,7 @@ export class AuthService extends HttpService {
 		super(http, "http://localhost:40001/v1/auth");
 	}
 
-	private token: string = null;
+	public token: string = null;
 	public user: User = null;
 
 	public login(username: string, password: string) : void{

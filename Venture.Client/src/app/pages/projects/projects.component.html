@@ -2,6 +2,11 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<div id="Projects" class="row">
+				<div class="col-md-12 text-right" *ngIf="authService.isLoggedIn()">
+					<a class="btn btn-success margin-top" 
+					routerLink="/project-creator"
+					routerLinkActive="active">Create</a>
+				</div>
 
 				<div class="item  col-sm-6 col-lg-4" *ngFor="let project of projects">
 					<div class="thumbnail">

@@ -33,9 +33,9 @@ namespace Venture.Gateway.Service.Controllers
                 return NotFound();
             }
 
-            var project = JsonConvert.DeserializeObject<ProjectViewModel>(result);
+            var project = JsonConvert.DeserializeObject<List<ProjectViewModel>>(result);
 
-            return Ok(project);
+            return new JsonResult(project);
         }
 
         [HttpPost]

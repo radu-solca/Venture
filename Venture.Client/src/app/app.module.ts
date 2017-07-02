@@ -16,12 +16,15 @@ import { ProjectComponent } from './pages/project/project.component';
 
 import { ProjectService } from './services/project.service';
 import { AuthService } from "app/services/auth.service";
+import { ProjectCreatorComponent } from './pages/project-creator/project-creator.component';
+import { TeamService } from "app/services/team.service";
 
 /* routing */
 const appRoutes: Routes = [
   { path: '', component: ProjectsComponent },
   { path: 'projects', component: ProjectsComponent },
   { path: 'projects/:id', component: ProjectComponent },
+  { path: 'project-creator', component: ProjectCreatorComponent },
   { path: '**', component: NotFoundComponent }
 ];
 
@@ -31,7 +34,8 @@ const appRoutes: Routes = [
     NavigationComponent,
     ProjectsComponent,
     NotFoundComponent,
-    ProjectComponent
+    ProjectComponent,
+    ProjectCreatorComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -40,7 +44,7 @@ const appRoutes: Routes = [
     HttpModule,
     FormsModule
   ],
-  providers: [ProjectService, AuthService],
+  providers: [ProjectService, AuthService, TeamService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

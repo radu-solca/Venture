@@ -48,7 +48,7 @@ namespace Venture.Gateway.Service.Controllers
 
             var project = JsonConvert.DeserializeObject<List<ProjectViewModel>>(result);
 
-            return Ok(project);
+            return new JsonResult(project);
         }
 
         [Authorize]

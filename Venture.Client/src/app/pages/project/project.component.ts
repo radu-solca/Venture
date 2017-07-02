@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/project.model';
 import { Comment } from '../../models/comment.model';
+import { TeamService } from "app/services/team.service";
+import { User } from "app/models/user.model";
 
 @Component({
 	selector: 'app-project',
@@ -20,12 +22,14 @@ export class ProjectComponent implements OnInit {
 
 	private project: Project;
 	private chat: Comment[];
+	private team: User[];
 
 	private commentText: string;
 
 	constructor(
 		private route: ActivatedRoute,
 		private projectService: ProjectService,
+		private teamService: TeamService,
 		private router: Router
 	) { }
 
@@ -44,9 +48,16 @@ export class ProjectComponent implements OnInit {
 			.getById(id)
 			.subscribe(project => this.project = project);
 
-		this.projectService
-			.getChat(id)
-			.subscribe(chat => this.chat = chat);
+		setInterval(() => {
+			this.projectService
+				.getChat(id)
+				.subscribe(chat => this.chat = chat);
+		}, 2000);
+		
+
+		this.teamService
+			.getTeamMembers(id)
+			.subscribe(team => this.team = team);
 	}
 
 	private postInChat(): void {
