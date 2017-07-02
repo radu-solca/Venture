@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
+using AspNet.Security.OpenIdConnect.Primitives;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -49,6 +50,13 @@ namespace Venture.Users.Auth
                 .AddEntityFrameworkStores<UsersContext, Guid>()
                 .AddDefaultTokenProviders();
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
+                options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
+                options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
+            });
+
             var jwtSigningCert = new X509Certificate2("VentureAuth.pfx", "venture");
 
             services.AddOpenIddict<Guid>(options =>
@@ -71,6 +79,9 @@ namespace Venture.Users.Auth
 
                 // During development, you can disable the HTTPS requirement.
                 options.DisableHttpsRequirement();
+
+                options.UseJsonWebTokens();
+                options.AddEphemeralSigningKey();
             });
 
             services.AddCors(o => o.AddPolicy("OpenBordersPolicy", builder =>
@@ -89,6 +100,16 @@ namespace Venture.Users.Auth
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseCors("OpenBordersPolicy");
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions()
+            {
+                Audience = "http://localhost:40000/",
+                Authority = "http://localhost:40001/",
+                AutomaticAuthenticate = true,
+                RequireHttpsMetadata = false
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -105,12 +126,9 @@ namespace Venture.Users.Auth
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
-            app.UseOAuthValidation();
             app.UseOpenIddict();
 
-            app.UseCors("OpenBordersPolicy");
-
-            app.UseMvc();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

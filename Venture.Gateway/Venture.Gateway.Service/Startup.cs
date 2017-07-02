@@ -42,6 +42,8 @@ namespace Venture.Gateway.Service
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseCors("OpenBordersPolicy");
+            
             app.UseJwtBearerAuthentication(new JwtBearerOptions()
             {
                 Audience = "http://localhost:40000/",
@@ -49,8 +51,6 @@ namespace Venture.Gateway.Service
                 AutomaticAuthenticate = true,
                 RequireHttpsMetadata = false
             });
-
-            app.UseCors("OpenBordersPolicy");
 
             app.UseMvc();
         }

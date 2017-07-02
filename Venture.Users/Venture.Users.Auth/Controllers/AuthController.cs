@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using AspNet.Security.OpenIdConnect.Extensions;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AspNet.Security.OpenIdConnect.Server;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Semantics;
@@ -21,18 +23,16 @@ namespace Venture.Users.Auth.Controllers
     [Route("v1/auth")]
     public class AuthController : Controller
     {
-        private readonly IRepository<User> _userRepository;
         private readonly UserManager<User> _userManager;
 
-        public AuthController(IRepository<User> userRepository, UserManager<User> userManager)
+        public AuthController(UserManager<User> userManager)
         {
-            _userRepository = userRepository;
             _userManager = userManager;
         }
 
         [Produces("application/json")]
         [HttpPost("token")]
-        public async Task<IActionResult> ExchangeAsync(OpenIdConnectRequest request)
+        public async Task<IActionResult> Token(OpenIdConnectRequest request)
         {
             if (request.IsPasswordGrantType())
             {
@@ -57,6 +57,13 @@ namespace Venture.Users.Auth.Controllers
                 // Add a "sub" claim containing the user identifier, and attach
                 // the "access_token" destination to allow OpenIddict to store it
                 // in the access token, so it can be retrieved from your controllers.
+
+                // This is here because for some reason, when I try to acess Subject I get a null.
+                identity.AddClaim("id",
+                    user.Id.ToString(),
+                    OpenIdConnectConstants.Destinations.AccessToken);
+
+                // This is here, because even if this always returns null when parsing the claims, it is still required. Some fuckery going on behind the scenes that nulls it maybe.
                 identity.AddClaim(OpenIdConnectConstants.Claims.Subject,
                     user.Id.ToString(),
                     OpenIdConnectConstants.Destinations.AccessToken);
@@ -68,8 +75,15 @@ namespace Venture.Users.Auth.Controllers
                 // ... add other claims, if necessary.
                 var principal = new ClaimsPrincipal(identity);
 
+                var ticket = new AuthenticationTicket(
+                    principal,
+                    new AuthenticationProperties(),
+                    OpenIdConnectServerDefaults.AuthenticationScheme);
+
+                ticket.SetResources("http://localhost:40000/", "http://localhost:40001/");
+
                 // Ask OpenIddict to generate a new token and return an OAuth2 token response.
-                return SignIn(principal, OpenIdConnectServerDefaults.AuthenticationScheme);
+                return SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
             }
 
             throw new InvalidOperationException("The specified grant type is not supported.");
@@ -98,11 +112,11 @@ namespace Venture.Users.Auth.Controllers
         [Authorize]
         [Produces("application/json")]
         [HttpGet("profile")]
-        public IActionResult Test()
+        public IActionResult GetProfile()
         {
             return Json(new
             {
-                Subject = User.GetClaim(OpenIdConnectConstants.Claims.Subject),
+                Subject = User.GetClaim("id"),
                 Name = User.GetClaim(OpenIdConnectConstants.Claims.Name)
             });
         }

@@ -12,6 +12,7 @@
     <None Remove="wwwroot\**" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="1.0.0" />
     <PackageReference Include="LiteGuard" Version="1.1.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
