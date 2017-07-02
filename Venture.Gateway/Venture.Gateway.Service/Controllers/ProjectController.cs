@@ -44,11 +44,6 @@ namespace Venture.Gateway.Service.Controllers
             var query = new GetProjectsQuery();
             var result = _bus.PublishQuery(query);
 
-            if (result == null)
-            {
-                return NotFound();
-            }
-
             var project = JsonConvert.DeserializeObject<List<ProjectViewModel>>(result);
 
             return Ok(project);
@@ -66,6 +61,15 @@ namespace Venture.Gateway.Service.Controllers
         [Route("{id}")]
         public IActionResult Patch(Guid id, [FromBody]ProjectUpdateModel model)
         {
+            var query = new GetProjectQuery(id);
+            var project = _bus.PublishQuery(query);
+
+            // validation
+            if (project == null)
+            {
+                return NotFound();
+            }
+
             var command = new UpdateProjectCommand(id, model.Title, model.Description);
             _bus.PublishCommand(command);
             return Ok();
@@ -75,6 +79,15 @@ namespace Venture.Gateway.Service.Controllers
         [Route("{id}")]
         public IActionResult Delete(Guid id)
         {
+            var query = new GetProjectQuery(id);
+            var project = _bus.PublishQuery(query);
+
+            // validation
+            if (project == null)
+            {
+                return NotFound();
+            }
+
             var command = new DeleteProjectCommand(id);
             _bus.PublishCommand(command);
             return Ok();
@@ -84,6 +97,15 @@ namespace Venture.Gateway.Service.Controllers
         [Route("{id}/chat")]
         public IActionResult PostComment(Guid id, [FromBody]CommentPostModel model)
         {
+            var query = new GetProjectQuery(id);
+            var project = _bus.PublishQuery(query);
+
+            // validation
+            if (project == null)
+            {
+                return NotFound();
+            }
+
             var command = new PostCommentOnProjectCommand(id, model.AuthorId, model.Content, DateTime.Now);
             _bus.PublishCommand(command);
             return Ok();
@@ -95,6 +117,11 @@ namespace Venture.Gateway.Service.Controllers
         {
             var query = new GetProjectCommentsQuery(id);
             var result = _bus.PublishQuery(query);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             var chat = JsonConvert.DeserializeObject<List<CommentViewModel>>(result);
 

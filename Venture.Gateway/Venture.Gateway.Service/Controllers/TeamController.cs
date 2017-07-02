@@ -21,7 +21,7 @@ namespace Venture.Gateway.Service.Controllers
             _bus = bus;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("{id}/users")]
         public IActionResult Get(Guid id)
         {
@@ -42,6 +42,15 @@ namespace Venture.Gateway.Service.Controllers
         [Route("{id}/users")]
         public IActionResult Join(Guid id, [FromBody]Guid userId)
         {
+            var query = new GetProjectQuery(id);
+            var project = _bus.PublishQuery(query);
+
+            // validation
+            if (project == null)
+            {
+                return NotFound();
+            }
+
             var command = new JoinTeamCommand(userId, id);
             _bus.PublishCommand(command);
             return Ok();
@@ -51,6 +60,15 @@ namespace Venture.Gateway.Service.Controllers
         [Route("{id}/users/{userId}")]
         public IActionResult Leave(Guid id, Guid userId)
         {
+            var query = new GetProjectQuery(id);
+            var project = _bus.PublishQuery(query);
+
+            // validation
+            if (project == null)
+            {
+                return NotFound();
+            }
+
             var command = new LeaveTeamCommand(userId, id);
             _bus.PublishCommand(command);
             return Ok();
@@ -60,6 +78,15 @@ namespace Venture.Gateway.Service.Controllers
         [Route("{id}/users/{userId}/approval")]
         public IActionResult Approve(Guid id, Guid userId)
         {
+            var query = new GetProjectQuery(id);
+            var project = _bus.PublishQuery(query);
+
+            // validation
+            if (project == null)
+            {
+                return NotFound();
+            }
+
             var command = new ApproveTeamUserCommand(userId, id);
             _bus.PublishCommand(command);
             return Ok();
@@ -86,6 +113,15 @@ namespace Venture.Gateway.Service.Controllers
         [Route("{id}/chat")]
         public IActionResult PostComment(Guid id, [FromBody]CommentPostModel model)
         {
+            var query = new GetProjectQuery(id);
+            var project = _bus.PublishQuery(query);
+
+            // validation
+            if (project == null)
+            {
+                return NotFound();
+            }
+
             var command = new PostCommentOnTeamCommand(id, model.AuthorId, model.Content, DateTime.Now);
             _bus.PublishCommand(command);
             return Ok();
