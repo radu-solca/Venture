@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 
+import { AuthService } from "app/services/auth.service";
+
 @Component({
 	selector: 'app-navigation',
 	templateUrl: './navigation.component.html',
@@ -8,23 +10,18 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 })
 export class NavigationComponent implements OnInit {
 
-	private location: Location;
-	private isLoggedIn: boolean;
-	private userName: string;
-
-	constructor(location: Location) {
-		 this.location = location;
-		 this.isLoggedIn = true;
-		 this.userName = "John Doe";
-	}
+	constructor(
+		private location: Location,
+		private authService: AuthService
+	) {}
 
 	ngOnInit() {
 	}
 
-  private isAtPath(path: string) : boolean{
-    return this.location.path() == path;
-  }
+	private usernameText: string;
+	private passwordText: string;
 
-	
-
+	private isAtPath(path: string): boolean {
+		return this.location.path() == path;
+	}
 }

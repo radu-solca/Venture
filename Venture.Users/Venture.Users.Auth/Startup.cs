@@ -73,6 +73,13 @@ namespace Venture.Users.Auth
                 options.DisableHttpsRequirement();
             });
 
+            services.AddCors(o => o.AddPolicy("OpenBordersPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
+
             services.AddTransient<IRepository<User>, UserRepository>();
         }
 
@@ -100,6 +107,8 @@ namespace Venture.Users.Auth
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
             app.UseOAuthValidation();
             app.UseOpenIddict();
+
+            app.UseCors("OpenBordersPolicy");
 
             app.UseMvc();
         }

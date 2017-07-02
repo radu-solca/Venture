@@ -91,13 +91,13 @@ namespace Venture.Users.Auth.Controllers
             {
                 return new StatusCodeResult(500);
             }
-
+            
             return Ok();
         }
 
         [Authorize]
         [Produces("application/json")]
-        [HttpGet("~/test")]
+        [HttpGet("profile")]
         public IActionResult Test()
         {
             return Json(new

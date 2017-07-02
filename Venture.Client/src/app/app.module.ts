@@ -15,6 +15,7 @@ import { NotFoundComponent } from './pages/notfound/notfound.component';
 import { ProjectComponent } from './pages/project/project.component';
 
 import { ProjectService } from './services/project.service';
+import { AuthService } from "app/services/auth.service";
 
 /* routing */
 const appRoutes: Routes = [
@@ -39,7 +40,7 @@ const appRoutes: Routes = [
     HttpModule,
     FormsModule
   ],
-  providers: [ProjectService],
+  providers: [ProjectService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
