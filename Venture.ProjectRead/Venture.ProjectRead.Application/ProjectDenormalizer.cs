@@ -1,9 +1,12 @@
 ﻿using System;
 using Newtonsoft.Json;
+using RawRabbit;
 using Venture.Common.Data;
 using Venture.Common.Events;
+using Venture.Common.Extensions;
 using Venture.ProjectRead.Data.DomainEvents;
 using Venture.ProjectRead.Data.Entities;
+using Venture.Users.Application;
 
 namespace Venture.ProjectRead.Application
 {
@@ -16,11 +19,13 @@ namespace Venture.ProjectRead.Application
     {
         private readonly IRepository<Project> _projectRepository;
         private readonly IRepository<Comment> _commentRepository;
+        private readonly IBusClient _bus;
 
-        public ProjectDenormalizer(IRepository<Project> projectRepository, IRepository<Comment> commentRepository)
+        public ProjectDenormalizer(IRepository<Project> projectRepository, IRepository<Comment> commentRepository, IBusClient bus)
         {
             _projectRepository = projectRepository;
             _commentRepository = commentRepository;
+            _bus = bus;
         }
 
         public void Handle(ProjectCreatedEvent domainEvent)
@@ -29,10 +34,14 @@ namespace Venture.ProjectRead.Application
 
             dynamic eventData = JsonConvert.DeserializeObject(domainEvent.JsonPayload);
 
+            var query = new GetUserQuery((Guid)eventData.OwnerId);
+            dynamic user = JsonConvert.DeserializeObject(_bus.PublishQuery(query));
+
             var newProject = new Project
             {
                 Id = domainEvent.AggregateId,
                 OwnerId = (Guid) eventData.OwnerId,
+                OwnerName = (string) user.UserName,
                 Title = (string) eventData.Title,
                 Description = (string) eventData.Description
             };
@@ -72,11 +81,15 @@ namespace Venture.ProjectRead.Application
 
             dynamic eventData = JsonConvert.DeserializeObject(domainEvent.JsonPayload);
 
+            var query = new GetUserQuery((Guid)eventData.AuthorId);
+            dynamic user = JsonConvert.DeserializeObject(_bus.PublishQuery(query));
+
             // TODO: add usernames.
             var newComment = new Comment
             {
                 ProjectId = domainEvent.AggregateId,
                 AuthorId = (Guid) eventData.AuthorId,
+                AuthorName = (string) user.UserName,
                 PostedOn = (DateTime) eventData.PostedOn,
                 Content = (string) eventData.Content
             };

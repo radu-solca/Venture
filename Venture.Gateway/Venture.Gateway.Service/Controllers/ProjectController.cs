@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AspNet.Security.OpenIdConnect.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -54,11 +55,12 @@ namespace Venture.Gateway.Service.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]ProjectCreateModel model)
         {
-            var command = new CreateProjectCommand(model.Title, model.Description, model.OwnerId);
+            var command = new CreateProjectCommand(model.Title, model.Description, new Guid(User.GetClaim("id")));
             _bus.PublishCommand(command);
             return Ok();
         }
 
+        [Authorize]
         [HttpPatch]
         [Route("{id}")]
         public IActionResult Patch(Guid id, [FromBody]ProjectUpdateModel model)
@@ -77,6 +79,7 @@ namespace Venture.Gateway.Service.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("{id}")]
         public IActionResult Delete(Guid id)
@@ -109,7 +112,7 @@ namespace Venture.Gateway.Service.Controllers
                 return NotFound();
             }
 
-            var command = new PostCommentOnProjectCommand(id, model.AuthorId, model.Content, DateTime.Now);
+            var command = new PostCommentOnProjectCommand(id, new Guid(User.GetClaim("id")), model.Content, DateTime.Now);
             _bus.PublishCommand(command);
             return Ok();
         }

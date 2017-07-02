@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json;
+using RawRabbit;
 using Venture.Common.Data;
 using Venture.Common.Events;
+using Venture.Common.Extensions;
 using Venture.TeamRead.Data.DomainEvents;
 using Venture.TeamRead.Data.Entities;
+using Venture.Users.Application;
 
 namespace Venture.TeamRead.Application
 {
@@ -20,13 +23,15 @@ namespace Venture.TeamRead.Application
         private readonly IRepository<Team> _teamRepository;
         private readonly IRepository<Comment> _commentRepository;
         private readonly IRepository<TeamMembership> _teamMembershipRepository;
+        private readonly IBusClient _bus;
 
 
-        public TeamDenormalizer(IRepository<Team> teamRepository, IRepository<Comment> commentRepository, IRepository<TeamMembership> teamMembershipRepository)
+        public TeamDenormalizer(IRepository<Team> teamRepository, IRepository<Comment> commentRepository, IRepository<TeamMembership> teamMembershipRepository, IBusClient bus)
         {
             _teamRepository = teamRepository;
             _commentRepository = commentRepository;
             _teamMembershipRepository = teamMembershipRepository;
+            _bus = bus;
         }
 
 
@@ -51,12 +56,16 @@ namespace Venture.TeamRead.Application
 
             dynamic eventData = JsonConvert.DeserializeObject(domainEvent.JsonPayload);
 
+            var query = new GetUserQuery((Guid)eventData.UserId);
+            dynamic user = JsonConvert.DeserializeObject(_bus.PublishQuery(query));
+
             var newMembership = new TeamMembership
             {
                 Id = Guid.NewGuid(),
                 Approved = false,
                 TeamId = domainEvent.AggregateId,
-                UserId = (Guid) eventData.UserId
+                UserId = (Guid) eventData.UserId,
+                UserName = (string) user.UserName
             };
 
             _teamMembershipRepository.Add(newMembership);
@@ -84,11 +93,15 @@ namespace Venture.TeamRead.Application
 
             dynamic eventData = JsonConvert.DeserializeObject(domainEvent.JsonPayload);
 
+            var query = new GetUserQuery((Guid)eventData.AuthorId);
+            dynamic user = JsonConvert.DeserializeObject(_bus.PublishQuery(query));
+
             //TODO: add usernames.
             var newComment = new Comment
             {
                 TeamId = domainEvent.AggregateId,
                 AuthorId = (Guid)eventData.AuthorId,
+                AuthorName = (string)user.UserName,
                 PostedOn = (DateTime)eventData.PostedOn,
                 Content = (string)eventData.Content
             };
