@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RawRabbit;
@@ -49,6 +50,7 @@ namespace Venture.Gateway.Service.Controllers
             return Ok(project);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Post([FromBody]ProjectCreateModel model)
         {
@@ -93,6 +95,7 @@ namespace Venture.Gateway.Service.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpPost]
         [Route("{id}/chat")]
         public IActionResult PostComment(Guid id, [FromBody]CommentPostModel model)

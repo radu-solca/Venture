@@ -99,6 +99,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Venture.Users.Application",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Venture.Users.Service", "..\Venture.Users\Venture.Users.Service\Venture.Users.Service.csproj", "{824A1453-0E74-47B7-BC5D-206F9CE9A668}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Venture.Users.Auth", "..\Venture.Users\Venture.Users.Auth\Venture.Users.Auth.csproj", "{619A57BF-C209-4939-9117-7B8CCAB44E96}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -193,6 +195,10 @@ Global
 		{824A1453-0E74-47B7-BC5D-206F9CE9A668}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{824A1453-0E74-47B7-BC5D-206F9CE9A668}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{824A1453-0E74-47B7-BC5D-206F9CE9A668}.Release|Any CPU.Build.0 = Release|Any CPU
+		{619A57BF-C209-4939-9117-7B8CCAB44E96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{619A57BF-C209-4939-9117-7B8CCAB44E96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{619A57BF-C209-4939-9117-7B8CCAB44E96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{619A57BF-C209-4939-9117-7B8CCAB44E96}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -239,5 +245,6 @@ Global
 		{A6D47B55-E506-4C00-9FBB-C5516063D1AF} = {4319EE88-38FD-46D2-BBDF-6402DB75A947}
 		{C9901FA1-32F4-454E-B76A-CEDEF4C171DE} = {07F6933D-79C4-4F51-91C0-9C5A0D3265ED}
 		{824A1453-0E74-47B7-BC5D-206F9CE9A668} = {4F7E7EE1-15B4-4145-930F-3817018934AD}
+		{619A57BF-C209-4939-9117-7B8CCAB44E96} = {4F7E7EE1-15B4-4145-930F-3817018934AD}
 	EndGlobalSection
 EndGlobal

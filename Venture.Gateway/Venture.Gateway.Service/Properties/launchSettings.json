@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:49402/",
+      "applicationUrl": "http://localhost:40000/",
       "sslPort": 0
     }
   },
@@ -11,16 +11,14 @@
     "Venture.Gateway.Service": {
       "commandName": "Project",
       "launchBrowser": false,
-      "launchUrl": "api/values",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:49403"
+      "applicationUrl": "http://localhost:40000"
     },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": false,
-      "launchUrl": "api/values",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

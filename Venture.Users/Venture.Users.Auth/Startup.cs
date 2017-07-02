@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Venture.Common.Data;
 using Venture.Users.Data;
 
 namespace Venture.Users.Auth
@@ -47,6 +49,8 @@ namespace Venture.Users.Auth
                 .AddEntityFrameworkStores<UsersContext, Guid>()
                 .AddDefaultTokenProviders();
 
+            var jwtSigningCert = new X509Certificate2("VentureAuth.pfx", "venture");
+
             services.AddOpenIddict<Guid>(options =>
             {
                 // Register the Entity Framework stores.
@@ -58,14 +62,18 @@ namespace Venture.Users.Auth
                 options.AddMvcBinders();
 
                 // Enable the token endpoint (required to use the password flow).
-                options.EnableTokenEndpoint("/connect/token");
+                options.EnableTokenEndpoint("/v1/auth/token");
 
                 // Allow client applications to use the grant_type=password flow.
                 options.AllowPasswordFlow();
 
+                options.AddSigningCertificate(jwtSigningCert);
+
                 // During development, you can disable the HTTPS requirement.
                 options.DisableHttpsRequirement();
             });
+
+            services.AddTransient<IRepository<User>, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
